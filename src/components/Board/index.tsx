@@ -3,13 +3,13 @@ import BoardHeader from '../BoardHeader';
 import styles from './styles.module.css';
 import type { BoardProps } from './types';
 
-const Board: React.FC<BoardProps> = ({ boardData }) => {
+const Board = ({ boardData }: BoardProps): JSX.Element => {
   return (
     <div className={styles.Board}>
       <div className={styles.workspaceNavigation}></div>
       <div className={styles.boardContainer}>
         <BoardHeader />
-        <BoardCanvas />
+        <BoardCanvas boardData={boardData} />
       </div>
     </div>
   );

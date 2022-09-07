@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 
 import styles from './styles.module.css';
 
-const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+const Layout = ({ children }: { children: React.ReactNode }): JSX.Element => {
   return (
     <>
       <header className={styles.header}>

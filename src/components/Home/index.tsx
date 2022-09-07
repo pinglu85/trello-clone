@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Home: React.FC = () => {
+const Home = (): JSX.Element => {
   return <Link href="./board">Board</Link>;
 };
 

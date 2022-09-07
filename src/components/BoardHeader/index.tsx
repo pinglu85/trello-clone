@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const BoardHeader: React.FC = () => {
+const BoardHeader = (): JSX.Element => {
   return <div className={styles.BoardHeader}></div>;
 };
 

@@ -1,6 +1,6 @@
 import NextHead from 'next/head';
 
-const Head: React.FC<{ title: string }> = ({ title }) => {
+const Head = ({ title }: { title: string }): JSX.Element => {
   return (
     <NextHead>
       <title>{title} | Trello</title>

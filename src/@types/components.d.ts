@@ -1,15 +1,15 @@
 interface List {
-  id: String;
-  name: String;
-  closed: Boolean;
-  boardId: String;
+  id: string;
+  name: string;
+  closed: boolean;
+  boardId: string;
 }
 
 interface Card {
-  id: String;
-  boardId: String;
-  listId: String;
-  name: String;
+  id: string;
+  boardId: string;
+  listId: string;
+  name: string;
 }
 
 interface BoardData {

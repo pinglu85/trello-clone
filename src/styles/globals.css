@@ -1,1 +1,17 @@
 @import 'reset.css';
+
+:root {
+  --dynamic-background-color: hsla(0, 0%, 0%, 0.16);
+  --dynamic-background-color-transparent: hsla(0, 0%, 0%, 0.16);
+  --dynamic-text-color-transparent: hsla(0, 0%, 100%, 0.16);
+}
+
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+body {
+  background: rgb(0, 121, 191);
+}

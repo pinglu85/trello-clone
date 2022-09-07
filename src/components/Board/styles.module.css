@@ -1,0 +1,18 @@
+.Board {
+  display: flex;
+  height: 100%;
+}
+
+.workspaceNavigation {
+  flex: 0 0 260px;
+  height: 100%;
+  background: var(--dynamic-background-color-transparent);
+  border-right: 1px solid var(--dynamic-text-color-transparent);
+}
+
+.boardContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

@@ -50,6 +50,8 @@ function rearrangeElements(
     e,
     draggedElementRect,
     draggableRect,
+    dragDropData.newParentId,
+    currDroppableId,
     currDroppableType
   );
 

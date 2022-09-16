@@ -18,6 +18,6 @@ export interface DraggableChildrenProps {
 
 export interface DraggableProps {
   draggableId: string;
-  placeHolderClassName?: string;
+  placeholderClassName?: string;
   children: (provided: DraggableChildrenProps) => JSX.Element;
 }

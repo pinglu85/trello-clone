@@ -6,7 +6,7 @@ const Card = ({ id, name }: CardProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
-      placeHolderClassName={styles.dragDropPlaceholder}
+      placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
         draggableProps: { ref, ...draggableProps },

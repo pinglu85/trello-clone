@@ -57,6 +57,30 @@ const fakeBoardData: BoardData = {
       name: 'New Card',
     },
     {
+      id: '62fd8cd1d9f3074be2d7c215',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017ae',
+      name: 'test test',
+    },
+    {
+      id: '5210e4d215b9267c100017c0',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017ae',
+      name: 'Make as many lists as you need!',
+    },
+    {
+      id: '5210e4d215b9267c100017c2',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017ae',
+      name: 'Finished with a card? Archive it.',
+    },
+    {
+      id: '5210e4d215b9267c100017c1',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017ae',
+      name: 'Try dragging cards anywhere.',
+    },
+    {
       id: '5210e4d215b9267c100017b1',
       boardId: '5210e4d215b9267c100017a8',
       listId: '5210e4d215b9267c100017ad',
@@ -97,6 +121,24 @@ const fakeBoardData: BoardData = {
       boardId: '5210e4d215b9267c100017a8',
       listId: '5210e4d215b9267c100017af',
       name: 'Want to use keyboard shortcuts? We have them!',
+    },
+    {
+      id: '5210e4d215b9267c100017c6',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017af',
+      name: 'Want updates on new features?',
+    },
+    {
+      id: '5210e4d215b9267c100017c7',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017af',
+      name: 'Need help?',
+    },
+    {
+      id: '5210e4d215b9267c100017c8',
+      boardId: '5210e4d215b9267c100017a8',
+      listId: '5210e4d215b9267c100017af',
+      name: 'Want current tips, usage examples, or API info?',
     },
   ],
 };

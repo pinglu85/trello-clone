@@ -1,0 +1,9 @@
+.BoardCanvas {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  margin-bottom: 8px;
+  padding: 0 6px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

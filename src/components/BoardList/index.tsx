@@ -13,7 +13,7 @@ const BoardList = ({
   return (
     <Draggable
       draggableId={id}
-      placeHolderClassName={styles.dragDropPlaceholder}
+      placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
         draggableProps: { ref, ...draggableProps },

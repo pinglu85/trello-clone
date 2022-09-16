@@ -10,7 +10,7 @@ import type { Rect } from '../types';
 
 const Draggable = ({
   draggableId,
-  placeHolderClassName = '',
+  placeholderClassName = '',
   children,
 }: DraggableProps): JSX.Element => {
   const { dragDropData } = useContext(DragDropContext);
@@ -35,7 +35,7 @@ const Draggable = ({
       draggedElementRect[key] = draggableRect[key];
     }
 
-    dragDropData.placeholderClassName = placeHolderClassName;
+    dragDropData.placeholderClassName = placeholderClassName;
   };
 
   return (

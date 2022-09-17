@@ -120,6 +120,7 @@ const Droppable = ({
     });
 
     placeholder.parentElement?.removeChild(placeholder);
+    isTickingRef.current = false;
     resetDragDropData(dragDropData);
   };
 

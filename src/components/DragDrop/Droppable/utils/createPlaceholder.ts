@@ -19,6 +19,7 @@ function createPlaceholder(
       width: ${draggedElementWidth}px;
       height: ${draggedElementHeight}px;
       box-shadow: none;
+      pointer-events: none;
     `
   );
 

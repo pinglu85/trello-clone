@@ -6,7 +6,7 @@ function scrollWhileDragging(
 ): void {
   if (!draggedElement) return;
 
-  const THRESHOLD = 5;
+  const THRESHOLD = 10;
   const { clientWidth, clientHeight, offsetLeft, offsetTop } = currDroppable;
 
   if (clientWidth + offsetLeft - draggedElementRect.right <= THRESHOLD) {

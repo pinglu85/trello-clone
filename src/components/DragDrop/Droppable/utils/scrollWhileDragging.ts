@@ -17,7 +17,7 @@ function scrollWhileDragging(
 
   if (clientHeight + offsetTop - draggedElementRect.bottom <= THRESHOLD) {
     currDroppable.scrollTop += THRESHOLD;
-  } else if (draggedElementRect.top - offsetTop) {
+  } else if (draggedElementRect.top - offsetTop <= THRESHOLD) {
     currDroppable.scrollTop -= THRESHOLD;
   }
 }

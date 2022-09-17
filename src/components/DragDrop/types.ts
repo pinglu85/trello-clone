@@ -3,6 +3,13 @@ export enum DroppableTypes {
   Column = 'COLUMN',
 }
 
+export interface PointerPosition {
+  pageX: number;
+  pageY: number;
+  movementX: number;
+  movementY: number;
+}
+
 export interface Rect {
   top: number;
   right: number;
@@ -15,6 +22,8 @@ export interface Rect {
 export type EmptyDroppables = Map<HTMLDivElement, DroppableTypes>;
 
 export interface DragDropData {
+  isDragging: boolean;
+  pointerPosition: PointerPosition;
   draggedElement: HTMLElement | null;
   draggedElementRect: Rect;
   initDistanceFromDraggedElementLeftToMouseX: number;
@@ -27,7 +36,6 @@ export interface DragDropData {
   emptyDroppables: EmptyDroppables;
   placeholder: HTMLElement | null;
   placeholderClassName: string;
-  isDragging: boolean;
 }
 
 interface DragDropResult {

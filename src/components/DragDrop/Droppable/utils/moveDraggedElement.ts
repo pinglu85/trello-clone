@@ -1,18 +1,18 @@
 import type { DragDropData } from '../../types';
 
-function moveDraggedElement(
-  e: React.MouseEvent,
-  {
-    draggedElement,
-    draggedElementRect,
-    initDistanceFromDraggedElementLeftToMouseX,
-    initDistanceFromDraggedElementTopToMouseY,
-  }: DragDropData
-): void {
+function moveDraggedElement({
+  pointerPosition,
+  draggedElement,
+  draggedElementRect,
+  initDistanceFromDraggedElementLeftToMouseX,
+  initDistanceFromDraggedElementTopToMouseY,
+}: DragDropData): void {
   if (!draggedElement) return;
 
-  const translateX = e.pageX - initDistanceFromDraggedElementLeftToMouseX;
-  const translateY = e.pageY - initDistanceFromDraggedElementTopToMouseY;
+  const translateX =
+    pointerPosition.pageX - initDistanceFromDraggedElementLeftToMouseX;
+  const translateY =
+    pointerPosition.pageY - initDistanceFromDraggedElementTopToMouseY;
   draggedElementRect.left = translateX;
   draggedElementRect.top = translateY;
   draggedElementRect.right = translateX + draggedElementRect.width;

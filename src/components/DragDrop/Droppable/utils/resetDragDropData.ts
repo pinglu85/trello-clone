@@ -1,7 +1,14 @@
-import type { DragDropData, Rect } from '../../types';
+import type { DragDropData, PointerPosition, Rect } from '../../types';
 
 function resetDragDropData(dragDropData: DragDropData): void {
-  const { draggedElementRect } = dragDropData;
+  dragDropData.isDragging = false;
+
+  const { draggedElementRect, pointerPosition } = dragDropData;
+
+  for (const key of Object.keys(pointerPosition) as (keyof PointerPosition)[]) {
+    pointerPosition[key] = 0;
+  }
+
   for (const key of Object.keys(draggedElementRect) as (keyof Rect)[]) {
     draggedElementRect[key] = 0;
   }
@@ -18,8 +25,6 @@ function resetDragDropData(dragDropData: DragDropData): void {
 
   dragDropData.placeholder = null;
   dragDropData.placeholderClassName = '';
-
-  dragDropData.isDragging = false;
 }
 
 export default resetDragDropData;

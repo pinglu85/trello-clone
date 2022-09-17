@@ -19,6 +19,13 @@ export interface Rect {
   height: number;
 }
 
+type Droppables = Map<string, DroppablesValue>;
+
+interface DroppablesValue {
+  element: HTMLDivElement;
+  type: DroppableTypes;
+}
+
 export type EmptyDroppables = Map<HTMLDivElement, DroppableTypes>;
 
 export interface DragDropData {
@@ -33,6 +40,7 @@ export interface DragDropData {
   destinationIdx: number;
   initParentId: string;
   newParentId: string;
+  droppables: Droppables;
   emptyDroppables: EmptyDroppables;
   placeholder: HTMLElement | null;
   placeholderClassName: string;

@@ -30,6 +30,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     destinationIdx: -1,
     initParentId: '',
     newParentId: '',
+    droppables: new Map(),
     emptyDroppables: new Map(),
     placeholder: null,
     placeholderClassName: '',

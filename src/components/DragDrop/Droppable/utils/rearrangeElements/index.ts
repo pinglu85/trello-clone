@@ -77,7 +77,23 @@ function rearrangeElements(
   if (destinationIdx !== -1) {
     dragDropData.destinationIdx = destinationIdx;
     dragDropData.newParentId = currDroppableId;
+    updateEmptyDroppables(currDroppableId, dragDropData);
     currDroppable.insertBefore(placeholder, insertionReferenceNode);
+  }
+}
+
+function updateEmptyDroppables(
+  currDroppableId: string,
+  { initParentId, droppables, emptyDroppables }: DragDropData
+): void {
+  if (initParentId === currDroppableId) return;
+
+  const initDroppable = droppables.get(initParentId);
+  if (!initDroppable) return;
+
+  const { element, type } = initDroppable;
+  if (element.childElementCount === 1 && !emptyDroppables.has(element)) {
+    emptyDroppables.set(element, type);
   }
 }
 

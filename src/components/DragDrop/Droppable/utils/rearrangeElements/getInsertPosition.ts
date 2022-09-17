@@ -1,9 +1,9 @@
 import { DroppableTypes } from '../../../types';
 import { InsertPositions } from './types';
-import type { Rect } from '../../../types';
+import type { PointerPosition, Rect } from '../../../types';
 
 function getInsertPosition(
-  e: React.MouseEvent,
+  pointerPosition: PointerPosition,
   draggedElementRect: Rect,
   intersectingElementRect: DOMRect,
   prevParentId: string,
@@ -12,7 +12,7 @@ function getInsertPosition(
 ): string {
   if (currDroppableType === DroppableTypes.Column) {
     return getHorizontalInsertPosition(
-      e.movementX,
+      pointerPosition.movementX,
       draggedElementRect,
       intersectingElementRect,
       prevParentId === currDroppableId
@@ -20,7 +20,7 @@ function getInsertPosition(
   }
 
   return getVerticalInsertPosition(
-    e.movementY,
+    pointerPosition.movementY,
     draggedElementRect,
     intersectingElementRect,
     prevParentId === currDroppableId

@@ -9,7 +9,6 @@ import { InsertPositions } from './types';
 import type { DragDropData, DroppableTypes } from '../../../types';
 
 function rearrangeElements(
-  e: React.MouseEvent,
   currDroppable: HTMLDivElement,
   currDroppableType: DroppableTypes,
   dragDropData: DragDropData
@@ -47,7 +46,7 @@ function rearrangeElements(
   if (!draggable || !draggableRect) return;
 
   const insertPosition = getInsertPosition(
-    e,
+    dragDropData.pointerPosition,
     draggedElementRect,
     draggableRect,
     dragDropData.newParentId,

@@ -9,6 +9,7 @@ import rearrangeElements from './utils/rearrangeElements';
 import scrollWhileDragging from './utils/scrollWhileDragging';
 import resetDragDropData from './utils/resetDragDropData';
 import type { DroppableProps } from './types';
+import type { PointerPosition } from '../types';
 
 const Droppable = ({
   droppableId,
@@ -39,8 +40,15 @@ const Droppable = ({
   }, [dragDropData, children, droppableId, type]);
 
   const onMouseMove = (e: React.MouseEvent): void => {
-    const { draggedElement, draggedElementRect, isDragging } = dragDropData;
+    const { isDragging, draggedElement, draggedElementRect, pointerPosition } =
+      dragDropData;
     if (!draggedElement || !droppableRef.current) return;
+
+    for (const key of Object.keys(
+      pointerPosition
+    ) as (keyof PointerPosition)[]) {
+      pointerPosition[key] = e[key];
+    }
 
     if (!isDragging) {
       dragDropData.isDragging = true;
@@ -66,22 +74,22 @@ const Droppable = ({
       setGlobalStyles(ON_DRAG_GLOBAL_STYLES);
     }
 
-    requestTick(e);
+    requestTick();
   };
 
-  const requestTick = (e: React.MouseEvent): void => {
+  const requestTick = (): void => {
     if (!isTickingRef.current) {
       isTickingRef.current = true;
-      requestAnimationFrame(update.bind(null, e));
+      requestAnimationFrame(update);
     }
   };
 
-  const update = (e: React.MouseEvent): void => {
+  const update = (): void => {
     if (!dragDropData.isDragging || !droppableRef.current) return;
 
+    moveDraggedElement(dragDropData);
     const droppable = droppableRef.current;
-    moveDraggedElement(e, dragDropData);
-    rearrangeElements(e, droppable, type, dragDropData);
+    rearrangeElements(droppable, type, dragDropData);
     scrollWhileDragging(droppable, dragDropData);
     isTickingRef.current = false;
   };

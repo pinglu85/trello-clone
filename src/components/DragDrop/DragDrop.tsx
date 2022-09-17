@@ -7,6 +7,13 @@ import type { DragDropProps, DragDropData, SetGlobalStyles } from './types';
 const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   const styleElementRef = useRef<HTMLStyleElement | null>(null);
   const dragDropDataRef = useRef<DragDropData>({
+    isDragging: false,
+    pointerPosition: {
+      pageX: 0,
+      pageY: 0,
+      movementX: 0,
+      movementY: 0,
+    },
     draggedElement: null,
     draggedElementRect: {
       top: 0,
@@ -26,7 +33,6 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     emptyDroppables: new Map(),
     placeholder: null,
     placeholderClassName: '',
-    isDragging: false,
   });
 
   useEffect(() => {

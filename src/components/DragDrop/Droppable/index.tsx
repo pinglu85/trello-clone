@@ -26,6 +26,19 @@ const Droppable = ({
     if (!droppableRef.current) return;
 
     const droppable = droppableRef.current;
+    const { droppables, emptyDroppables } = dragDropData;
+    droppables.set(droppableId, { element: droppable, type });
+
+    return () => {
+      droppables.delete(droppableId);
+      emptyDroppables.delete(droppable);
+    };
+  }, [dragDropData, droppableId, type]);
+
+  useEffect(() => {
+    if (!droppableRef.current) return;
+
+    const droppable = droppableRef.current;
     const { emptyDroppables } = dragDropData;
 
     if (Children.count(children) === 0) {
@@ -33,10 +46,6 @@ const Droppable = ({
     } else if (emptyDroppables.has(droppable)) {
       emptyDroppables.delete(droppable);
     }
-
-    return () => {
-      emptyDroppables.delete(droppable);
-    };
   }, [dragDropData, children, droppableId, type]);
 
   const onMouseMove = (e: React.MouseEvent): void => {

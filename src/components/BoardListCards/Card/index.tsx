@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { DragDropTypes, Draggable } from '../../DragDrop';
 import styles from './styles.module.css';
 import type { CardProps } from './types';
@@ -27,4 +29,4 @@ const Card = ({ id, name, idx }: CardProps): JSX.Element => {
   );
 };
 
-export default Card;
+export default memo(Card);

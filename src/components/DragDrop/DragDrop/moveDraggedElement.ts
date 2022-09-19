@@ -26,7 +26,7 @@ function moveDraggedElement(
       ${translateX}px,
       ${translateY}px
     )
-    rotate(5deg)
+    rotate(4deg)
   `;
 
   if (draggedElement.style.opacity === '0') {

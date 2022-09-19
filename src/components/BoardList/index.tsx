@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { DragDropTypes, Draggable } from '../DragDrop';
 import BoardListCards from '../BoardListCards';
 import MoreIcon from './more-horizontal.svg';
@@ -44,4 +46,4 @@ const BoardList = ({
   );
 };
 
-export default BoardList;
+export default memo(BoardList);

@@ -15,14 +15,15 @@ const Draggable = ({
   placeholderClassName = '',
   children,
 }: DraggableProps): JSX.Element => {
-  const { dragDropData } = useContext(DragDropContext);
+  const dragDropDataRef = useContext(DragDropContext);
   const draggableRef = useRef<HTMLElement>(null);
 
   const onMouseDown = (e: React.MouseEvent): void => {
-    if (!draggableRef.current || e.button !== 0) return;
+    if (!draggableRef.current || e.button !== 0 || !dragDropDataRef) return;
 
     e.preventDefault();
 
+    const dragDropData = dragDropDataRef.current;
     const draggable = draggableRef.current;
     dragDropData.draggedElement = draggable;
     dragDropData.draggedElementType = type;

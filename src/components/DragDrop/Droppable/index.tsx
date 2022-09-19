@@ -9,13 +9,13 @@ const Droppable = ({
   children,
   ...props
 }: DroppableProps): JSX.Element => {
-  const { dragDropData } = useContext(DragDropContext);
+  const dragDropDataRef = useContext(DragDropContext);
   const droppableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!droppableRef.current) return;
+    if (!droppableRef.current || !dragDropDataRef) return;
 
-    const { droppables, emptyDroppables } = dragDropData;
+    const { droppables, emptyDroppables } = dragDropDataRef.current;
     const droppable = droppableRef.current;
     droppables.set(droppableId, droppable);
 
@@ -23,20 +23,20 @@ const Droppable = ({
       droppables.delete(droppableId);
       emptyDroppables.delete(droppable);
     };
-  }, [dragDropData, droppableId, type]);
+  }, [dragDropDataRef, droppableId, type]);
 
   useEffect(() => {
-    if (!droppableRef.current) return;
+    if (!droppableRef.current || !dragDropDataRef) return;
 
     const droppable = droppableRef.current;
-    const { emptyDroppables } = dragDropData;
+    const { emptyDroppables } = dragDropDataRef.current;
 
     if (Children.count(children) === 0) {
       emptyDroppables.add(droppable);
     } else if (emptyDroppables.has(droppable)) {
       emptyDroppables.delete(droppable);
     }
-  }, [dragDropData, children, droppableId, type]);
+  }, [dragDropDataRef, children, droppableId, type]);
 
   return (
     <div

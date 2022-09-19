@@ -169,11 +169,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   }, [setGlobalStyles, onDragEnd]);
 
   return (
-    <DragDropContext.Provider
-      value={{
-        dragDropData: dragDropDataRef.current,
-      }}
-    >
+    <DragDropContext.Provider value={dragDropDataRef}>
       {children}
     </DragDropContext.Provider>
   );

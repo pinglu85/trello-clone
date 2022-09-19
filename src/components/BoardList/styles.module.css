@@ -26,6 +26,18 @@
   font-weight: 600;
 }
 
+.moreButton {
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+}
+
+.moreButton svg {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
 .cardActions {
   flex: 0 0 40px;
   display: flex;

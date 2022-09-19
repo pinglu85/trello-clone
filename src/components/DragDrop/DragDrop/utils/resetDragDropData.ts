@@ -1,26 +1,20 @@
-import type { DragDropData, PointerPosition, Rect } from '../../types';
+import type { DragDropData, Rect } from '../../sharedTypes';
 
 function resetDragDropData(dragDropData: DragDropData): void {
   dragDropData.isDragging = false;
+  dragDropData.isRAFRunning = false;
+  dragDropData.draggedElementType = '';
 
-  const { draggedElementRect, pointerPosition } = dragDropData;
-
-  for (const key of Object.keys(pointerPosition) as (keyof PointerPosition)[]) {
-    pointerPosition[key] = 0;
-  }
-
+  const { draggedElementRect } = dragDropData;
   for (const key of Object.keys(draggedElementRect) as (keyof Rect)[]) {
     draggedElementRect[key] = 0;
   }
 
   dragDropData.initDistanceFromDraggedElementLeftToMouseX = 0;
   dragDropData.initDistanceFromDraggedElementTopToMouseY = 0;
-
-  dragDropData.droppableType = '';
-
-  dragDropData.draggedElementIdx = -1;
-  dragDropData.destinationIdx = -1;
+  dragDropData.draggedElementInitIdx = -1;
   dragDropData.initParentId = '';
+  dragDropData.destinationIdx = -1;
   dragDropData.newParentId = '';
 
   dragDropData.placeholder = null;

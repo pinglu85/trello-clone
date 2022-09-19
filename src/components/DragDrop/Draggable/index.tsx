@@ -6,10 +6,12 @@ import {
   DATA_DRAG_HANDLE_CONTEXT_ID,
 } from '../constants';
 import type { DraggableProps } from './types';
-import type { Rect } from '../types';
+import type { Rect } from '../sharedTypes';
 
 const Draggable = ({
   draggableId,
+  type,
+  idx,
   placeholderClassName = '',
   children,
 }: DraggableProps): JSX.Element => {
@@ -23,6 +25,8 @@ const Draggable = ({
 
     const draggable = draggableRef.current;
     dragDropData.draggedElement = draggable;
+    dragDropData.draggedElementType = type;
+    dragDropData.draggedElementInitIdx = idx;
 
     const draggableRect = draggable.getBoundingClientRect();
     dragDropData.initDistanceFromDraggedElementLeftToMouseX =

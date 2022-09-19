@@ -1,5 +1,6 @@
-import { Draggable } from '../DragDrop';
+import { DragDropTypes, Draggable } from '../DragDrop';
 import BoardListCards from '../BoardListCards';
+import MoreIcon from './more-horizontal.svg';
 import styles from './styles.module.css';
 import type { BoardListProps } from './types';
 
@@ -13,6 +14,8 @@ const BoardList = ({
   return (
     <Draggable
       draggableId={id}
+      type={DragDropTypes.Column}
+      idx={idx}
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
@@ -26,6 +29,10 @@ const BoardList = ({
         >
           <div className={styles.header} {...dragHandleProps}>
             <span className={styles.title}>{name}</span>
+
+            <button className={styles.moreButton}>
+              <MoreIcon />
+            </button>
           </div>
 
           <BoardListCards listId={id} cards={cards} />

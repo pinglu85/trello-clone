@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react';
 
 import groupCardsByListId from './groupCardsByListId';
-import { BOARD_CANVAS_ID } from './constants';
 import { reorderGroupedCards, reorderItems } from './reorder';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
 import type { BoardCanvasProps } from './types';
 import type { OnDragEnd } from '../DragDrop';
+
+const BOARD_CANVAS_ID = 'boardCanvas';
 
 const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
   const [lists, setLists] = useState(boardData.lists);

@@ -1,11 +1,13 @@
-import { Draggable } from '../../DragDrop';
+import { DragDropTypes, Draggable } from '../../DragDrop';
 import styles from './styles.module.css';
 import type { CardProps } from './types';
 
-const Card = ({ id, name }: CardProps): JSX.Element => {
+const Card = ({ id, name, idx }: CardProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
+      type={DragDropTypes.Row}
+      idx={idx}
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({

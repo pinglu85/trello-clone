@@ -1,34 +1,39 @@
-import { DroppableTypes } from '../../../types';
+import { DragDropTypes } from '../../sharedTypes';
 import { InsertPositions } from './types';
-import type { PointerPosition, Rect } from '../../../types';
+import type { MousePosition } from '../types';
+import type { Rect } from '../../sharedTypes';
 
 function getInsertPosition(
-  pointerPosition: PointerPosition,
+  mousePosition: MousePosition,
   draggedElementRect: Rect,
   intersectingElementRect: DOMRect,
   prevParentId: string,
   currDroppableId: string,
-  currDroppableType: DroppableTypes
+  currDroppableType: string
 ): string {
-  if (currDroppableType === DroppableTypes.Column) {
+  if (currDroppableType === DragDropTypes.Column) {
     return getHorizontalInsertPosition(
-      pointerPosition.movementX,
+      mousePosition.movementX,
       draggedElementRect,
       intersectingElementRect,
       prevParentId === currDroppableId
     );
   }
 
-  return getVerticalInsertPosition(
-    pointerPosition.movementY,
-    draggedElementRect,
-    intersectingElementRect,
-    prevParentId === currDroppableId
-  );
+  if (currDroppableType === DragDropTypes.Row) {
+    return getVerticalInsertPosition(
+      mousePosition.movementY,
+      draggedElementRect,
+      intersectingElementRect,
+      prevParentId === currDroppableId
+    );
+  }
+
+  return '';
 }
 
 function getHorizontalInsertPosition(
-  pointerMovementX: number,
+  mouseMovementX: number,
   draggedElementRect: Rect,
   intersectingElementRect: DOMRect,
   isSameParent: boolean
@@ -37,7 +42,7 @@ function getHorizontalInsertPosition(
   const draggedElementCenterX = draggedElementRect.left + halfWidth;
 
   if (
-    (pointerMovementX > 0 || !isSameParent) &&
+    (mouseMovementX > 0 || !isSameParent) &&
     draggedElementCenterX >= intersectingElementRect.left &&
     draggedElementRect.left <= intersectingElementRect.left
   ) {
@@ -45,7 +50,7 @@ function getHorizontalInsertPosition(
   }
 
   if (
-    (pointerMovementX < 0 || !isSameParent) &&
+    (mouseMovementX < 0 || !isSameParent) &&
     draggedElementCenterX <= intersectingElementRect.right &&
     draggedElementRect.right >= intersectingElementRect.right
   ) {
@@ -56,7 +61,7 @@ function getHorizontalInsertPosition(
 }
 
 function getVerticalInsertPosition(
-  pointerMovementY: number,
+  mouseMovementY: number,
   draggedElementRect: Rect,
   intersectingElementRect: DOMRect,
   isSameParent: boolean
@@ -65,7 +70,7 @@ function getVerticalInsertPosition(
   const draggedElementCenterY = draggedElementRect.top + halfHeight;
 
   if (
-    (pointerMovementY > 0 || !isSameParent) &&
+    (mouseMovementY > 0 || !isSameParent) &&
     draggedElementCenterY >= intersectingElementRect.top &&
     draggedElementRect.top <= intersectingElementRect.top
   ) {
@@ -73,7 +78,7 @@ function getVerticalInsertPosition(
   }
 
   if (
-    (pointerMovementY < 0 || !isSameParent) &&
+    (mouseMovementY < 0 || !isSameParent) &&
     draggedElementCenterY <= intersectingElementRect.bottom &&
     draggedElementRect.bottom >= intersectingElementRect.bottom
   ) {

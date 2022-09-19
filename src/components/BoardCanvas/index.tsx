@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import groupCardsByListId from './groupCardsByListId';
 import { BOARD_CANVAS_ID } from './constants';
 import { reorderGroupedCards, reorderItems } from './reorder';
-import DragDrop, { Droppable, DroppableTypes } from '../DragDrop';
+import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
 import type { BoardCanvasProps } from './types';
@@ -52,7 +52,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
       <Droppable
         className={styles.BoardCanvas}
         droppableId={BOARD_CANVAS_ID}
-        type={DroppableTypes.Column}
+        type={DragDropTypes.Column}
       >
         {lists.map(({ id, name }, idx) => (
           <BoardList

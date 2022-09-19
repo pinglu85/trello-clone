@@ -1,18 +1,21 @@
-import type { DragDropData } from '../../types';
+import type { MousePosition } from './types';
+import type { DragDropData } from '../sharedTypes';
 
-function moveDraggedElement({
-  pointerPosition,
-  draggedElement,
-  draggedElementRect,
-  initDistanceFromDraggedElementLeftToMouseX,
-  initDistanceFromDraggedElementTopToMouseY,
-}: DragDropData): void {
+function moveDraggedElement(
+  mousePosition: MousePosition,
+  {
+    draggedElement,
+    draggedElementRect,
+    initDistanceFromDraggedElementLeftToMouseX,
+    initDistanceFromDraggedElementTopToMouseY,
+  }: DragDropData
+): void {
   if (!draggedElement) return;
 
   const translateX =
-    pointerPosition.pageX - initDistanceFromDraggedElementLeftToMouseX;
+    mousePosition.pageX - initDistanceFromDraggedElementLeftToMouseX;
   const translateY =
-    pointerPosition.pageY - initDistanceFromDraggedElementTopToMouseY;
+    mousePosition.pageY - initDistanceFromDraggedElementTopToMouseY;
   draggedElementRect.left = translateX;
   draggedElementRect.top = translateY;
   draggedElementRect.right = translateX + draggedElementRect.width;

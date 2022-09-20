@@ -7,15 +7,16 @@
 }
 
 .BoardListCardList::-webkit-scrollbar {
+  height: 8px;
   width: 8px;
 }
 
 .BoardListCardList::-webkit-scrollbar-track {
-  background: #dadbe2;
+  background: #091e4214;
   border-radius: 4px;
 }
 
 .BoardListCardList::-webkit-scrollbar-thumb {
-  background-color: #bfc4cd;
+  background: #091e4223;
   border-radius: 6px;
 }

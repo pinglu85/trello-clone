@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import { DragDropTypes, Draggable } from '../DragDrop';
-import BoardListCards from '../BoardListCards';
+import BoardListCardList from '../BoardListCardList';
 import MoreIcon from './more-horizontal.svg';
 import styles from './styles.module.css';
 import type { BoardListProps } from './types';
@@ -37,7 +37,7 @@ const BoardList = ({
             </button>
           </div>
 
-          <BoardListCards listId={id} cards={cards} />
+          <BoardListCardList listId={id} cards={cards} />
 
           <div className={styles.cardActions}>Add Cards</div>
         </div>

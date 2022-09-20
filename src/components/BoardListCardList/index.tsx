@@ -1,15 +1,15 @@
 import { Droppable, DragDropTypes } from '../DragDrop';
 import Card from './Card';
 import styles from './styles.module.css';
-import type { BoardListCardsProps } from './types';
+import type { BoardListCardListProps } from './types';
 
-const BoardListCards = ({
+const BoardListCardList = ({
   listId,
   cards,
-}: BoardListCardsProps): JSX.Element => {
+}: BoardListCardListProps): JSX.Element => {
   return (
     <Droppable
-      className={styles.BoardListCards}
+      className={styles.BoardListCardList}
       droppableId={listId}
       type={DragDropTypes.Row}
     >
@@ -20,4 +20,4 @@ const BoardListCards = ({
   );
 };
 
-export default BoardListCards;
+export default BoardListCardList;

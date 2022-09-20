@@ -43,23 +43,19 @@ const Draggable = ({
     dragDropData.placeholderClassName = placeholderClassName;
   };
 
-  return (
-    <>
-      {children({
-        draggableProps: {
-          ref: draggableRef,
-          'data-draggable-id': draggableId,
-          'data-draggable-context-id': DATA_DRAGGABLE_CONTEXT_ID,
-        },
-        dragHandleProps: {
-          onMouseDown,
-          draggable: false,
-          'data-drag-handle-id': draggableId,
-          'data-drag-handle-context-id': DATA_DRAG_HANDLE_CONTEXT_ID,
-        },
-      })}
-    </>
-  );
+  return children({
+    draggableProps: {
+      ref: draggableRef,
+      'data-draggable-id': draggableId,
+      'data-draggable-context-id': DATA_DRAGGABLE_CONTEXT_ID,
+    },
+    dragHandleProps: {
+      onMouseDown,
+      draggable: false,
+      'data-drag-handle-id': draggableId,
+      'data-drag-handle-context-id': DATA_DRAG_HANDLE_CONTEXT_ID,
+    },
+  });
 };
 
 export default Draggable;

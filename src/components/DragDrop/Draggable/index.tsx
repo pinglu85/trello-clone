@@ -45,7 +45,7 @@ const Draggable = ({
 
   return children({
     draggableProps: {
-      ref: draggableRef,
+      draggableRef,
       'data-draggable-id': draggableId,
       'data-draggable-context-id': DATA_DRAGGABLE_CONTEXT_ID,
     },

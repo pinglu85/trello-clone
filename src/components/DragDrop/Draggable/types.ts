@@ -1,7 +1,7 @@
 import type { DragDropTypes } from '../sharedTypes';
 
 interface ProvidedDraggableProps {
-  ref: React.RefObject<HTMLElement>;
+  draggableRef: React.RefObject<HTMLElement>;
   'data-draggable-id': string;
   'data-draggable-context-id': string;
 }

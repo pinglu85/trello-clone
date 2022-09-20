@@ -13,11 +13,11 @@ const Card = ({ id, name, idx }: CardProps): JSX.Element => {
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
-        draggableProps: { ref, ...draggableProps },
+        draggableProps: { draggableRef, ...draggableProps },
         dragHandleProps,
       }): JSX.Element => (
         <div
-          ref={ref as React.RefObject<HTMLDivElement>}
+          ref={draggableRef as React.RefObject<HTMLDivElement>}
           className={styles.Card}
           {...draggableProps}
           {...dragHandleProps}

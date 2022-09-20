@@ -2,4 +2,22 @@
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  margin: 0px 4px;
+  padding: 0px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #bfc4cd #dadbe2;
+}
+
+.BoardListCardList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.BoardListCardList::-webkit-scrollbar-track {
+  background: #dadbe2;
+  border-radius: 4px;
+}
+
+.BoardListCardList::-webkit-scrollbar-thumb {
+  background-color: #bfc4cd;
+  border-radius: 6px;
 }

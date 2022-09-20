@@ -1,7 +1,7 @@
 import isDraggable from './isDraggable';
 import getClosestDroppable from './getClosestDroppable';
 import intersect from './intersect';
-import type { DragDropData } from '../../sharedTypes';
+import type { DragDropData } from '../types';
 
 function findCurrDroppable(
   eventTarget: EventTarget | null,

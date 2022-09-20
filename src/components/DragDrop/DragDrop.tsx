@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { INIT_GLOBAL_STYLES, ON_DRAG_GLOBAL_STYLES } from '../constants';
+import { INIT_GLOBAL_STYLES, ON_DRAG_GLOBAL_STYLES } from './constants';
 import createInitRect from './utils/createInitRect';
 import getClosestDroppable from './utils/getClosestDroppable';
 import updateMousePosition from './utils/updateMousePosition';
@@ -12,9 +12,9 @@ import moveDraggedElement from './moveDraggedElement';
 import rearrangeElements from './rearrangeElements';
 import scrollWhileDragging from './scrollWhileDragging';
 import resetDragDropData from './utils/resetDragDropData';
-import DragDropContext from '../DragDropContext';
+import DragDropContext from './DragDropContext';
 import type { DragDropProps, SetGlobalStyles, MousePosition } from './types';
-import type { DragDropData } from '../sharedTypes';
+import type { DragDropData } from './types';
 
 const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   const styleElementRef = useRef<HTMLStyleElement | null>(null);

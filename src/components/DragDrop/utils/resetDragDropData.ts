@@ -1,4 +1,4 @@
-import type { DragDropData, Rect } from '../../sharedTypes';
+import type { DragDropData, Rect } from '../types';
 
 function resetDragDropData(dragDropData: DragDropData): void {
   dragDropData.isDragging = false;

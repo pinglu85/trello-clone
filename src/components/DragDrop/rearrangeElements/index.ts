@@ -4,9 +4,8 @@ import findIntersectingDraggable from './findIntersectingDraggable';
 import getInsertPosition from './getInsertPosition';
 import { InsertPositions } from './types';
 import updateEmptyDroppables from './updateEmptyDroppables';
-import { DATA_PLACEHOLDER_ID } from '../../constants';
-import type { MousePosition } from '../types';
-import type { DragDropData } from '../../sharedTypes';
+import { DATA_PLACEHOLDER_ID } from '../constants';
+import type { DragDropData, MousePosition } from '../types';
 
 function rearrangeElements(
   mousePosition: MousePosition,

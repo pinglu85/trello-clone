@@ -1,4 +1,4 @@
-import type { DragDropTypes } from '../sharedTypes';
+import type { DragDropTypes } from '../types';
 
 export interface DroppableProps {
   droppableId: string;

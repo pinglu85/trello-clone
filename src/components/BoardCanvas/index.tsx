@@ -33,17 +33,19 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
             destinationIdx
           );
         });
-      } else {
-        setGroupedCards((prevGroupedCards) => {
-          return reorderGroupedCards(
-            prevGroupedCards,
-            sourceIdx,
-            destinationIdx,
-            oldParentId,
-            newParentId
-          );
-        });
+
+        return;
       }
+
+      setGroupedCards((prevGroupedCards) => {
+        return reorderGroupedCards(
+          prevGroupedCards,
+          sourceIdx,
+          destinationIdx,
+          oldParentId,
+          newParentId
+        );
+      });
     },
     []
   );

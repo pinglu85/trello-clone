@@ -1,4 +1,4 @@
-import type { EmptyDroppables, Droppables } from '../../sharedTypes';
+import type { EmptyDroppables, Droppables } from '../types';
 
 function updateEmptyDroppables(
   initParentId: string,

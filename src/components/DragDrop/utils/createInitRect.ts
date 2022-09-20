@@ -1,4 +1,4 @@
-import type { Rect } from '../../sharedTypes';
+import type { Rect } from '../types';
 
 function createInitRect(): Rect {
   return {

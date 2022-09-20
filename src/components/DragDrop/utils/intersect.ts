@@ -1,4 +1,4 @@
-import type { Rect } from '../../sharedTypes';
+import type { Rect } from '../types';
 
 // https://silentmatt.com/rectangle-intersection/
 function intersect<T extends Rect>(element1: T, element2: T): boolean {

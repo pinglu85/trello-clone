@@ -1,4 +1,4 @@
-import type { DragDropTypes } from '../sharedTypes';
+import type { DragDropTypes } from '../types';
 
 interface ProvidedDraggableProps {
   draggableRef: React.RefObject<HTMLElement>;

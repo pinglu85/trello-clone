@@ -1,5 +1,4 @@
-import type { DragDropData } from '../sharedTypes';
-import type { MousePosition } from './types';
+import type { DragDropData, MousePosition } from './types';
 
 function scrollWhileDragging(
   mousePosition: MousePosition,

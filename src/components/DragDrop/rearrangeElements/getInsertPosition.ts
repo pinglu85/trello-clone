@@ -1,7 +1,6 @@
-import { DragDropTypes } from '../../sharedTypes';
+import { DragDropTypes } from '../types';
 import { InsertPositions } from './types';
-import type { MousePosition } from '../types';
-import type { Rect } from '../../sharedTypes';
+import type { MousePosition, Rect } from '../types';
 
 function getInsertPosition(
   mousePosition: MousePosition,

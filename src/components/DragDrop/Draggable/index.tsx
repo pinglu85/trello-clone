@@ -6,7 +6,7 @@ import {
   DATA_DRAG_HANDLE_CONTEXT_ID,
 } from '../constants';
 import type { DraggableProps } from './types';
-import type { Rect } from '../sharedTypes';
+import type { Rect } from '../types';
 
 const Draggable = ({
   draggableId,

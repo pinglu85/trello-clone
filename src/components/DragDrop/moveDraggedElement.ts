@@ -1,5 +1,4 @@
-import type { MousePosition } from './types';
-import type { DragDropData } from '../sharedTypes';
+import type { DragDropData, MousePosition } from './types';
 
 function moveDraggedElement(
   mousePosition: MousePosition,

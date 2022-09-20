@@ -1,5 +1,5 @@
 import intersect from '../utils/intersect';
-import type { Rect } from '../../sharedTypes';
+import type { Rect } from '../types';
 
 function findIntersectingDraggable(
   draggedElementId: string,

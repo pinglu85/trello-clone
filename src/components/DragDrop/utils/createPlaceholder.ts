@@ -2,7 +2,6 @@ import { DATA_PLACEHOLDER_ID } from '../constants';
 
 function createPlaceholder(
   draggedElement: HTMLElement,
-  draggedElementWidth: number,
   draggedElementHeight: number,
   placeholderClassName: string
 ): HTMLDivElement {
@@ -16,7 +15,6 @@ function createPlaceholder(
   placeholder.setAttribute(
     'style',
     `
-      width: ${draggedElementWidth}px;
       height: ${draggedElementHeight}px;
       box-shadow: none;
       pointer-events: none;

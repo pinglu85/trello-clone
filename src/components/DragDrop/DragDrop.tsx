@@ -88,7 +88,6 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
         const { width, height } = dragDropData.draggedElementRect;
         const placeholder = createPlaceholder(
           draggedElement,
-          width,
           height,
           dragDropData.placeholderClassName
         );

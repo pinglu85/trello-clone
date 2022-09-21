@@ -1,6 +1,6 @@
 import { useContext, useRef } from 'react';
 
-import DragDropContext from '../DragDropContext';
+import DragDropContext from '../context';
 import {
   DATA_DRAGGABLE_CONTEXT_ID,
   DATA_DRAG_HANDLE_CONTEXT_ID,

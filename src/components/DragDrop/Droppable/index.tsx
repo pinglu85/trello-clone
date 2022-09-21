@@ -1,6 +1,6 @@
 import { Children, useContext, useEffect, useRef } from 'react';
 
-import DragDropContext from '../DragDropContext';
+import DragDropContext from '../context';
 import type { DragDropTypes } from '../types';
 
 interface DroppableProps {

@@ -12,7 +12,7 @@ import moveDraggedElement from './moveDraggedElement';
 import rearrangeElements from './rearrangeElements';
 import scrollWhileDragging from './scrollWhileDragging';
 import resetDragDropData from './utils/resetDragDropData';
-import DragDropContext from './DragDropContext';
+import DragDropContext from './context';
 import type { MousePosition, OnDragEnd } from './types';
 import type { DragDropData } from './types';
 

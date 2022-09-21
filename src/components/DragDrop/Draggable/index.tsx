@@ -5,8 +5,31 @@ import {
   DATA_DRAGGABLE_CONTEXT_ID,
   DATA_DRAG_HANDLE_CONTEXT_ID,
 } from '../constants';
-import type { DraggableProps } from './types';
-import type { Rect } from '../types';
+import type { DragDropTypes, Rect } from '../types';
+
+interface ProvidedDraggableProps {
+  draggableRef: React.RefObject<HTMLElement>;
+  'data-draggable-id': string;
+  'data-draggable-context-id': string;
+}
+interface ProvidedDragHandleProps {
+  onMouseDown: (e: React.MouseEvent) => void;
+  draggable: false;
+  'data-drag-handle-id': string;
+  'data-drag-handle-context-id': string;
+}
+interface DraggableChildrenProps {
+  draggableProps: ProvidedDraggableProps;
+  dragHandleProps: ProvidedDragHandleProps;
+}
+
+interface DraggableProps {
+  draggableId: string;
+  type: DragDropTypes;
+  idx: number;
+  placeholderClassName?: string;
+  children: (provided: DraggableChildrenProps) => JSX.Element;
+}
 
 const Draggable = ({
   draggableId,

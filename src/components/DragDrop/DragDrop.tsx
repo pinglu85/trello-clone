@@ -13,8 +13,15 @@ import rearrangeElements from './rearrangeElements';
 import scrollWhileDragging from './scrollWhileDragging';
 import resetDragDropData from './utils/resetDragDropData';
 import DragDropContext from './DragDropContext';
-import type { DragDropProps, SetGlobalStyles, MousePosition } from './types';
+import type { MousePosition, OnDragEnd } from './types';
 import type { DragDropData } from './types';
+
+interface DragDropProps {
+  onDragEnd: OnDragEnd;
+  children: React.ReactNode;
+}
+
+type SetGlobalStyles = (newStyles: string) => void;
 
 const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   const styleElementRef = useRef<HTMLStyleElement | null>(null);

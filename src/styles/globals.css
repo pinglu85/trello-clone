@@ -22,3 +22,11 @@ button {
   cursor: pointer;
   background: none;
 }
+
+.verticalScrollbar::-webkit-scrollbar-track {
+  background: #091e4214;
+}
+
+.verticalScrollbar::-webkit-scrollbar-thumb {
+  background: #091e4223;
+}

@@ -4,7 +4,14 @@ import { DragDropTypes, Draggable } from '../DragDrop';
 import BoardListCardList from '../BoardListCardList';
 import MoreIcon from './more-horizontal.svg';
 import styles from './styles.module.css';
-import type { BoardListProps } from './types';
+
+interface BoardListProps {
+  id: string;
+  name: string;
+  cards: Card[];
+  idx: number;
+  numOfLists: number;
+}
 
 const BoardList = ({
   id,

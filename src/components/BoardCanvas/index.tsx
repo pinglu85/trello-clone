@@ -5,8 +5,11 @@ import { reorderGroupedCards, reorderItems } from './reorder';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
-import type { BoardCanvasProps } from './types';
 import type { OnDragEnd } from '../DragDrop';
+
+interface BoardCanvasProps {
+  boardData: BoardData;
+}
 
 const BOARD_CANVAS_ID = 'boardCanvas';
 

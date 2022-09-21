@@ -2,7 +2,12 @@ import { memo } from 'react';
 
 import { DragDropTypes, Draggable } from '../../DragDrop';
 import styles from './styles.module.css';
-import type { CardProps } from './types';
+
+interface CardProps {
+  id: string;
+  name: string;
+  idx: number;
+}
 
 const Card = ({ id, name, idx }: CardProps): JSX.Element => {
   return (

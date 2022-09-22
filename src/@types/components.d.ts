@@ -1,3 +1,3 @@
-interface PropsWithChildren {
+interface WithChildrenProps {
   children: React.ReactNode;
 }

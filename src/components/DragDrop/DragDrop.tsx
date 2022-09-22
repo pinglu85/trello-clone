@@ -16,7 +16,7 @@ import DragDropContext from './context';
 import type { MousePosition, OnDragEnd } from './types';
 import type { DragDropData } from './types';
 
-interface DragDropProps extends PropsWithChildren {
+interface DragDropProps extends WithChildrenProps {
   onDragEnd: OnDragEnd;
 }
 

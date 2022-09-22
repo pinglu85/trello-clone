@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const Layout = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const Layout = ({ children }: PropsWithChildren): JSX.Element => {
   return (
     <>
       <header className={styles.header}>

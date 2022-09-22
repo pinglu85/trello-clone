@@ -16,9 +16,8 @@ import DragDropContext from './context';
 import type { MousePosition, OnDragEnd } from './types';
 import type { DragDropData } from './types';
 
-interface DragDropProps {
+interface DragDropProps extends PropsWithChildren {
   onDragEnd: OnDragEnd;
-  children: React.ReactNode;
 }
 
 type SetGlobalStyles = (newStyles: string) => void;

@@ -1,3 +1,7 @@
+interface PropsWithChildren {
+  children: React.ReactNode;
+}
+
 interface List {
   id: string;
   name: string;

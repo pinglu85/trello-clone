@@ -3,7 +3,7 @@ import { Children, useContext, useEffect, useRef } from 'react';
 import DragDropContext from '../context';
 import type { DragDropTypes } from '../types';
 
-interface DroppableProps extends PropsWithChildren {
+interface DroppableProps extends WithChildrenProps {
   droppableId: string;
   type: DragDropTypes;
   className?: string;

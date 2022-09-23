@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import groupCardsByListId from './groupCardsByListId';
-import { reorderGroupedCards, reorderItems } from './reorder';
+import reorderItems from './reorderItems';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
@@ -19,6 +19,59 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
     groupCardsByListId(boardData)
   );
 
+  const reorderLists = useCallback(
+    (sourceIdx: number, destinationIdx: number) => {
+      setLists((prevLists) => {
+        return reorderItems(
+          prevLists,
+          prevLists[sourceIdx],
+          sourceIdx,
+          destinationIdx
+        );
+      });
+    },
+    []
+  );
+
+  const reorderCards = useCallback(
+    (
+      sourceIdx: number,
+      destinationIdx: number,
+      oldParentId: string,
+      newParentId: string
+    ) => {
+      setGroupedCards((prevGroupedCards) => {
+        const oldParentCards = prevGroupedCards[oldParentId];
+        const sourceItem = oldParentCards[sourceIdx];
+
+        if (newParentId === oldParentId) {
+          return {
+            ...prevGroupedCards,
+            [oldParentId]: reorderItems(
+              oldParentCards,
+              sourceItem,
+              sourceIdx,
+              destinationIdx
+            ),
+          };
+        }
+
+        const newParentCards = prevGroupedCards[newParentId];
+        return {
+          ...prevGroupedCards,
+          [newParentId]: reorderItems(
+            newParentCards,
+            sourceItem,
+            -1,
+            destinationIdx
+          ),
+          [oldParentId]: oldParentCards.filter((_, idx) => idx !== sourceIdx),
+        };
+      });
+    },
+    []
+  );
+
   const onDragEnd: OnDragEnd = useCallback(
     ({ sourceIdx, destinationIdx, oldParentId, newParentId }) => {
       if (destinationIdx === -1) return;
@@ -28,29 +81,12 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
       }
 
       if (oldParentId === BOARD_CANVAS_ID) {
-        setLists((prevLists) => {
-          return reorderItems(
-            prevLists,
-            prevLists[sourceIdx],
-            sourceIdx,
-            destinationIdx
-          );
-        });
-
-        return;
+        reorderLists(sourceIdx, destinationIdx);
+      } else {
+        reorderCards(sourceIdx, destinationIdx, oldParentId, newParentId);
       }
-
-      setGroupedCards((prevGroupedCards) => {
-        return reorderGroupedCards(
-          prevGroupedCards,
-          sourceIdx,
-          destinationIdx,
-          oldParentId,
-          newParentId
-        );
-      });
     },
-    []
+    [reorderLists, reorderCards]
   );
 
   return (
@@ -68,7 +104,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
             cards={groupedCards[id]}
             idx={idx}
             numOfLists={lists.length}
-          ></BoardList>
+          />
         ))}
       </Droppable>
     </DragDrop>

@@ -1,4 +1,5 @@
 import { Droppable, DragDropTypes } from '../DragDrop';
+import joinClassNames from '../../utils/joinClassnames';
 import Card from './Card';
 import styles from './styles.module.css';
 
@@ -13,7 +14,7 @@ const BoardListCardList = ({
 }: BoardListCardListProps): JSX.Element => {
   return (
     <Droppable
-      className={`${styles.BoardListCardList} verticalScrollbar`}
+      className={joinClassNames(styles.BoardListCardList, 'verticalScrollbar')}
       droppableId={listId}
       type={DragDropTypes.Row}
     >

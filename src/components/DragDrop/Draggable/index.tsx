@@ -27,7 +27,7 @@ interface DraggableProps {
   draggableId: string;
   type: DragDropTypes;
   idx: number;
-  placeholderClassName?: string;
+  placeholderClassName: string;
   children: (provided: DraggableChildrenProps) => JSX.Element;
 }
 
@@ -35,7 +35,7 @@ const Draggable = ({
   draggableId,
   type,
   idx,
-  placeholderClassName = '',
+  placeholderClassName,
   children,
 }: DraggableProps): JSX.Element => {
   const dragDropDataRef = useContext(DragDropContext);

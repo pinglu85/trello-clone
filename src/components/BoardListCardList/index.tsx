@@ -1,5 +1,5 @@
 import { Droppable, DragDropTypes } from '../DragDrop';
-import joinClassNames from '../../utils/joinClassnames';
+import joinClassNames from '../../utils/joinClassNames';
 import Card from './Card';
 import styles from './styles.module.css';
 

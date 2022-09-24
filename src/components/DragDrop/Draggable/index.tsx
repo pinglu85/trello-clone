@@ -44,6 +44,7 @@ const Draggable = ({
   const onMouseDown = (e: React.MouseEvent): void => {
     if (!draggableRef.current || e.button !== 0 || !dragDropDataRef) return;
 
+    // The default behavior will stop `mouseMove` and `mouseUp` from running.
     e.preventDefault();
 
     const dragDropData = dragDropDataRef.current;

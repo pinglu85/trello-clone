@@ -1,0 +1,7 @@
+.MenuContentSection:not(:last-child) {
+  padding-bottom: 8px;
+}
+
+.MenuContentSection:not(:first-child) {
+  padding-top: 8px;
+}

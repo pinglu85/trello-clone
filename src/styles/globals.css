@@ -6,7 +6,9 @@
   --dynamic-text-color-transparent: hsla(0, 0%, 100%, 0.16);
   --menu-divider-color: #091e4221;
   --menu-padding-left-right: 12px;
+  --background-neutral-hovered: #091e4214;
   --font-color-default: #172b4d;
+  --font-color-subtle: #5e6c84;
 }
 
 html,
@@ -38,4 +40,8 @@ button svg {
 
 .verticalScrollbar::-webkit-scrollbar-thumb {
   background: #091e4223;
+}
+
+ul {
+  list-style: none;
 }

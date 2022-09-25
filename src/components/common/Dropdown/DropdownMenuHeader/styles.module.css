@@ -1,0 +1,39 @@
+.DropdownMenuHeader {
+  padding-bottom: 8px;
+}
+
+.MenuTitle {
+  display: block;
+  width: 100%;
+  line-height: 40px;
+  text-align: center;
+  color: var(--font-color-subtle);
+  border-bottom: 1px solid var(--menu-divider-color);
+}
+
+.backButton,
+.MenuCloseButton {
+  position: absolute;
+}
+
+.backButton svg,
+.MenuCloseButton svg {
+  stroke: var(--font-color-subtle);
+}
+
+.backButton:hover svg,
+.MenuCloseButton:hover svg {
+  stroke: var(--font-color-default);
+}
+
+.backButton {
+  width: 20px;
+  top: calc(20px - 20px * 0.5);
+  left: 0;
+}
+
+.MenuCloseButton {
+  width: 18px;
+  top: calc(20px - 18px * 0.5);
+  right: 0;
+}

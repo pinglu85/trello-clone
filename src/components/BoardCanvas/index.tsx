@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import groupCardsByListId from './utils/groupCardsByListId';
 import reorderItems from './utils/reorderItems';
+import insertItem from './utils/insertItem';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
@@ -22,12 +23,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
   const reorderLists = useCallback(
     (sourceIdx: number, destinationIdx: number) => {
       setLists((prevLists) => {
-        return reorderItems(
-          prevLists,
-          prevLists[sourceIdx],
-          sourceIdx,
-          destinationIdx
-        );
+        return reorderItems(prevLists, sourceIdx, destinationIdx);
       });
     },
     []
@@ -42,29 +38,23 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
     ) => {
       setGroupedCards((prevGroupedCards) => {
         const oldParentCards = prevGroupedCards[oldParentId];
-        const sourceItem = oldParentCards[sourceIdx];
 
         if (newParentId === oldParentId) {
           return {
             ...prevGroupedCards,
             [oldParentId]: reorderItems(
               oldParentCards,
-              sourceItem,
               sourceIdx,
               destinationIdx
             ),
           };
         }
 
+        const sourceItem = oldParentCards[sourceIdx];
         const newParentCards = prevGroupedCards[newParentId];
         return {
           ...prevGroupedCards,
-          [newParentId]: reorderItems(
-            newParentCards,
-            sourceItem,
-            -1,
-            destinationIdx
-          ),
+          [newParentId]: insertItem(newParentCards, sourceItem, destinationIdx),
           [oldParentId]: oldParentCards.filter((_, idx) => idx !== sourceIdx),
         };
       });

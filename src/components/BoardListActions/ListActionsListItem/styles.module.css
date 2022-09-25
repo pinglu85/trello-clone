@@ -1,0 +1,3 @@
+.ListActionsListItem:hover {
+  background: var(--background-light-hovered);
+}

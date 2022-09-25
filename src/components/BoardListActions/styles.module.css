@@ -1,0 +1,16 @@
+.moreButton {
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+.moreButton svg {
+  stroke: var(--font-color-default);
+}
+
+.moreButton:hover {
+  background: var(--background-neutral-hovered);
+  opacity: 1;
+}

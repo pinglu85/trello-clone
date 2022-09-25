@@ -16,3 +16,5 @@ interface BoardData {
   lists: List[];
   cards: Card[];
 }
+
+type ReorderLists = (sourceIdx: number, destinationIdx: number) => void;

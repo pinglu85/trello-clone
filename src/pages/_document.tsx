@@ -9,6 +9,7 @@ const MyDocument = (): JSX.Element => {
       </Head>
       <body>
         <Main />
+        <div id="dropdown-portal" />
         <NextScript />
       </body>
     </Html>

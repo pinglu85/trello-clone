@@ -20,8 +20,8 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
     groupCardsByListId(boardData)
   );
 
-  const reorderLists = useCallback(
-    (sourceIdx: number, destinationIdx: number) => {
+  const reorderLists: ReorderLists = useCallback(
+    (sourceIdx, destinationIdx) => {
       setLists((prevLists) => {
         return reorderItems(prevLists, sourceIdx, destinationIdx);
       });

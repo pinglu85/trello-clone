@@ -1,0 +1,6 @@
+.MenuDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--menu-divider-color);
+  border: none;
+}

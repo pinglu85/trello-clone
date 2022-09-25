@@ -1,0 +1,9 @@
+.MenuHeader {
+  position: sticky;
+  padding: 0px var(--menu-padding-left-right);
+}
+
+.content {
+  position: relative;
+  width: 100%;
+}

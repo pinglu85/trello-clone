@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 
-import BoardListContext from '../../../contexts/BoardListContext';
 import { SubmenuTrigger } from '../../common/MultiLevelMenu';
 import generatePositionOptions from './utils/generatePositionOptions';
+import BoardCanvasContext from '../../../contexts/BoardCanvasContext';
 import { DropdownContext } from '../../common/Dropdown';
 import { MenuContent } from '../../common/Menu';
 import FormGrid from './FormGrid';
@@ -10,34 +10,30 @@ import Select from './Select';
 import { ButtonPrimary } from '../../common/Button';
 import styles from './styles.module.css';
 
-const MoveList = (): JSX.Element | null => {
-  const boardListContext = useContext(BoardListContext);
-  if (!boardListContext) return null;
+interface MoveListProps {
+  currListIdx: number;
+}
 
+const MoveList = ({ currListIdx }: MoveListProps): JSX.Element | null => {
   return (
     <SubmenuTrigger
       submenuTitle="Move list"
-      submenuContent={<MoveListMenu {...boardListContext} />}
+      submenuContent={<MoveListMenu currListIdx={currListIdx} />}
     >
       Move list
     </SubmenuTrigger>
   );
 };
 
-interface MoveListMenuProps {
-  currListIdx: number;
-  numOfLists: number;
-  reorderLists: ReorderLists;
-}
-
-const MoveListMenu = ({
-  currListIdx,
-  numOfLists,
-  reorderLists,
-}: MoveListMenuProps): JSX.Element | null => {
+const MoveListMenu = ({ currListIdx }: MoveListProps): JSX.Element | null => {
+  const boardCanvasContext = useContext(BoardCanvasContext);
   const dropdownMenuContext = useContext(DropdownContext);
   const [destinationIdx, setDestinationIdx] = useState(currListIdx);
-  const positionOptions = generatePositionOptions(numOfLists);
+
+  if (!boardCanvasContext || !dropdownMenuContext) return null;
+
+  const { lists, reorderLists } = boardCanvasContext;
+  const positionOptions = generatePositionOptions(lists.length);
 
   const onPositionChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setDestinationIdx(Number(e.target.value));
@@ -45,8 +41,6 @@ const MoveListMenu = ({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-
-    if (!dropdownMenuContext) return;
 
     if (destinationIdx < currListIdx) {
       reorderLists(currListIdx, destinationIdx);

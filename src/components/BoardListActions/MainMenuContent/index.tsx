@@ -3,7 +3,13 @@ import { MenuContentSection } from '../../common/Dropdown';
 import ListActionsListItem from '../ListActionsListItem';
 import MoveList from '../MoveList';
 
-const MainMenuContent = (): JSX.Element => {
+interface MainMenuContentProps {
+  currListIdx: number;
+}
+
+const MainMenuContent = ({
+  currListIdx,
+}: MainMenuContentProps): JSX.Element => {
   return (
     <MenuContent>
       <MenuContentSection>
@@ -13,7 +19,7 @@ const MainMenuContent = (): JSX.Element => {
           <ListActionsListItem>Copy list...</ListActionsListItem>
 
           <ListActionsListItem>
-            <MoveList />
+            <MoveList currListIdx={currListIdx} />
           </ListActionsListItem>
         </ul>
       </MenuContentSection>

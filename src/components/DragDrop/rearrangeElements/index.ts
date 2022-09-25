@@ -51,7 +51,7 @@ function rearrangeElements(
   );
 
   let destinationIdx = -1;
-  let insertReferenceNode = null;
+  let insertReferenceNode: Element | null = null;
 
   switch (insertPosition) {
     case InsertPositions.Before:

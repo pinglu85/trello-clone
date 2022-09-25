@@ -1,8 +1,9 @@
 import { memo } from 'react';
 
+import BoardListContext from '../../contexts/BoardListContext';
 import { DragDropTypes, Draggable } from '../DragDrop';
+import BoardListActions from '../BoardListActions';
 import BoardListCardList from '../BoardListCardList';
-import MoreIcon from './more-horizontal.svg';
 import styles from './styles.module.css';
 
 interface BoardListProps {
@@ -11,6 +12,7 @@ interface BoardListProps {
   cards: Card[];
   idx: number;
   numOfLists: number;
+  reorderLists: ReorderLists;
 }
 
 const BoardList = ({
@@ -19,37 +21,44 @@ const BoardList = ({
   cards,
   idx,
   numOfLists,
+  reorderLists,
 }: BoardListProps): JSX.Element => {
   return (
-    <Draggable
-      draggableId={id}
-      type={DragDropTypes.Column}
-      idx={idx}
-      placeholderClassName={styles.dragDropPlaceholder}
+    <BoardListContext.Provider
+      value={{
+        currListIdx: idx,
+        numOfLists,
+        reorderLists,
+      }}
     >
-      {({
-        draggableProps: { draggableRef, ...draggableProps },
-        dragHandleProps,
-      }): JSX.Element => (
-        <div
-          ref={draggableRef as React.RefObject<HTMLDivElement>}
-          className={styles.BoardList}
-          {...draggableProps}
-        >
-          <div className={styles.header} {...dragHandleProps}>
-            <span className={styles.title}>{name}</span>
+      <Draggable
+        draggableId={id}
+        type={DragDropTypes.Column}
+        idx={idx}
+        placeholderClassName={styles.dragDropPlaceholder}
+      >
+        {({
+          draggableProps: { draggableRef, ...draggableProps },
+          dragHandleProps,
+        }): JSX.Element => (
+          <div
+            ref={draggableRef as React.RefObject<HTMLDivElement>}
+            className={styles.BoardList}
+            {...draggableProps}
+          >
+            <div className={styles.header} {...dragHandleProps}>
+              <span className={styles.title}>{name}</span>
 
-            <button className={styles.moreButton}>
-              <MoreIcon />
-            </button>
+              <BoardListActions />
+            </div>
+
+            <BoardListCardList listId={id} cards={cards} />
+
+            <div className={styles.cardActions}>Add Cards</div>
           </div>
-
-          <BoardListCardList listId={id} cards={cards} />
-
-          <div className={styles.cardActions}>Add Cards</div>
-        </div>
-      )}
-    </Draggable>
+        )}
+      </Draggable>
+    </BoardListContext.Provider>
   );
 };
 

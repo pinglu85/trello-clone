@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import groupCardsByListId from './groupCardsByListId';
-import reorderItems from './reorderItems';
+import groupCardsByListId from './utils/groupCardsByListId';
+import reorderItems from './utils/reorderItems';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
@@ -104,6 +104,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
             cards={groupedCards[id]}
             idx={idx}
             numOfLists={lists.length}
+            reorderLists={reorderLists}
           />
         ))}
       </Droppable>

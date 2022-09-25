@@ -1,4 +1,4 @@
-import type { GroupedCards } from './types';
+import type { GroupedCards } from '../types';
 
 function groupCardsByListId({ lists, cards }: BoardData): GroupedCards {
   const groupedCards = lists.reduce((groupedCards, list) => {

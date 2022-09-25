@@ -1,0 +1,10 @@
+.ListItem {
+  margin: 0px calc(var(--menu-padding-left-right) * -1);
+  padding: 6px var(--menu-padding-left-right);
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.ListItem:hover {
+  background: #ebecf0;
+}

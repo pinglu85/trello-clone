@@ -6,6 +6,7 @@
   --dynamic-text-color-transparent: hsla(0, 0%, 100%, 0.16);
   --menu-divider-color: #091e4221;
   --menu-padding-left-right: 12px;
+  --font-color-default: #172b4d;
 }
 
 html,
@@ -13,7 +14,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 14px;
-  color: #172b4d;
+  color: var(--font-color-default);
 }
 
 body {

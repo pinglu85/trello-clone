@@ -94,7 +94,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
               id={id}
               name={name}
               cards={groupedCards[id]}
-              idx={idx}
+              currListIdx={idx}
             />
           ))}
         </Droppable>

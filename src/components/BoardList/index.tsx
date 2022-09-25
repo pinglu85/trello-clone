@@ -9,15 +9,20 @@ interface BoardListProps {
   id: string;
   name: string;
   cards: Card[];
-  idx: number;
+  currListIdx: number;
 }
 
-const BoardList = ({ id, name, cards, idx }: BoardListProps): JSX.Element => {
+const BoardList = ({
+  id,
+  name,
+  cards,
+  currListIdx,
+}: BoardListProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
       type={DragDropTypes.Column}
-      idx={idx}
+      idx={currListIdx}
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
@@ -32,7 +37,7 @@ const BoardList = ({ id, name, cards, idx }: BoardListProps): JSX.Element => {
           <div className={styles.header} {...dragHandleProps}>
             <span className={styles.title}>{name}</span>
 
-            <BoardListActions currListIdx={idx} />
+            <BoardListActions currListIdx={currListIdx} />
           </div>
 
           <BoardListCardList listId={id} cards={cards} />

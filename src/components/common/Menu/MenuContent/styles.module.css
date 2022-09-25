@@ -1,0 +1,22 @@
+.MenuContent {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.MenuContent::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.MenuContent::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+.MenuContent::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+}
+
+.MenuContentInnerWrapper {
+  padding: 0px calc(var(--menu-padding-left-right) - 4px)
+    var(--menu-padding-left-right) var(--menu-padding-left-right);
+}

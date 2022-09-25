@@ -4,6 +4,8 @@
   --dynamic-background-color: hsla(0, 0%, 0%, 0.16);
   --dynamic-background-color-transparent: hsla(0, 0%, 0%, 0.16);
   --dynamic-text-color-transparent: hsla(0, 0%, 100%, 0.16);
+  --menu-divider-color: #091e4221;
+  --menu-padding-left-right: 12px;
 }
 
 html,
@@ -21,6 +23,11 @@ body {
 button {
   cursor: pointer;
   background: none;
+  border: none;
+}
+
+button svg {
+  display: block;
 }
 
 .verticalScrollbar::-webkit-scrollbar-track {

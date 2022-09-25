@@ -1,0 +1,10 @@
+.ButtonPrimary {
+  padding: 6px 24px;
+  background: var(--background-brand-bold);
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.ButtonPrimary:hover {
+  background: var(--background-brand-bold-hovered);
+}

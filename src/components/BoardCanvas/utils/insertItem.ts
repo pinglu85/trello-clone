@@ -1,14 +1,7 @@
-function reorderItems<T>(
-  items: T[],
-  sourceIdx: number,
-  destinationIdx: number
-): T[] {
-  const sourceItem = items[sourceIdx];
-  const newItems: T[] = [];
+function insertItem<T>(items: T[], sourceItem: T, destinationIdx: number): T[] {
+  const newItems = [];
 
   for (let i = 0; i < items.length; i++) {
-    if (i === sourceIdx) continue;
-
     if (i === destinationIdx) newItems.push(sourceItem);
 
     newItems.push(items[i]);
@@ -21,4 +14,4 @@ function reorderItems<T>(
   return newItems;
 }
 
-export default reorderItems;
+export default insertItem;

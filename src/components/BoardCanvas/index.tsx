@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import groupCardsByListId from './utils/groupCardsByListId';
 import reorderItems from './utils/reorderItems';
 import insertItem from './utils/insertItem';
+import BoardCanvasContext from '../../contexts/BoardCanvasContext';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
@@ -80,25 +81,25 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
   );
 
   return (
-    <DragDrop onDragEnd={onDragEnd}>
-      <Droppable
-        className={styles.BoardCanvas}
-        droppableId={BOARD_CANVAS_ID}
-        type={DragDropTypes.Column}
-      >
-        {lists.map(({ id, name }, idx) => (
-          <BoardList
-            key={id}
-            id={id}
-            name={name}
-            cards={groupedCards[id]}
-            idx={idx}
-            numOfLists={lists.length}
-            reorderLists={reorderLists}
-          />
-        ))}
-      </Droppable>
-    </DragDrop>
+    <BoardCanvasContext.Provider value={{ lists, groupedCards, reorderLists }}>
+      <DragDrop onDragEnd={onDragEnd}>
+        <Droppable
+          className={styles.BoardCanvas}
+          droppableId={BOARD_CANVAS_ID}
+          type={DragDropTypes.Column}
+        >
+          {lists.map(({ id, name }, idx) => (
+            <BoardList
+              key={id}
+              id={id}
+              name={name}
+              cards={groupedCards[id]}
+              idx={idx}
+            />
+          ))}
+        </Droppable>
+      </DragDrop>
+    </BoardCanvasContext.Provider>
   );
 };
 

@@ -17,4 +17,8 @@ interface BoardData {
   cards: Card[];
 }
 
+interface GroupedCards {
+  [index: string]: Card[];
+}
+
 type ReorderLists = (sourceIdx: number, destinationIdx: number) => void;

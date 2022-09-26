@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import BoardListContext from '../../contexts/BoardListContext';
 import { DragDropTypes, Draggable } from '../DragDrop';
 import BoardListActions from '../BoardListActions';
 import BoardListCardList from '../BoardListCardList';
@@ -19,33 +20,35 @@ const BoardList = ({
   currListIdx,
 }: BoardListProps): JSX.Element => {
   return (
-    <Draggable
-      draggableId={id}
-      type={DragDropTypes.Column}
-      idx={currListIdx}
-      placeholderClassName={styles.dragDropPlaceholder}
-    >
-      {({
-        draggableProps: { draggableRef, ...draggableProps },
-        dragHandleProps,
-      }): JSX.Element => (
-        <div
-          ref={draggableRef as React.RefObject<HTMLDivElement>}
-          className={styles.BoardList}
-          {...draggableProps}
-        >
-          <div className={styles.header} {...dragHandleProps}>
-            <span className={styles.title}>{name}</span>
+    <BoardListContext.Provider value={{ currListId: id, currListIdx }}>
+      <Draggable
+        draggableId={id}
+        type={DragDropTypes.Column}
+        idx={currListIdx}
+        placeholderClassName={styles.dragDropPlaceholder}
+      >
+        {({
+          draggableProps: { draggableRef, ...draggableProps },
+          dragHandleProps,
+        }): JSX.Element => (
+          <div
+            ref={draggableRef as React.RefObject<HTMLDivElement>}
+            className={styles.BoardList}
+            {...draggableProps}
+          >
+            <div className={styles.header} {...dragHandleProps}>
+              <span className={styles.title}>{name}</span>
 
-            <BoardListActions currListIdx={currListIdx} />
+              <BoardListActions />
+            </div>
+
+            <BoardListCardList listId={id} cards={cards} />
+
+            <div className={styles.cardActions}>Add Cards</div>
           </div>
-
-          <BoardListCardList listId={id} cards={cards} />
-
-          <div className={styles.cardActions}>Add Cards</div>
-        </div>
-      )}
-    </Draggable>
+        )}
+      </Draggable>
+    </BoardListContext.Provider>
   );
 };
 

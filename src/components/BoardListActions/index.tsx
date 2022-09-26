@@ -7,13 +7,7 @@ import MoreIcon from './more-horizontal.svg';
 import MainMenuContent from './MainMenuContent';
 import styles from './styles.module.css';
 
-interface BoardListActionsProps {
-  currListIdx: number;
-}
-
-const BoardListActions = ({
-  currListIdx,
-}: BoardListActionsProps): JSX.Element => {
+const BoardListActions = (): JSX.Element => {
   return (
     <Dropdown>
       <DropdownMenuToggle className={styles.moreButton}>
@@ -23,7 +17,7 @@ const BoardListActions = ({
       <MultiLevelDropdownMenu
         mainMenuTitle="List Actions"
         menuHeader={<MultiLevelDropdownMenuHeader />}
-        mainMenuContent={<MainMenuContent currListIdx={currListIdx} />}
+        mainMenuContent={<MainMenuContent />}
       />
     </Dropdown>
   );

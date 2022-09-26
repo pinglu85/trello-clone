@@ -81,7 +81,9 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
   );
 
   return (
-    <BoardCanvasContext.Provider value={{ lists, groupedCards, reorderLists }}>
+    <BoardCanvasContext.Provider
+      value={{ lists, groupedCards, setGroupedCards, reorderLists }}
+    >
       <DragDrop onDragEnd={onDragEnd}>
         <Droppable
           className={styles.BoardCanvas}

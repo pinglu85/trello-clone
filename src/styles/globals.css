@@ -12,6 +12,7 @@
   --background-brand-bold-hovered: #026aa7;
   --font-color-default: #172b4d;
   --font-color-subtle: #5e6c84;
+  --font-color-disabled: #a5adba;
 }
 
 html,
@@ -31,6 +32,10 @@ button {
   cursor: pointer;
   background: none;
   border: none;
+}
+
+button:disabled {
+  cursor: default;
 }
 
 button svg {

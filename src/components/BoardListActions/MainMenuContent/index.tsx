@@ -2,6 +2,7 @@ import { MenuContent, MenuDivider } from '../../common/Menu';
 import { MenuContentSection } from '../../common/Dropdown';
 import ListActionsListItem from '../ListActionsListItem';
 import MoveList from '../MoveList';
+import MoveAllCardsInList from '../MoveAllCardsInList';
 
 const MainMenuContent = (): JSX.Element => {
   return (
@@ -31,7 +32,7 @@ const MainMenuContent = (): JSX.Element => {
       <MenuContentSection>
         <ul>
           <ListActionsListItem>
-            Move all cards in this list…
+            <MoveAllCardsInList />
           </ListActionsListItem>
           <ListActionsListItem>
             Archive all cards in this list…

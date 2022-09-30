@@ -7,20 +7,18 @@ const useAutoClose = (
   dropdownContext: IDropdownContext | null
 ): void => {
   useEffect(() => {
-    const handleClickOutsideDropdownMenu = (e: MouseEvent): void => {
-      if (
-        !dropdownMenuRef.current ||
-        !dropdownContext ||
-        !(e.target instanceof Element)
-      ) {
-        return;
-      }
+    if (!dropdownContext) return;
 
-      const { dropdownMenuToggleRef, closeDropdownMenu } = dropdownContext;
-      if (!dropdownMenuToggleRef.current) return;
+    const { dropdownMenuToggleRef, closeDropdownMenu } = dropdownContext;
+    if (!dropdownMenuToggleRef.current) return;
+
+    const dropdownMenuToggle = dropdownMenuToggleRef.current;
+
+    const handleClickOutsideDropdownMenu = (e: MouseEvent): void => {
+      if (!dropdownMenuRef.current || !(e.target instanceof Element)) return;
 
       const dropdownMenu = dropdownMenuRef.current;
-      const dropdownMenuToggle = dropdownMenuToggleRef.current;
+
       if (
         !dropdownMenu.contains(e.target) &&
         !dropdownMenuToggle.contains(e.target)
@@ -28,13 +26,25 @@ const useAutoClose = (
         closeDropdownMenu();
       }
     };
-
     document.body.addEventListener('mousedown', handleClickOutsideDropdownMenu);
+
+    const closeDropdownMenuOnEscapePress = (e: KeyboardEvent): void => {
+      if (e.code === 'Escape') {
+        closeDropdownMenu();
+        dropdownMenuToggle.blur();
+      }
+    };
+    document.body.addEventListener('keydown', closeDropdownMenuOnEscapePress);
 
     return () => {
       document.body.removeEventListener(
         'mousedown',
         handleClickOutsideDropdownMenu
+      );
+
+      document.body.removeEventListener(
+        'keydown',
+        closeDropdownMenuOnEscapePress
       );
     };
   }, [dropdownContext, dropdownMenuRef]);

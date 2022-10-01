@@ -34,7 +34,7 @@ const useAutoClose = (
         dropdownMenuToggle.blur();
       }
     };
-    document.body.addEventListener('keydown', closeDropdownMenuOnEscapePress);
+    window.addEventListener('keydown', closeDropdownMenuOnEscapePress);
 
     return () => {
       document.body.removeEventListener(
@@ -42,10 +42,7 @@ const useAutoClose = (
         handleClickOutsideDropdownMenu
       );
 
-      document.body.removeEventListener(
-        'keydown',
-        closeDropdownMenuOnEscapePress
-      );
+      window.removeEventListener('keydown', closeDropdownMenuOnEscapePress);
     };
   }, [dropdownContext, dropdownMenuRef]);
 };

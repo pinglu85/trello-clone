@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Menu from '../../Menu';
 import MultiLevelMenuContext from '../context';
@@ -16,6 +16,35 @@ const MultiLevelMenu = ({
   const [currMenuContent, setCurrMenuContent] = useState(mainMenuContent);
   const [prevMenus, setPrevMenus] = useState<PrevMenu[]>([]);
 
+  const goBackToPrevMenu = useCallback((): void => {
+    const { menuTitle, menuContent } = prevMenus[
+      prevMenus.length - 1
+    ] as PrevMenu;
+    setPrevMenus(prevMenus.slice(0, -1));
+    setCurrMenuTitle(menuTitle);
+    setCurrMenuContent(menuContent);
+  }, [prevMenus]);
+
+  useEffect(() => {
+    const goBackToPrevMenuOnEscapePress = (e: KeyboardEvent): void => {
+      if (e.code !== 'Escape') return;
+
+      if (prevMenus.length > 0) {
+        e.stopPropagation();
+        goBackToPrevMenu();
+      }
+    };
+
+    document.body.addEventListener('keydown', goBackToPrevMenuOnEscapePress);
+
+    return () => {
+      document.body.removeEventListener(
+        'keydown',
+        goBackToPrevMenuOnEscapePress
+      );
+    };
+  }, [prevMenus, goBackToPrevMenu]);
+
   return (
     <MultiLevelMenuContext.Provider
       value={{
@@ -25,6 +54,7 @@ const MultiLevelMenu = ({
         setCurrMenuContent,
         prevMenus,
         setPrevMenus,
+        goBackToPrevMenu,
       }}
     >
       <Menu ref={menuRef} className={className}>

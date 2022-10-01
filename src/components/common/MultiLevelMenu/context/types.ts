@@ -10,4 +10,5 @@ export interface IMultiLevelMenuContext {
   setCurrMenuContent: React.Dispatch<React.ReactNode>;
   prevMenus: PrevMenu[];
   setPrevMenus: React.Dispatch<PrevMenu[]>;
+  goBackToPrevMenu: () => void;
 }

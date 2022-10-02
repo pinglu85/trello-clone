@@ -27,21 +27,27 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
     return null;
   }
 
-  const { lists, groupedCards, setGroupedCards } = boardCanvasContext;
+  const { listMap, listOrder, setListMap } = boardCanvasContext;
   const { currListId } = boardListContext;
 
   const moveAllCardsToList = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     if (e.target instanceof Element) {
-      const cardsInCurrList = groupedCards[currListId];
+      const cardsInCurrList = listMap[currListId].cards;
       const destinationListId = e.target.id;
-      const cardsInDestinationList = groupedCards[destinationListId];
+      const cardsInDestinationList = listMap[destinationListId].cards;
 
-      setGroupedCards({
-        ...groupedCards,
-        [currListId]: [],
-        [destinationListId]: [...cardsInDestinationList, ...cardsInCurrList],
+      setListMap({
+        ...listMap,
+        [currListId]: {
+          ...listMap[currListId],
+          cards: [],
+        },
+        [destinationListId]: {
+          ...listMap[destinationListId],
+          cards: [...cardsInDestinationList, ...cardsInCurrList],
+        },
       });
 
       dropdownMenuContext.closeDropdownMenu();
@@ -51,7 +57,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
   return (
     <MenuContent>
       <ul>
-        {lists.map(({ id, name }) => (
+        {listOrder.map((id) => (
           <ListActionsListItem key={id} disabled={id === currListId}>
             <button
               id={id}
@@ -59,7 +65,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
               onClick={moveAllCardsToList}
               disabled={id === currListId}
             >
-              {`${name}${id === currListId ? ' (current)' : ''}`}
+              {`${listMap[id].name}${id === currListId ? ' (current)' : ''}`}
             </button>
           </ListActionsListItem>
         ))}

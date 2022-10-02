@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 
 interface IBoardCanvasContext {
-  lists: List[];
-  groupedCards: GroupedCards;
-  setGroupedCards: React.Dispatch<React.SetStateAction<GroupedCards>>;
+  listMap: ListMap;
+  listOrder: string[];
+  setListMap: React.Dispatch<React.SetStateAction<ListMap>>;
   reorderLists: ReorderLists;
 }
 

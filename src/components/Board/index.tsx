@@ -3,13 +3,13 @@ import BoardHeader from '../BoardHeader';
 import styles from './styles.module.css';
 import type { BoardProps } from './types';
 
-const Board = ({ boardData }: BoardProps): JSX.Element => {
+const Board = ({ board }: BoardProps): JSX.Element => {
   return (
     <div className={styles.Board}>
       <div className={styles.workspaceNavigation}></div>
       <div className={styles.boardContainer}>
         <BoardHeader />
-        <BoardCanvas boardData={boardData} />
+        <BoardCanvas board={board} />
       </div>
     </div>
   );

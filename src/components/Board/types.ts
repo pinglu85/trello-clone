@@ -1,3 +1,3 @@
 export interface BoardProps {
-  boardData: BoardData;
+  board: BoardWithListsAndCards;
 }

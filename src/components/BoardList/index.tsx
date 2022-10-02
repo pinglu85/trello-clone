@@ -8,17 +8,11 @@ import styles from './styles.module.css';
 
 interface BoardListProps {
   id: string;
-  name: string;
-  cards: Card[];
   currListIdx: number;
+  list: ListWithCards;
 }
 
-const BoardList = ({
-  id,
-  name,
-  cards,
-  currListIdx,
-}: BoardListProps): JSX.Element => {
+const BoardList = ({ id, currListIdx, list }: BoardListProps): JSX.Element => {
   return (
     <BoardListContext.Provider value={{ currListId: id, currListIdx }}>
       <Draggable
@@ -37,12 +31,12 @@ const BoardList = ({
             {...draggableProps}
           >
             <div className={styles.header} {...dragHandleProps}>
-              <span className={styles.title}>{name}</span>
+              <span className={styles.title}>{list.name}</span>
 
               <BoardListActions />
             </div>
 
-            <BoardListCardList listId={id} cards={cards} />
+            <BoardListCardList listId={id} cards={list.cards} />
 
             <div className={styles.cardActions}>Add Cards</div>
           </div>

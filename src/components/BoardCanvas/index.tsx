@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import groupCardsByListId from './utils/groupCardsByListId';
+import createListMap from './utils/createListMap';
+import generateInitListOrder from './utils/generateInitListOrder';
 import reorderItems from './utils/reorderItems';
 import insertItem from './utils/insertItem';
 import BoardCanvasContext from '../../contexts/BoardCanvasContext';
@@ -10,21 +11,21 @@ import styles from './styles.module.css';
 import type { OnDragEnd } from '../DragDrop';
 
 interface BoardCanvasProps {
-  boardData: BoardData;
+  board: BoardWithListsAndCards;
 }
 
 const BOARD_CANVAS_ID = 'boardCanvas';
 
-const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
-  const [lists, setLists] = useState(boardData.lists);
-  const [groupedCards, setGroupedCards] = useState(
-    groupCardsByListId(boardData)
+const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
+  const [listMap, setListMap] = useState(createListMap(board.lists));
+  const [listOrder, setListOrder] = useState(
+    generateInitListOrder(board.lists)
   );
 
   const reorderLists: ReorderLists = useCallback(
     (sourceIdx, destinationIdx) => {
-      setLists((prevLists) => {
-        return reorderItems(prevLists, sourceIdx, destinationIdx);
+      setListOrder((prevListOrder) => {
+        return reorderItems(prevListOrder, sourceIdx, destinationIdx);
       });
     },
     []
@@ -37,26 +38,31 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
       oldParentId: string,
       newParentId: string
     ) => {
-      setGroupedCards((prevGroupedCards) => {
-        const oldParentCards = prevGroupedCards[oldParentId];
+      setListMap((prevListMap) => {
+        const oldParentCards = prevListMap[oldParentId].cards;
 
         if (newParentId === oldParentId) {
           return {
-            ...prevGroupedCards,
-            [oldParentId]: reorderItems(
-              oldParentCards,
-              sourceIdx,
-              destinationIdx
-            ),
+            ...prevListMap,
+            [oldParentId]: {
+              ...prevListMap[oldParentId],
+              cards: reorderItems(oldParentCards, sourceIdx, destinationIdx),
+            },
           };
         }
 
         const sourceItem = oldParentCards[sourceIdx];
-        const newParentCards = prevGroupedCards[newParentId];
+        const newParentCards = prevListMap[newParentId].cards;
         return {
-          ...prevGroupedCards,
-          [newParentId]: insertItem(newParentCards, sourceItem, destinationIdx),
-          [oldParentId]: oldParentCards.filter((_, idx) => idx !== sourceIdx),
+          ...prevListMap,
+          [newParentId]: {
+            ...prevListMap[newParentId],
+            cards: insertItem(newParentCards, sourceItem, destinationIdx),
+          },
+          [oldParentId]: {
+            ...prevListMap[oldParentId],
+            cards: oldParentCards.filter((_, idx) => idx !== sourceIdx),
+          },
         };
       });
     },
@@ -82,7 +88,7 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
 
   return (
     <BoardCanvasContext.Provider
-      value={{ lists, groupedCards, setGroupedCards, reorderLists }}
+      value={{ listMap, listOrder, setListMap, reorderLists }}
     >
       <DragDrop onDragEnd={onDragEnd}>
         <Droppable
@@ -90,14 +96,8 @@ const BoardCanvas = ({ boardData }: BoardCanvasProps): JSX.Element => {
           droppableId={BOARD_CANVAS_ID}
           type={DragDropTypes.Column}
         >
-          {lists.map(({ id, name }, idx) => (
-            <BoardList
-              key={id}
-              id={id}
-              name={name}
-              cards={groupedCards[id]}
-              currListIdx={idx}
-            />
+          {listOrder.map((id, idx) => (
+            <BoardList key={id} id={id} list={listMap[id]} currListIdx={idx} />
           ))}
         </Droppable>
       </DragDrop>

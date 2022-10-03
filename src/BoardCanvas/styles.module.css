@@ -1,0 +1,25 @@
+.BoardCanvas {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  margin-left: 6px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.BoardCanvas::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.BoardCanvas::-webkit-scrollbar-track {
+  background: #00000026;
+  border-radius: 6px;
+}
+
+.BoardCanvas::-webkit-scrollbar-thumb {
+  background: hsla(0, 0%, 100%, 0.3);
+  border-radius: 5px;
+}

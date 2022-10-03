@@ -13,16 +13,14 @@ interface GetBoardsData {
 
 const Board = (): JSX.Element => {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(GET_BOARD, {
+  const { loading, error, data } = useQuery<GetBoardsData>(GET_BOARD, {
     variables: {
       boardId: id,
     },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading || !data) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-
-  const { board } = data as GetBoardsData;
 
   return (
     <>
@@ -32,7 +30,7 @@ const Board = (): JSX.Element => {
         <div className={styles.boardContainer}>
           <BoardHeader />
 
-          <BoardCanvas board={board} />
+          <BoardCanvas board={data.board} />
         </div>
       </div>
     </>

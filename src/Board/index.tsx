@@ -7,13 +7,13 @@ import BoardCanvas from '../BoardCanvas';
 import BoardHeader from '../BoardHeader';
 import styles from './styles.module.css';
 
-interface GetBoardsData {
+interface GetBoardResult {
   board: BoardWithListsAndCards;
 }
 
 const Board = (): JSX.Element => {
   const { id } = useParams();
-  const { loading, error, data } = useQuery<GetBoardsData>(GET_BOARD, {
+  const { loading, error, data } = useQuery<GetBoardResult>(GET_BOARD, {
     variables: {
       boardId: id,
     },

@@ -5,11 +5,12 @@ import { DragDropTypes, Draggable } from '../DragDrop';
 import BoardListActions from '../BoardListActions';
 import BoardListCardList from '../BoardListCardList';
 import styles from './styles.module.css';
+import type { List } from '../generated/graphql';
 
 interface BoardListProps {
   id: string;
   currListIdx: number;
-  list: ListWithCards;
+  list: List;
 }
 
 const BoardList = ({ id, currListIdx, list }: BoardListProps): JSX.Element => {

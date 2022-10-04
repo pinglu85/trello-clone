@@ -1,5 +1,11 @@
 import { createContext } from 'react';
 
+import type { List } from '../generated/graphql';
+
+interface ListMap {
+  [index: string]: List;
+}
+
 interface IBoardCanvasContext {
   listMap: ListMap;
   listOrder: string[];
@@ -10,3 +16,5 @@ interface IBoardCanvasContext {
 const BoardCanvasContext = createContext<IBoardCanvasContext | null>(null);
 
 export default BoardCanvasContext;
+
+export type { ListMap };

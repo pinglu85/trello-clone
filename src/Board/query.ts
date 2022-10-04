@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const GET_BOARD = gql`
-  query ($boardId: ID!) {
+  query GetBoard($boardId: ID!) {
     board(id: $boardId) {
       id
       backgroundColor

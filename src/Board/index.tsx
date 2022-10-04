@@ -6,14 +6,11 @@ import Head from '../common/Head';
 import BoardCanvas from '../BoardCanvas';
 import BoardHeader from '../BoardHeader';
 import styles from './styles.module.css';
-
-interface GetBoardResult {
-  board: BoardWithListsAndCards;
-}
+import type { GetBoardQuery } from '../generated/graphql';
 
 const Board = (): JSX.Element => {
   const { id } = useParams();
-  const { loading, error, data } = useQuery<GetBoardResult>(GET_BOARD, {
+  const { loading, error, data } = useQuery<GetBoardQuery>(GET_BOARD, {
     variables: {
       boardId: id,
     },

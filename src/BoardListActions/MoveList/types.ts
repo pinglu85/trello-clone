@@ -4,5 +4,5 @@ export interface SelectOption<T> {
 }
 
 export interface SelectOptionGroups<T> {
-  [index: string]: SelectOption<T>[];
+  [key: string]: SelectOption<T>[];
 }

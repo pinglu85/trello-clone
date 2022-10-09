@@ -3,13 +3,13 @@ import { memo } from 'react';
 import { DragDropTypes, Draggable } from '../../DragDrop';
 import styles from './styles.module.css';
 
-interface CardProps {
+interface BoardListCardProps {
   id: string;
   name: string;
   idx: number;
 }
 
-const Card = ({ id, name, idx }: CardProps): JSX.Element => {
+const BoardListCard = ({ id, name, idx }: BoardListCardProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
@@ -23,7 +23,7 @@ const Card = ({ id, name, idx }: CardProps): JSX.Element => {
       }): JSX.Element => (
         <div
           ref={draggableRef as React.RefObject<HTMLDivElement>}
-          className={styles.Card}
+          className={styles.BoardListCard}
           {...draggableProps}
           {...dragHandleProps}
         >
@@ -34,4 +34,4 @@ const Card = ({ id, name, idx }: CardProps): JSX.Element => {
   );
 };
 
-export default memo(Card);
+export default memo(BoardListCard);

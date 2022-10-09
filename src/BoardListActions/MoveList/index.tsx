@@ -40,8 +40,8 @@ const MoveListMenu = ({
 
   if (!boardCanvasContext || !dropdownMenuContext) return null;
 
-  const { listOrder, reorderLists } = boardCanvasContext;
-  const positionOptions = generatePositionOptions(listOrder.length);
+  const { lists, reorderLists } = boardCanvasContext;
+  const positionOptions = generatePositionOptions(lists.length);
 
   const onPositionChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setDestinationIdx(Number(e.target.value));

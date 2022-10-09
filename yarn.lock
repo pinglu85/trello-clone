@@ -7036,6 +7036,11 @@
     "prelude-ls" "~1.1.2"
     "type-check" "~0.3.2"
 
+"lexorank@^1.0.5":
+  "integrity" "sha512-K1B/Yr/gIU0wm68hk/yB0p/mv6xM3ShD5aci42vOwcjof8slG8Kpo3Q7+1WTv7DaRHKWRgLPqrFDt+4GtuFAtA=="
+  "resolved" "https://registry.npmjs.org/lexorank/-/lexorank-1.0.5.tgz"
+  "version" "1.0.5"
+
 "lilconfig@^2.0.3", "lilconfig@^2.0.5", "lilconfig@^2.0.6":
   "integrity" "sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg=="
   "resolved" "https://registry.npmjs.org/lilconfig/-/lilconfig-2.0.6.tgz"

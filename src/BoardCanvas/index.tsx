@@ -1,34 +1,70 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useMutation } from '@apollo/client';
 
-import createListMap from './utils/createListMap';
-import generateInitListOrder from './utils/generateInitListOrder';
-import reorderItems from './utils/reorderItems';
-import insertItem from './utils/insertItem';
+import { MOVE_CARD, MOVE_LIST } from './mutation';
+import updateCacheAfterListMoved from './utils/updateCacheAfterListMoved';
+import updateCacheAfterCardMoved from './utils/updateCacheAfterCardMoved';
+import calcItemNewRank from './utils/calcItemRank';
 import BoardCanvasContext from '../contexts/BoardCanvasContext';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';
 import styles from './styles.module.css';
 import type { OnDragEnd } from '../DragDrop';
+import type {
+  Board,
+  MoveCardMutation,
+  MoveCardMutationVariables,
+  MoveListMutation,
+  MoveListMutationVariables,
+} from '../generated/graphql';
 
 interface BoardCanvasProps {
-  board: BoardWithListsAndCards;
+  board: Board;
 }
 
 const BOARD_CANVAS_ID = 'boardCanvas';
 
 const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
-  const [listMap, setListMap] = useState(createListMap(board.lists));
-  const [listOrder, setListOrder] = useState(
-    generateInitListOrder(board.lists)
+  const [moveList] = useMutation<MoveListMutation, MoveListMutationVariables>(
+    MOVE_LIST,
+    {
+      update: updateCacheAfterListMoved,
+    }
+  );
+  const [moveCard] = useMutation<MoveCardMutation, MoveCardMutationVariables>(
+    MOVE_CARD,
+    {
+      update: updateCacheAfterCardMoved,
+    }
   );
 
   const reorderLists: ReorderLists = useCallback(
     (sourceIdx, destinationIdx) => {
-      setListOrder((prevListOrder) => {
-        return reorderItems(prevListOrder, sourceIdx, destinationIdx);
+      const { lists } = board;
+      const movedList = lists[sourceIdx];
+      const newRank = calcItemNewRank(
+        lists[destinationIdx - 1],
+        lists[destinationIdx]
+      );
+
+      moveList({
+        variables: {
+          moveListId: movedList.id,
+          newBoardId: parseInt(board.id),
+          newRank: newRank,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          moveList: {
+            id: movedList.id,
+            boardId: parseInt(board.id),
+            oldBoardId: parseInt(board.id),
+            rank: newRank,
+          },
+        },
       });
     },
-    []
+    [board, moveList]
   );
 
   const reorderCards = useCallback(
@@ -38,35 +74,44 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       oldParentId: string,
       newParentId: string
     ) => {
-      setListMap((prevListMap) => {
-        const oldParentCards = prevListMap[oldParentId].cards;
+      const { lists } = board;
+      const oldParent = lists.find(({ id }) => id === oldParentId);
+      if (!oldParent) return;
 
-        if (newParentId === oldParentId) {
-          return {
-            ...prevListMap,
-            [oldParentId]: {
-              ...prevListMap[oldParentId],
-              cards: reorderItems(oldParentCards, sourceIdx, destinationIdx),
+      const newParent =
+        newParentId === oldParentId
+          ? oldParent
+          : lists.find(({ id }) => id === newParentId);
+      if (!newParent) return;
+
+      const movedCard = oldParent.cards[sourceIdx];
+      const newRank = calcItemNewRank(
+        newParent.cards[destinationIdx - 1],
+        newParent.cards[destinationIdx]
+      );
+
+      moveCard({
+        variables: {
+          moveCardId: movedCard.id,
+          newBoardId: parseInt(board.id),
+          newListId: parseInt(newParent.id),
+          newRank: newRank,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          moveCard: {
+            oldListId: parseInt(oldParent.id),
+            card: {
+              ...movedCard,
+              boardId: parseInt(board.id),
+              listId: parseInt(newParent.id),
+              rank: newRank,
             },
-          };
-        }
-
-        const sourceItem = oldParentCards[sourceIdx];
-        const newParentCards = prevListMap[newParentId].cards;
-        return {
-          ...prevListMap,
-          [newParentId]: {
-            ...prevListMap[newParentId],
-            cards: insertItem(newParentCards, sourceItem, destinationIdx),
           },
-          [oldParentId]: {
-            ...prevListMap[oldParentId],
-            cards: oldParentCards.filter((_, idx) => idx !== sourceIdx),
-          },
-        };
+        },
       });
     },
-    []
+    [board, moveCard]
   );
 
   const onDragEnd: OnDragEnd = useCallback(
@@ -87,17 +132,15 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
   );
 
   return (
-    <BoardCanvasContext.Provider
-      value={{ listMap, listOrder, setListMap, reorderLists }}
-    >
+    <BoardCanvasContext.Provider value={{ lists: board.lists, reorderLists }}>
       <DragDrop onDragEnd={onDragEnd}>
         <Droppable
           className={styles.BoardCanvas}
           droppableId={BOARD_CANVAS_ID}
           type={DragDropTypes.Column}
         >
-          {listOrder.map((id, idx) => (
-            <BoardList key={id} id={id} list={listMap[id]} currListIdx={idx} />
+          {board.lists.map((list, idx) => (
+            <BoardList key={list.id} list={list} currListIdx={idx} />
           ))}
         </Droppable>
       </DragDrop>

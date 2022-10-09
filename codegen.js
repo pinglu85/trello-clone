@@ -14,6 +14,9 @@ module.exports = {
         withHooks: true,
         withHOC: false,
         withComponent: false,
+        scalars: {
+          Date: 'string',
+        },
       },
     },
     './graphql.schema.json': {

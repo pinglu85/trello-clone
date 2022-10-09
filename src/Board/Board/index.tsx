@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import GET_BOARD from './query';
-import Head from '../common/Head';
-import BoardCanvas from '../BoardCanvas';
-import BoardHeader from '../BoardHeader';
+import GET_BOARD from '../query';
+import Head from '../../common/Head';
+import BoardCanvas from '../../BoardCanvas';
+import BoardHeader from '../../BoardHeader';
 import styles from './styles.module.css';
 import type {
   GetBoardQuery,
   GetBoardQueryVariables,
-} from '../generated/graphql';
+} from '../../generated/graphql';
 
 const Board = (): JSX.Element => {
   const { id } = useParams();

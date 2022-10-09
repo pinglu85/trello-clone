@@ -1,7 +1,8 @@
 import { Droppable, DragDropTypes } from '../DragDrop';
 import joinClassNames from '../utils/joinClassNames';
-import Card from './Card';
+import BoardListCard from './BoardListCard';
 import styles from './styles.module.css';
+import type { Card } from '../generated/graphql';
 
 interface BoardListCardListProps {
   listId: string;
@@ -19,7 +20,7 @@ const BoardListCardList = ({
       type={DragDropTypes.Row}
     >
       {cards.map(({ id, name }, idx) => (
-        <Card key={id} id={id} name={name} idx={idx} />
+        <BoardListCard key={id} id={id} name={name} idx={idx} />
       ))}
     </Droppable>
   );

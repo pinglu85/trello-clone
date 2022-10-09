@@ -13,7 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  JSONObject: any;
+  JSONObject: { [key: string]: any };
 };
 
 export type Board = {
@@ -233,6 +233,16 @@ export type MoveCardMutationVariables = Exact<{
 
 export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: number, card: { __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string } } };
 
+export type MoveAllCardsInListMutationVariables = Exact<{
+  oldListId: Scalars['Int'];
+  newBoardId: Scalars['Int'];
+  newListId: Scalars['Int'];
+  newRankMap: Scalars['JSONObject'];
+}>;
+
+
+export type MoveAllCardsInListMutation = { __typename?: 'Mutation', moveAllCardsInList: { __typename?: 'MoveAllCardsInListResult', oldListId: number, cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> } };
+
 export type ListFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> };
 
 export const CardFragmentDoc = gql`
@@ -384,3 +394,47 @@ export function useMoveCardMutation(baseOptions?: Apollo.MutationHookOptions<Mov
 export type MoveCardMutationHookResult = ReturnType<typeof useMoveCardMutation>;
 export type MoveCardMutationResult = Apollo.MutationResult<MoveCardMutation>;
 export type MoveCardMutationOptions = Apollo.BaseMutationOptions<MoveCardMutation, MoveCardMutationVariables>;
+export const MoveAllCardsInListDocument = gql`
+    mutation MoveAllCardsInList($oldListId: Int!, $newBoardId: Int!, $newListId: Int!, $newRankMap: JSONObject!) {
+  moveAllCardsInList(
+    oldListId: $oldListId
+    newBoardId: $newBoardId
+    newListId: $newListId
+    newRankMap: $newRankMap
+  ) {
+    oldListId
+    cards {
+      ...Card
+    }
+  }
+}
+    ${CardFragmentDoc}`;
+export type MoveAllCardsInListMutationFn = Apollo.MutationFunction<MoveAllCardsInListMutation, MoveAllCardsInListMutationVariables>;
+
+/**
+ * __useMoveAllCardsInListMutation__
+ *
+ * To run a mutation, you first call `useMoveAllCardsInListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMoveAllCardsInListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [moveAllCardsInListMutation, { data, loading, error }] = useMoveAllCardsInListMutation({
+ *   variables: {
+ *      oldListId: // value for 'oldListId'
+ *      newBoardId: // value for 'newBoardId'
+ *      newListId: // value for 'newListId'
+ *      newRankMap: // value for 'newRankMap'
+ *   },
+ * });
+ */
+export function useMoveAllCardsInListMutation(baseOptions?: Apollo.MutationHookOptions<MoveAllCardsInListMutation, MoveAllCardsInListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MoveAllCardsInListMutation, MoveAllCardsInListMutationVariables>(MoveAllCardsInListDocument, options);
+      }
+export type MoveAllCardsInListMutationHookResult = ReturnType<typeof useMoveAllCardsInListMutation>;
+export type MoveAllCardsInListMutationResult = Apollo.MutationResult<MoveAllCardsInListMutation>;
+export type MoveAllCardsInListMutationOptions = Apollo.BaseMutationOptions<MoveAllCardsInListMutation, MoveAllCardsInListMutationVariables>;

@@ -13,8 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: string;
-  JSONObject: any;
+  Date: any;
 };
 
 export type Board = {
@@ -22,9 +21,12 @@ export type Board = {
   backgroundColor?: Maybe<Scalars['String']>;
   backgroundImage?: Maybe<Scalars['String']>;
   closed: Scalars['Boolean'];
+  createdAt: Scalars['Date'];
   id: Scalars['ID'];
   lists: Array<List>;
   name: Scalars['String'];
+  updatedAt: Scalars['Date'];
+  version: Scalars['Int'];
 };
 
 export type BoardUpdates = {
@@ -35,54 +37,45 @@ export type BoardUpdates = {
 
 export type Card = {
   __typename?: 'Card';
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   closed: Scalars['Boolean'];
+  createdAt: Scalars['Date'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  listId: Scalars['Int'];
+  listId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
+  updatedAt: Scalars['Date'];
+  version: Scalars['Int'];
 };
 
 export type CardUpdates = {
+  boardId?: InputMaybe<Scalars['String']>;
   closed?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
+  listId?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  rank?: InputMaybe<Scalars['String']>;
 };
 
 export type List = {
   __typename?: 'List';
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   cards: Array<Card>;
   closed: Scalars['Boolean'];
+  createdAt: Scalars['Date'];
   id: Scalars['ID'];
   name: Scalars['String'];
   rank: Scalars['String'];
+  updatedAt: Scalars['Date'];
+  version: Scalars['Int'];
 };
 
 export type ListUpdates = {
+  boardId?: InputMaybe<Scalars['String']>;
   closed?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
-};
-
-export type MoveAllCardsInListResult = {
-  __typename?: 'MoveAllCardsInListResult';
-  cards: Array<Card>;
-  oldListId: Scalars['Int'];
-};
-
-export type MoveCardResult = {
-  __typename?: 'MoveCardResult';
-  card: Card;
-  oldListId: Scalars['Int'];
-};
-
-export type MoveListResult = {
-  __typename?: 'MoveListResult';
-  boardId: Scalars['Int'];
-  id: Scalars['ID'];
-  oldBoardId: Scalars['Int'];
-  rank: Scalars['String'];
+  rank?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -91,9 +84,6 @@ export type Mutation = {
   createCard: Card;
   createList: List;
   deleteBoard: Scalars['Boolean'];
-  moveAllCardsInList: MoveAllCardsInListResult;
-  moveCard: MoveCardResult;
-  moveList: MoveListResult;
   updateBoard: Board;
   updateCard: Card;
   updateList: List;
@@ -107,15 +97,15 @@ export type MutationCreateBoardArgs = {
 
 
 export type MutationCreateCardArgs = {
-  boardId: Scalars['Int'];
-  listId: Scalars['Int'];
+  boardId: Scalars['String'];
+  listId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
 };
 
 
 export type MutationCreateListArgs = {
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
 };
@@ -123,29 +113,6 @@ export type MutationCreateListArgs = {
 
 export type MutationDeleteBoardArgs = {
   id: Scalars['ID'];
-};
-
-
-export type MutationMoveAllCardsInListArgs = {
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
-  newRankMap: Scalars['JSONObject'];
-  oldListId: Scalars['Int'];
-};
-
-
-export type MutationMoveCardArgs = {
-  id: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
-  newRank: Scalars['String'];
-};
-
-
-export type MutationMoveListArgs = {
-  id: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newRank: Scalars['String'];
 };
 
 
@@ -193,7 +160,7 @@ export type QueryCardArgs = {
 
 
 export type QueryCardsArgs = {
-  listId: Scalars['Int'];
+  listId: Scalars['String'];
 };
 
 
@@ -203,57 +170,33 @@ export type QueryListArgs = {
 
 
 export type QueryListsArgs = {
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
 };
-
-export type CardFragment = { __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string };
 
 export type GetBoardQueryVariables = Exact<{
   boardId: Scalars['ID'];
 }>;
 
 
-export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: number, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> }> } };
+export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, createdAt: any, name: string, updatedAt: any, version: number, lists: Array<{ __typename?: 'List', id: string, boardId: string, closed: boolean, createdAt: any, name: string, rank: string, updatedAt: any, version: number, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, createdAt: any, description?: string | null, listId: string, name: string, rank: string, updatedAt: any, version: number }> }> } };
 
-export type MoveListMutationVariables = Exact<{
-  moveListId: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newRank: Scalars['String'];
+export type UpdateListRankMutationVariables = Exact<{
+  updateListId: Scalars['ID'];
+  updates: ListUpdates;
 }>;
 
 
-export type MoveListMutation = { __typename?: 'Mutation', moveList: { __typename?: 'MoveListResult', id: string, boardId: number, oldBoardId: number, rank: string } };
+export type UpdateListRankMutation = { __typename?: 'Mutation', updateList: { __typename?: 'List', id: string, rank: string } };
 
-export type MoveCardMutationVariables = Exact<{
-  moveCardId: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
-  newRank: Scalars['String'];
+export type UpdateCardRankMutationVariables = Exact<{
+  updateCardId: Scalars['ID'];
+  updates: CardUpdates;
 }>;
 
 
-export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: number, card: { __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string } } };
+export type UpdateCardRankMutation = { __typename?: 'Mutation', updateCard: { __typename?: 'Card', id: string, listId: string, rank: string } };
 
-export type ListFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> };
 
-export const CardFragmentDoc = gql`
-    fragment Card on Card {
-  id
-  boardId
-  closed
-  description
-  listId
-  name
-  rank
-}
-    `;
-export const ListFragmentDoc = gql`
-    fragment List on List {
-  cards {
-    ...Card
-  }
-}
-    ${CardFragmentDoc}`;
 export const GetBoardDocument = gql`
     query GetBoard($boardId: ID!) {
   board(id: $boardId) {
@@ -261,20 +204,35 @@ export const GetBoardDocument = gql`
     backgroundColor
     backgroundImage
     closed
+    createdAt
     name
+    updatedAt
+    version
     lists {
       id
       boardId
       closed
+      createdAt
       name
       rank
+      updatedAt
+      version
       cards {
-        ...Card
+        id
+        boardId
+        closed
+        createdAt
+        description
+        listId
+        name
+        rank
+        updatedAt
+        version
       }
     }
   }
 }
-    ${CardFragmentDoc}`;
+    `;
 
 /**
  * __useGetBoardQuery__
@@ -303,85 +261,74 @@ export function useGetBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
 export type GetBoardLazyQueryHookResult = ReturnType<typeof useGetBoardLazyQuery>;
 export type GetBoardQueryResult = Apollo.QueryResult<GetBoardQuery, GetBoardQueryVariables>;
-export const MoveListDocument = gql`
-    mutation MoveList($moveListId: ID!, $newBoardId: Int!, $newRank: String!) {
-  moveList(id: $moveListId, newBoardId: $newBoardId, newRank: $newRank) {
+export const UpdateListRankDocument = gql`
+    mutation UpdateListRank($updateListId: ID!, $updates: ListUpdates!) {
+  updateList(id: $updateListId, updates: $updates) {
     id
-    boardId
-    oldBoardId
     rank
   }
 }
     `;
-export type MoveListMutationFn = Apollo.MutationFunction<MoveListMutation, MoveListMutationVariables>;
+export type UpdateListRankMutationFn = Apollo.MutationFunction<UpdateListRankMutation, UpdateListRankMutationVariables>;
 
 /**
- * __useMoveListMutation__
+ * __useUpdateListRankMutation__
  *
- * To run a mutation, you first call `useMoveListMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMoveListMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateListRankMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateListRankMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [moveListMutation, { data, loading, error }] = useMoveListMutation({
+ * const [updateListRankMutation, { data, loading, error }] = useUpdateListRankMutation({
  *   variables: {
- *      moveListId: // value for 'moveListId'
- *      newBoardId: // value for 'newBoardId'
- *      newRank: // value for 'newRank'
+ *      updateListId: // value for 'updateListId'
+ *      updates: // value for 'updates'
  *   },
  * });
  */
-export function useMoveListMutation(baseOptions?: Apollo.MutationHookOptions<MoveListMutation, MoveListMutationVariables>) {
+export function useUpdateListRankMutation(baseOptions?: Apollo.MutationHookOptions<UpdateListRankMutation, UpdateListRankMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MoveListMutation, MoveListMutationVariables>(MoveListDocument, options);
+        return Apollo.useMutation<UpdateListRankMutation, UpdateListRankMutationVariables>(UpdateListRankDocument, options);
       }
-export type MoveListMutationHookResult = ReturnType<typeof useMoveListMutation>;
-export type MoveListMutationResult = Apollo.MutationResult<MoveListMutation>;
-export type MoveListMutationOptions = Apollo.BaseMutationOptions<MoveListMutation, MoveListMutationVariables>;
-export const MoveCardDocument = gql`
-    mutation MoveCard($moveCardId: ID!, $newBoardId: Int!, $newListId: Int!, $newRank: String!) {
-  moveCard(
-    id: $moveCardId
-    newBoardId: $newBoardId
-    newListId: $newListId
-    newRank: $newRank
-  ) {
-    oldListId
-    card {
-      ...Card
-    }
+export type UpdateListRankMutationHookResult = ReturnType<typeof useUpdateListRankMutation>;
+export type UpdateListRankMutationResult = Apollo.MutationResult<UpdateListRankMutation>;
+export type UpdateListRankMutationOptions = Apollo.BaseMutationOptions<UpdateListRankMutation, UpdateListRankMutationVariables>;
+export const UpdateCardRankDocument = gql`
+    mutation UpdateCardRank($updateCardId: ID!, $updates: CardUpdates!) {
+  updateCard(id: $updateCardId, updates: $updates) {
+    id
+    listId
+    rank
   }
 }
-    ${CardFragmentDoc}`;
-export type MoveCardMutationFn = Apollo.MutationFunction<MoveCardMutation, MoveCardMutationVariables>;
+    `;
+export type UpdateCardRankMutationFn = Apollo.MutationFunction<UpdateCardRankMutation, UpdateCardRankMutationVariables>;
 
 /**
- * __useMoveCardMutation__
+ * __useUpdateCardRankMutation__
  *
- * To run a mutation, you first call `useMoveCardMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMoveCardMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCardRankMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCardRankMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [moveCardMutation, { data, loading, error }] = useMoveCardMutation({
+ * const [updateCardRankMutation, { data, loading, error }] = useUpdateCardRankMutation({
  *   variables: {
- *      moveCardId: // value for 'moveCardId'
- *      newBoardId: // value for 'newBoardId'
- *      newListId: // value for 'newListId'
- *      newRank: // value for 'newRank'
+ *      updateCardId: // value for 'updateCardId'
+ *      updates: // value for 'updates'
  *   },
  * });
  */
-export function useMoveCardMutation(baseOptions?: Apollo.MutationHookOptions<MoveCardMutation, MoveCardMutationVariables>) {
+export function useUpdateCardRankMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCardRankMutation, UpdateCardRankMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MoveCardMutation, MoveCardMutationVariables>(MoveCardDocument, options);
+        return Apollo.useMutation<UpdateCardRankMutation, UpdateCardRankMutationVariables>(UpdateCardRankDocument, options);
       }
-export type MoveCardMutationHookResult = ReturnType<typeof useMoveCardMutation>;
-export type MoveCardMutationResult = Apollo.MutationResult<MoveCardMutation>;
-export type MoveCardMutationOptions = Apollo.BaseMutationOptions<MoveCardMutation, MoveCardMutationVariables>;
+export type UpdateCardRankMutationHookResult = ReturnType<typeof useUpdateCardRankMutation>;
+export type UpdateCardRankMutationResult = Apollo.MutationResult<UpdateCardRankMutation>;
+export type UpdateCardRankMutationOptions = Apollo.BaseMutationOptions<UpdateCardRankMutation, UpdateCardRankMutationVariables>;

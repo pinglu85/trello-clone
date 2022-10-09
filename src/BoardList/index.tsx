@@ -8,17 +8,16 @@ import styles from './styles.module.css';
 import type { List } from '../generated/graphql';
 
 interface BoardListProps {
+  id: string;
   currListIdx: number;
   list: List;
 }
 
-const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
+const BoardList = ({ id, currListIdx, list }: BoardListProps): JSX.Element => {
   return (
-    <BoardListContext.Provider
-      value={{ currListId: list.id, currListIdx, cardsInCurrList: list.cards }}
-    >
+    <BoardListContext.Provider value={{ currListId: id, currListIdx }}>
       <Draggable
-        draggableId={list.id}
+        draggableId={id}
         type={DragDropTypes.Column}
         idx={currListIdx}
         placeholderClassName={styles.dragDropPlaceholder}
@@ -38,7 +37,7 @@ const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
               <BoardListActions />
             </div>
 
-            <BoardListCardList listId={list.id} cards={list.cards} />
+            <BoardListCardList listId={id} cards={list.cards} />
 
             <div className={styles.cardActions}>Add Cards</div>
           </div>

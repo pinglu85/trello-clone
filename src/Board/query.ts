@@ -1,25 +1,36 @@
 import { gql } from '@apollo/client';
 
-import { CARD_FRAGMENT } from './fragments';
-
 const GET_BOARD = gql`
-  ${CARD_FRAGMENT}
-
   query GetBoard($boardId: ID!) {
     board(id: $boardId) {
       id
       backgroundColor
       backgroundImage
       closed
+      createdAt
       name
+      updatedAt
+      version
       lists {
         id
         boardId
         closed
+        createdAt
         name
         rank
+        updatedAt
+        version
         cards {
-          ...Card
+          id
+          boardId
+          closed
+          createdAt
+          description
+          listId
+          name
+          rank
+          updatedAt
+          version
         }
       }
     }

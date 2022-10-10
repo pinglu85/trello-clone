@@ -8,8 +8,7 @@ import { DropdownContext } from '../../common/Dropdown';
 import { MenuContent } from '../../common/Menu';
 import FormGrid from './FormGrid';
 import Select from './Select';
-import { ButtonPrimary } from '../../common/Button';
-import styles from './styles.module.css';
+import FormSubmitButton from '../FormSubmitButton';
 
 const MoveList = (): JSX.Element | null => {
   const boardListContext = useContext(BoardListContext);
@@ -75,9 +74,8 @@ const MoveListMenu = ({
             onChange={onPositionChange}
           />
         </FormGrid>
-        <ButtonPrimary type="submit" className={styles.submitButton}>
-          Move
-        </ButtonPrimary>
+
+        <FormSubmitButton>Move</FormSubmitButton>
       </form>
     </MenuContent>
   );

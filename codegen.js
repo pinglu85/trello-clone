@@ -10,6 +10,7 @@ module.exports = {
         'typescript-react-apollo',
       ],
       config: {
+        gqlImport: 'graphql.macro#gql',
         skipTypename: false,
         withHooks: true,
         withHOC: false,

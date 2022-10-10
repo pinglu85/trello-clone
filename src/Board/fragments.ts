@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql.macro';
 
 export const CARD_FRAGMENT = gql`
   fragment Card on Card {

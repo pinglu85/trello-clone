@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql.macro';
 import type { ApolloCache } from '@apollo/client';
 
 import { CARD_FRAGMENT } from '../Board';

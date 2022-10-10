@@ -35,10 +35,10 @@ const MoveListMenu = ({
   currListIdx,
 }: MoveListMenuProps): JSX.Element | null => {
   const boardCanvasContext = useContext(BoardCanvasContext);
-  const dropdownMenuContext = useContext(DropdownContext);
+  const dropdownContext = useContext(DropdownContext);
   const [destinationIdx, setDestinationIdx] = useState(currListIdx);
 
-  if (!boardCanvasContext || !dropdownMenuContext) return null;
+  if (!boardCanvasContext || !dropdownContext) return null;
 
   const { lists, reorderLists } = boardCanvasContext;
   const positionOptions = generatePositionOptions(lists.length);
@@ -56,7 +56,7 @@ const MoveListMenu = ({
       reorderLists(currListIdx, destinationIdx + 1);
     }
 
-    dropdownMenuContext.closeDropdownMenu();
+    dropdownContext.closeDropdownMenu();
   };
 
   return (

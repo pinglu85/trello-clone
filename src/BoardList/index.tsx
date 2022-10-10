@@ -25,14 +25,20 @@ const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
       >
         {({
           draggableProps: { draggableRef, ...draggableProps },
-          dragHandleProps,
+          dragHandleProps: { dragHandleRef, ...dragHandleProps },
         }): JSX.Element => (
           <div
-            ref={draggableRef as React.RefObject<HTMLDivElement>}
+            ref={draggableRef as React.MutableRefObject<HTMLDivElement | null>}
             className={styles.BoardList}
             {...draggableProps}
           >
-            <div className={styles.header} {...dragHandleProps}>
+            <div
+              ref={
+                dragHandleRef as React.MutableRefObject<HTMLDivElement | null>
+              }
+              className={styles.header}
+              {...dragHandleProps}
+            >
               <span className={styles.title}>{list.name}</span>
 
               <BoardListActions />

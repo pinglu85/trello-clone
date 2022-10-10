@@ -19,10 +19,13 @@ const BoardListCard = ({ id, name, idx }: BoardListCardProps): JSX.Element => {
     >
       {({
         draggableProps: { draggableRef, ...draggableProps },
-        dragHandleProps,
+        dragHandleProps: { dragHandleRef, ...dragHandleProps },
       }): JSX.Element => (
         <div
-          ref={draggableRef as React.RefObject<HTMLDivElement>}
+          ref={(element): void => {
+            draggableRef.current = element;
+            dragHandleRef.current = element;
+          }}
           className={styles.BoardListCard}
           {...draggableProps}
           {...dragHandleProps}

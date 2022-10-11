@@ -50,15 +50,15 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       moveList({
         variables: {
           moveListId: movedList.id,
-          newBoardId: parseInt(board.id),
+          newBoardId: board.id,
           newRank: newRank,
         },
         optimisticResponse: {
           __typename: 'Mutation',
           moveList: {
             id: movedList.id,
-            boardId: parseInt(board.id),
-            oldBoardId: parseInt(board.id),
+            boardId: board.id,
+            oldBoardId: board.id,
             rank: newRank,
           },
         },
@@ -93,18 +93,18 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       moveCard({
         variables: {
           moveCardId: movedCard.id,
-          newBoardId: parseInt(board.id),
-          newListId: parseInt(newParent.id),
+          newBoardId: board.id,
+          newListId: newParent.id,
           newRank: newRank,
         },
         optimisticResponse: {
           __typename: 'Mutation',
           moveCard: {
-            oldListId: parseInt(oldParent.id),
+            oldListId: oldParent.id,
             card: {
               ...movedCard,
-              boardId: parseInt(board.id),
-              listId: parseInt(newParent.id),
+              boardId: board.id,
+              listId: newParent.id,
               rank: newRank,
             },
           },

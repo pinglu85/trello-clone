@@ -3,7 +3,7 @@ import { gql } from 'graphql.macro';
 import { CARD_FRAGMENT } from '../Board/fragments';
 
 export const MOVE_LIST = gql`
-  mutation MoveList($moveListId: ID!, $newBoardId: Int!, $newRank: String!) {
+  mutation MoveList($moveListId: ID!, $newBoardId: String!, $newRank: String!) {
     moveList(id: $moveListId, newBoardId: $newBoardId, newRank: $newRank) {
       id
       boardId
@@ -18,8 +18,8 @@ export const MOVE_CARD = gql`
 
   mutation MoveCard(
     $moveCardId: ID!
-    $newBoardId: Int!
-    $newListId: Int!
+    $newBoardId: String!
+    $newListId: String!
     $newRank: String!
   ) {
     moveCard(

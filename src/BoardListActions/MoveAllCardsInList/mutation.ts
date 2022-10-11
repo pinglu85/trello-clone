@@ -6,9 +6,9 @@ export const MOVE_ALL_CARDS_IN_LIST = gql`
   ${CARD_FRAGMENT}
 
   mutation MoveAllCardsInList(
-    $oldListId: Int!
-    $newBoardId: Int!
-    $newListId: Int!
+    $oldListId: String!
+    $newBoardId: String!
+    $newListId: String!
     $newRankMap: JSONObject!
   ) {
     moveAllCardsInList(

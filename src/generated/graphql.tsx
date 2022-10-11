@@ -34,11 +34,11 @@ export type BoardUpdates = {
 
 export type Card = {
   __typename?: 'Card';
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   closed: Scalars['Boolean'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  listId: Scalars['Int'];
+  listId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
 };
@@ -51,7 +51,7 @@ export type CardUpdates = {
 
 export type List = {
   __typename?: 'List';
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   cards: Array<Card>;
   closed: Scalars['Boolean'];
   id: Scalars['ID'];
@@ -67,25 +67,26 @@ export type ListUpdates = {
 export type MoveAllCardsInListResult = {
   __typename?: 'MoveAllCardsInListResult';
   cards: Array<Card>;
-  oldListId: Scalars['Int'];
+  oldListId: Scalars['String'];
 };
 
 export type MoveCardResult = {
   __typename?: 'MoveCardResult';
   card: Card;
-  oldListId: Scalars['Int'];
+  oldListId: Scalars['String'];
 };
 
 export type MoveListResult = {
   __typename?: 'MoveListResult';
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   id: Scalars['ID'];
-  oldBoardId: Scalars['Int'];
+  oldBoardId: Scalars['String'];
   rank: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  copyList: List;
   createBoard: Board;
   createCard: Card;
   createList: List;
@@ -99,6 +100,12 @@ export type Mutation = {
 };
 
 
+export type MutationCopyListArgs = {
+  newListRank: Scalars['String'];
+  targetId: Scalars['ID'];
+};
+
+
 export type MutationCreateBoardArgs = {
   background: Scalars['String'];
   name: Scalars['String'];
@@ -106,15 +113,15 @@ export type MutationCreateBoardArgs = {
 
 
 export type MutationCreateCardArgs = {
-  boardId: Scalars['Int'];
-  listId: Scalars['Int'];
+  boardId: Scalars['String'];
+  listId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
 };
 
 
 export type MutationCreateListArgs = {
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
 };
@@ -126,24 +133,24 @@ export type MutationDeleteBoardArgs = {
 
 
 export type MutationMoveAllCardsInListArgs = {
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
+  newBoardId: Scalars['String'];
+  newListId: Scalars['String'];
   newRankMap: Scalars['JSONObject'];
-  oldListId: Scalars['Int'];
+  oldListId: Scalars['String'];
 };
 
 
 export type MutationMoveCardArgs = {
   id: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
+  newBoardId: Scalars['String'];
+  newListId: Scalars['String'];
   newRank: Scalars['String'];
 };
 
 
 export type MutationMoveListArgs = {
   id: Scalars['ID'];
-  newBoardId: Scalars['Int'];
+  newBoardId: Scalars['String'];
   newRank: Scalars['String'];
 };
 
@@ -192,7 +199,7 @@ export type QueryCardArgs = {
 
 
 export type QueryCardsArgs = {
-  listId: Scalars['Int'];
+  listId: Scalars['String'];
 };
 
 
@@ -202,48 +209,48 @@ export type QueryListArgs = {
 
 
 export type QueryListsArgs = {
-  boardId: Scalars['Int'];
+  boardId: Scalars['String'];
 };
 
-export type CardFragment = { __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string };
+export type CardFragment = { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string };
 
 export type GetBoardQueryVariables = Exact<{
   boardId: Scalars['ID'];
 }>;
 
 
-export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: number, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> }> } };
+export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> }> } };
 
 export type MoveListMutationVariables = Exact<{
   moveListId: Scalars['ID'];
-  newBoardId: Scalars['Int'];
+  newBoardId: Scalars['String'];
   newRank: Scalars['String'];
 }>;
 
 
-export type MoveListMutation = { __typename?: 'Mutation', moveList: { __typename?: 'MoveListResult', id: string, boardId: number, oldBoardId: number, rank: string } };
+export type MoveListMutation = { __typename?: 'Mutation', moveList: { __typename?: 'MoveListResult', id: string, boardId: string, oldBoardId: string, rank: string } };
 
 export type MoveCardMutationVariables = Exact<{
   moveCardId: Scalars['ID'];
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
+  newBoardId: Scalars['String'];
+  newListId: Scalars['String'];
   newRank: Scalars['String'];
 }>;
 
 
-export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: number, card: { __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string } } };
+export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: string, card: { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string } } };
 
 export type MoveAllCardsInListMutationVariables = Exact<{
-  oldListId: Scalars['Int'];
-  newBoardId: Scalars['Int'];
-  newListId: Scalars['Int'];
+  oldListId: Scalars['String'];
+  newBoardId: Scalars['String'];
+  newListId: Scalars['String'];
   newRankMap: Scalars['JSONObject'];
 }>;
 
 
-export type MoveAllCardsInListMutation = { __typename?: 'Mutation', moveAllCardsInList: { __typename?: 'MoveAllCardsInListResult', oldListId: number, cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> } };
+export type MoveAllCardsInListMutation = { __typename?: 'Mutation', moveAllCardsInList: { __typename?: 'MoveAllCardsInListResult', oldListId: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> } };
 
-export type ListFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: number, closed: boolean, description?: string | null, listId: number, name: string, rank: string }> };
+export type ListFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
 
 export const CardFragmentDoc = gql`
     fragment Card on Card {
@@ -313,7 +320,7 @@ export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
 export type GetBoardLazyQueryHookResult = ReturnType<typeof useGetBoardLazyQuery>;
 export type GetBoardQueryResult = Apollo.QueryResult<GetBoardQuery, GetBoardQueryVariables>;
 export const MoveListDocument = gql`
-    mutation MoveList($moveListId: ID!, $newBoardId: Int!, $newRank: String!) {
+    mutation MoveList($moveListId: ID!, $newBoardId: String!, $newRank: String!) {
   moveList(id: $moveListId, newBoardId: $newBoardId, newRank: $newRank) {
     id
     boardId
@@ -351,7 +358,7 @@ export type MoveListMutationHookResult = ReturnType<typeof useMoveListMutation>;
 export type MoveListMutationResult = Apollo.MutationResult<MoveListMutation>;
 export type MoveListMutationOptions = Apollo.BaseMutationOptions<MoveListMutation, MoveListMutationVariables>;
 export const MoveCardDocument = gql`
-    mutation MoveCard($moveCardId: ID!, $newBoardId: Int!, $newListId: Int!, $newRank: String!) {
+    mutation MoveCard($moveCardId: ID!, $newBoardId: String!, $newListId: String!, $newRank: String!) {
   moveCard(
     id: $moveCardId
     newBoardId: $newBoardId
@@ -395,7 +402,7 @@ export type MoveCardMutationHookResult = ReturnType<typeof useMoveCardMutation>;
 export type MoveCardMutationResult = Apollo.MutationResult<MoveCardMutation>;
 export type MoveCardMutationOptions = Apollo.BaseMutationOptions<MoveCardMutation, MoveCardMutationVariables>;
 export const MoveAllCardsInListDocument = gql`
-    mutation MoveAllCardsInList($oldListId: Int!, $newBoardId: Int!, $newListId: Int!, $newRankMap: JSONObject!) {
+    mutation MoveAllCardsInList($oldListId: String!, $newBoardId: String!, $newListId: String!, $newRankMap: JSONObject!) {
   moveAllCardsInList(
     oldListId: $oldListId
     newBoardId: $newBoardId

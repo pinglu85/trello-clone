@@ -78,22 +78,22 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
       updatedCards.push({
         ...card,
         boardId: destinationList.boardId,
-        listId: parseInt(destinationList.id),
+        listId: destinationList.id,
         rank: currCardNewRank,
       });
     }
 
     moveAllCardsInList({
       variables: {
-        oldListId: parseInt(currListId),
+        oldListId: currListId,
         newBoardId: destinationList.boardId,
-        newListId: parseInt(destinationListId),
+        newListId: destinationListId,
         newRankMap,
       },
       optimisticResponse: {
         __typename: 'Mutation',
         moveAllCardsInList: {
-          oldListId: parseInt(currListId),
+          oldListId: currListId,
           cards: updatedCards,
         },
       },

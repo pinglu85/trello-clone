@@ -1,6 +1,6 @@
 const LIST_GQL_TYPENAME = 'List';
 
-function getListCacheId(listId: number): string {
+function getListCacheId(listId: string): string {
   return `${LIST_GQL_TYPENAME}:${listId}`;
 }
 

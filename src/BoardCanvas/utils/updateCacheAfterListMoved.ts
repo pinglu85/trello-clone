@@ -4,7 +4,7 @@ import type {
   MutationUpdaterFunction,
 } from '@apollo/client';
 
-import GET_BOARD from '../../Board/query';
+import GET_BOARD from '../../BoardComponent/query';
 import searchInsertPosition from './searchInsertPosition';
 import type {
   MoveListMutation,

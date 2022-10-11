@@ -11,7 +11,7 @@ import type {
   GetBoardQueryVariables,
 } from '../../generated/graphql';
 
-const Board = (): JSX.Element => {
+const BoardComponent = (): JSX.Element => {
   const { id } = useParams();
   const { loading, error, data } = useQuery<
     GetBoardQuery,
@@ -28,7 +28,7 @@ const Board = (): JSX.Element => {
   return (
     <>
       <Head title="Board" />
-      <div className={styles.Board}>
+      <div className={styles.BoardComponent}>
         <div className={styles.workspaceNavigation}></div>
         <div className={styles.boardContainer}>
           <BoardHeader />
@@ -40,4 +40,4 @@ const Board = (): JSX.Element => {
   );
 };
 
-export default Board;
+export default BoardComponent;

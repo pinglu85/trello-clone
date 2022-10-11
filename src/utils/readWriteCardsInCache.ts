@@ -1,7 +1,7 @@
 import { gql } from 'graphql.macro';
 import type { ApolloCache } from '@apollo/client';
 
-import { CARD_FRAGMENT } from '../Board';
+import { CARD_FRAGMENT } from '../BoardComponent';
 import type { Card, List } from '../generated/graphql';
 
 const LIST_FRAGMENT = gql`

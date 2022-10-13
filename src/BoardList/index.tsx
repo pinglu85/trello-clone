@@ -14,9 +14,7 @@ interface BoardListProps {
 
 const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
   return (
-    <BoardListContext.Provider
-      value={{ currListId: list.id, currListIdx, cardsInCurrList: list.cards }}
-    >
+    <BoardListContext.Provider value={{ currListIdx, currList: list }}>
       <Draggable
         draggableId={list.id}
         type={DragDropTypes.Column}

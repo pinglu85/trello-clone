@@ -1,0 +1,14 @@
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--font-color-subtle);
+  line-height: 16px;
+}
+
+.textarea {
+  width: 100%;
+  height: 72px;
+  margin: 4px 0 12px;
+  padding: 8px 12px;
+  resize: vertical;
+}

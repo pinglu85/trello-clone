@@ -1,11 +1,10 @@
 import { createContext } from 'react';
 
-import { Card } from '../generated/graphql';
+import { List } from '../generated/graphql';
 
 interface IBoardListContext {
-  currListId: string;
   currListIdx: number;
-  cardsInCurrList: Card[];
+  currList: List;
 }
 
 const BoardListContext = createContext<IBoardListContext | null>(null);

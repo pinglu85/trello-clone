@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { MOVE_CARD, MOVE_LIST } from './mutation';
 import updateCacheAfterListMoved from './utils/updateCacheAfterListMoved';
 import updateCacheAfterCardMoved from './utils/updateCacheAfterCardMoved';
-import calcItemNewRank from './utils/calcItemRank';
+import calcItemNewRank from '../utils/calcItemRank';
 import BoardCanvasContext from '../contexts/BoardCanvasContext';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
 import BoardList from '../BoardList';

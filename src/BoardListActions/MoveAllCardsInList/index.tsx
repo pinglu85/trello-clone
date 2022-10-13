@@ -44,7 +44,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
   }
 
   const { lists } = boardCanvasContext;
-  const { currListId, cardsInCurrList } = boardListContext;
+  const { id: currListId, cards: cardsInCurrList } = boardListContext.currList;
 
   const moveAllCardsToList = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

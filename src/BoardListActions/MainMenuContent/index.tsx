@@ -1,6 +1,7 @@
 import { MenuContent, MenuDivider } from '../../common/Menu';
 import { MenuContentSection } from '../../common/Dropdown';
 import ListActionsListItem from '../ListActionsListItem';
+import CopyList from '../CopyList';
 import MoveList from '../MoveList';
 import MoveAllCardsInList from '../MoveAllCardsInList';
 
@@ -11,7 +12,9 @@ const MainMenuContent = (): JSX.Element => {
         <ul>
           <ListActionsListItem>Add card...</ListActionsListItem>
 
-          <ListActionsListItem>Copy list...</ListActionsListItem>
+          <ListActionsListItem>
+            <CopyList />
+          </ListActionsListItem>
 
           <ListActionsListItem>
             <MoveList />

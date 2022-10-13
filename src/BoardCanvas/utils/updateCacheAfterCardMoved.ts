@@ -9,7 +9,7 @@ import {
   readCardsFromCache,
   writeCardsToCache,
 } from '../../utils/readWriteCardsInCache';
-import searchInsertPosition from './searchInsertPosition';
+import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
 import type {
   MoveCardMutation,
   MoveCardMutationVariables,
@@ -34,7 +34,7 @@ const updateCacheAfterCardMoved: MutationUpdaterFunction<
   );
 
   if (oldListId === currListId) {
-    const insertPosition = searchInsertPosition(
+    const insertPosition = findInsertPositionByRank(
       newCardsForOldList,
       movedCard.rank
     );
@@ -48,7 +48,7 @@ const updateCacheAfterCardMoved: MutationUpdaterFunction<
   if (!cardsInCurrList) return;
 
   const newCardsForCurrList = [...cardsInCurrList];
-  const insertPosition = searchInsertPosition(
+  const insertPosition = findInsertPositionByRank(
     newCardsForCurrList,
     movedCard.rank
   );

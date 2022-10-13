@@ -1,6 +1,6 @@
 import { gql } from 'graphql.macro';
 
-import { CARD_FRAGMENT } from '../Board/fragments';
+import { CARD_FRAGMENT } from '../BoardComponent';
 
 export const MOVE_LIST = gql`
   mutation MoveList($moveListId: ID!, $newBoardId: String!, $newRank: String!) {

@@ -1,6 +1,4 @@
-import type { Orderable } from './types';
-
-function searchInsertPosition<T extends Orderable>(
+function findInsertPositionByRank<T extends Orderable>(
   items: T[],
   targetRank: string
 ): number {
@@ -22,4 +20,4 @@ function searchInsertPosition<T extends Orderable>(
   return left;
 }
 
-export default searchInsertPosition;
+export default findInsertPositionByRank;

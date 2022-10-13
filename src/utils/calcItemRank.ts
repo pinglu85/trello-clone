@@ -1,7 +1,5 @@
 import { LexoRank } from 'lexorank';
 
-import type { Orderable } from './types';
-
 function calcItemRank<T extends Orderable>(
   prevItem: T | undefined,
   nextItem: T | undefined

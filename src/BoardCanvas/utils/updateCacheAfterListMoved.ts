@@ -8,7 +8,7 @@ import {
   readBoardFromCache,
   writeBoardToCache,
 } from '../../utils/readWriteBoardInCache';
-import searchInsertPosition from './searchInsertPosition';
+import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
 import type {
   MoveListMutation,
   MoveListMutationVariables,
@@ -30,7 +30,7 @@ const updateCacheAfterListMoved: MutationUpdaterFunction<
   const [newLists, removedList] = removeList(board.lists, movedListId);
   if (!removedList) return;
 
-  const insertPosition = searchInsertPosition(newLists, rank);
+  const insertPosition = findInsertPositionByRank(newLists, rank);
   newLists.splice(insertPosition, 0, { ...removedList, boardId, rank });
 
   const newBoard = { ...board, lists: newLists };

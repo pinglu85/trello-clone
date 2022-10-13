@@ -101,8 +101,9 @@ export type Mutation = {
 
 
 export type MutationCopyListArgs = {
+  newListName: Scalars['String'];
   newListRank: Scalars['String'];
-  targetId: Scalars['ID'];
+  sourceListId: Scalars['ID'];
 };
 
 
@@ -212,15 +213,6 @@ export type QueryListsArgs = {
   boardId: Scalars['String'];
 };
 
-export type CardFragment = { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string };
-
-export type GetBoardQueryVariables = Exact<{
-  boardId: Scalars['ID'];
-}>;
-
-
-export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> }> } };
-
 export type MoveListMutationVariables = Exact<{
   moveListId: Scalars['ID'];
   newBoardId: Scalars['String'];
@@ -239,6 +231,24 @@ export type MoveCardMutationVariables = Exact<{
 
 
 export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: string, card: { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string } } };
+
+export type CardFragment = { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string };
+
+export type GetBoardQueryVariables = Exact<{
+  boardId: Scalars['ID'];
+}>;
+
+
+export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> }> } };
+
+export type CopyListMutationVariables = Exact<{
+  sourceListId: Scalars['ID'];
+  newListName: Scalars['String'];
+  newListRank: Scalars['String'];
+}>;
+
+
+export type CopyListMutation = { __typename?: 'Mutation', copyList: { __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> } };
 
 export type MoveAllCardsInListMutationVariables = Exact<{
   oldListId: Scalars['String'];
@@ -270,55 +280,6 @@ export const ListFragmentDoc = gql`
   }
 }
     ${CardFragmentDoc}`;
-export const GetBoardDocument = gql`
-    query GetBoard($boardId: ID!) {
-  board(id: $boardId) {
-    id
-    backgroundColor
-    backgroundImage
-    closed
-    name
-    lists {
-      id
-      boardId
-      closed
-      name
-      rank
-      cards {
-        ...Card
-      }
-    }
-  }
-}
-    ${CardFragmentDoc}`;
-
-/**
- * __useGetBoardQuery__
- *
- * To run a query within a React component, call `useGetBoardQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBoardQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetBoardQuery({
- *   variables: {
- *      boardId: // value for 'boardId'
- *   },
- * });
- */
-export function useGetBoardQuery(baseOptions: Apollo.QueryHookOptions<GetBoardQuery, GetBoardQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetBoardQuery, GetBoardQueryVariables>(GetBoardDocument, options);
-      }
-export function useGetBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBoardQuery, GetBoardQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetBoardQuery, GetBoardQueryVariables>(GetBoardDocument, options);
-        }
-export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
-export type GetBoardLazyQueryHookResult = ReturnType<typeof useGetBoardLazyQuery>;
-export type GetBoardQueryResult = Apollo.QueryResult<GetBoardQuery, GetBoardQueryVariables>;
 export const MoveListDocument = gql`
     mutation MoveList($moveListId: ID!, $newBoardId: String!, $newRank: String!) {
   moveList(id: $moveListId, newBoardId: $newBoardId, newRank: $newRank) {
@@ -401,6 +362,101 @@ export function useMoveCardMutation(baseOptions?: Apollo.MutationHookOptions<Mov
 export type MoveCardMutationHookResult = ReturnType<typeof useMoveCardMutation>;
 export type MoveCardMutationResult = Apollo.MutationResult<MoveCardMutation>;
 export type MoveCardMutationOptions = Apollo.BaseMutationOptions<MoveCardMutation, MoveCardMutationVariables>;
+export const GetBoardDocument = gql`
+    query GetBoard($boardId: ID!) {
+  board(id: $boardId) {
+    id
+    backgroundColor
+    backgroundImage
+    closed
+    name
+    lists {
+      id
+      boardId
+      closed
+      name
+      rank
+      cards {
+        ...Card
+      }
+    }
+  }
+}
+    ${CardFragmentDoc}`;
+
+/**
+ * __useGetBoardQuery__
+ *
+ * To run a query within a React component, call `useGetBoardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBoardQuery({
+ *   variables: {
+ *      boardId: // value for 'boardId'
+ *   },
+ * });
+ */
+export function useGetBoardQuery(baseOptions: Apollo.QueryHookOptions<GetBoardQuery, GetBoardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBoardQuery, GetBoardQueryVariables>(GetBoardDocument, options);
+      }
+export function useGetBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBoardQuery, GetBoardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBoardQuery, GetBoardQueryVariables>(GetBoardDocument, options);
+        }
+export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
+export type GetBoardLazyQueryHookResult = ReturnType<typeof useGetBoardLazyQuery>;
+export type GetBoardQueryResult = Apollo.QueryResult<GetBoardQuery, GetBoardQueryVariables>;
+export const CopyListDocument = gql`
+    mutation CopyList($sourceListId: ID!, $newListName: String!, $newListRank: String!) {
+  copyList(
+    sourceListId: $sourceListId
+    newListName: $newListName
+    newListRank: $newListRank
+  ) {
+    id
+    boardId
+    cards {
+      ...Card
+    }
+    closed
+    name
+    rank
+  }
+}
+    ${CardFragmentDoc}`;
+export type CopyListMutationFn = Apollo.MutationFunction<CopyListMutation, CopyListMutationVariables>;
+
+/**
+ * __useCopyListMutation__
+ *
+ * To run a mutation, you first call `useCopyListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCopyListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [copyListMutation, { data, loading, error }] = useCopyListMutation({
+ *   variables: {
+ *      sourceListId: // value for 'sourceListId'
+ *      newListName: // value for 'newListName'
+ *      newListRank: // value for 'newListRank'
+ *   },
+ * });
+ */
+export function useCopyListMutation(baseOptions?: Apollo.MutationHookOptions<CopyListMutation, CopyListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CopyListMutation, CopyListMutationVariables>(CopyListDocument, options);
+      }
+export type CopyListMutationHookResult = ReturnType<typeof useCopyListMutation>;
+export type CopyListMutationResult = Apollo.MutationResult<CopyListMutation>;
+export type CopyListMutationOptions = Apollo.BaseMutationOptions<CopyListMutation, CopyListMutationVariables>;
 export const MoveAllCardsInListDocument = gql`
     mutation MoveAllCardsInList($oldListId: String!, $newBoardId: String!, $newListId: String!, $newRankMap: JSONObject!) {
   moveAllCardsInList(

@@ -16,7 +16,7 @@
   border-radius: 6px;
 }
 
-.MenuContentInnerWrapper {
+.MenuContentInnerContainer {
   padding: 0px calc(var(--menu-padding-left-right) - 4px)
     var(--menu-padding-left-right) var(--menu-padding-left-right);
 }

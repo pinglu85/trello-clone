@@ -9,6 +9,10 @@
   border-radius: 4px;
 }
 
+.BoardList:first-child {
+  margin-left: 12px;
+}
+
 .dragDropPlaceholder {
   background: var(--dynamic-background-color-transparent);
 }

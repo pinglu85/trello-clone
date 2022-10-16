@@ -173,6 +173,29 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     };
   }, [setGlobalStyles, onDragEnd]);
 
+  useEffect(() => {
+    const cancelDrag = (e: KeyboardEvent): void => {
+      const dragDropData = dragDropDataRef.current;
+      if (e.code === 'Escape' && dragDropData.isDragging) {
+        setGlobalStyles(INIT_GLOBAL_STYLES);
+
+        const { draggedElement, placeholder } = dragDropData;
+        if (!draggedElement || !placeholder) return;
+
+        draggedElement.setAttribute('style', '');
+        placeholder.parentElement?.removeChild(placeholder);
+        dragDropData.draggedElement = null;
+        resetDragDropData(dragDropDataRef.current);
+      }
+    };
+
+    document.body.addEventListener('keydown', cancelDrag);
+
+    return () => {
+      document.body.removeEventListener('keydown', cancelDrag);
+    };
+  }, [dragDropDataRef, setGlobalStyles]);
+
   return (
     <DragDropContext.Provider value={dragDropDataRef}>
       {children}

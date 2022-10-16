@@ -2,7 +2,6 @@
   display: flex;
   align-items: flex-start;
   height: 100%;
-  margin-left: 6px;
   margin-bottom: 8px;
   padding-bottom: 8px;
   overflow-x: auto;
@@ -22,4 +21,11 @@
 .BoardCanvas::-webkit-scrollbar-thumb {
   background: hsla(0, 0%, 100%, 0.3);
   border-radius: 5px;
+}
+
+/* Add 4px left and right margin to the scrollbar  */
+.BoardCanvas::-webkit-scrollbar-button {
+  display: block;
+  height: 4px;
+  width: 4px;
 }

@@ -137,7 +137,7 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
         <Droppable
           className={styles.BoardCanvas}
           droppableId={BOARD_CANVAS_ID}
-          type={DragDropTypes.Column}
+          type={DragDropTypes.List}
         >
           {board.lists.map((list, idx) => (
             <BoardList key={list.id} list={list} currListIdx={idx} />

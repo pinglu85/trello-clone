@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { INIT_GLOBAL_STYLES, ON_DRAG_GLOBAL_STYLES } from './constants';
+import { INIT_GLOBAL_STYLES } from './constants';
 import createInitRect from './utils/createInitRect';
 import getClosestDroppable from './utils/getClosestDroppable';
 import updateMousePosition from './utils/updateMousePosition';
 import createPlaceholder from './utils/createPlaceholder';
 import setDraggedElementInitStyles from './utils/setDraggedElementInitStyles';
 import { getDroppableId, getDroppableType } from './utils/getDroppableInfo';
+import getOnDragGlobalStyles from './utils/getOnDragGlobalStyles';
 import findCurrDroppable from './utils/findCurrDroppable';
 import moveDraggedElement from './moveDraggedElement';
 import rearrangeElements from './rearrangeElements';
@@ -36,8 +37,6 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     initParentId: '',
     destinationIdx: -1,
     newParentId: '',
-    droppables: new Map(),
-    emptyDroppables: new Set(),
     placeholder: null,
     placeholderClassName: '',
   });
@@ -72,7 +71,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
 
     const onMouseMove = (e: MouseEvent): void => {
       const dragDropData = dragDropDataRef.current;
-      const { isDragging, draggedElement } = dragDropData;
+      const { isDragging, draggedElement, draggedElementType } = dragDropData;
       if (!draggedElement) return;
 
       eventTarget = e.target;
@@ -85,20 +84,20 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
         dragDropData.isDragging = true;
 
         const { width, height } = dragDropData.draggedElementRect;
+        setDraggedElementInitStyles(draggedElement, width, height);
         const placeholder = createPlaceholder(
           draggedElement,
           height,
           dragDropData.placeholderClassName
         );
         dragDropData.placeholder = placeholder;
-        setDraggedElementInitStyles(draggedElement, width, height);
         droppable.insertBefore(placeholder, draggedElement);
 
         const droppableId = getDroppableId(droppable);
         dragDropData.initParentId = droppableId;
         dragDropData.newParentId = droppableId;
 
-        setGlobalStyles(ON_DRAG_GLOBAL_STYLES);
+        setGlobalStyles(getOnDragGlobalStyles(draggedElementType));
       }
 
       requestRAF();

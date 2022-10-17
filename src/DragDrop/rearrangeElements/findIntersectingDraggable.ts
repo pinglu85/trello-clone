@@ -1,12 +1,12 @@
-import intersect from '../utils/intersect';
+import intersect from './intersect';
 import type { Rect } from '../types';
 
 function findIntersectingDraggable(
   draggedElementId: string,
   draggedElementRect: Rect,
-  draggablesInCurrDroppable: HTMLElement[]
+  draggablesInCurrDroppable: Element[]
 ): [
-  draggable: HTMLElement | null,
+  draggable: Element | null,
   draggableRect: DOMRect | null,
   draggableIdx: number
 ] {
@@ -36,11 +36,12 @@ function findIntersectingDraggable(
   ];
 }
 
-function isDraggedElement(
-  element: HTMLElement,
-  draggedElementId: string
-): boolean {
-  return element.dataset.draggableId === draggedElementId;
+function isDraggedElement(element: Element, draggedElementId: string): boolean {
+  if (element instanceof HTMLElement) {
+    return element.dataset.draggableId === draggedElementId;
+  }
+
+  return false;
 }
 
 export default findIntersectingDraggable;

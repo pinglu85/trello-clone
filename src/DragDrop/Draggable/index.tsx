@@ -8,6 +8,7 @@ import {
 import type { DragDropTypes, Rect } from '../types';
 
 interface ProvidedDraggableProps {
+  draggableContainerRef: React.MutableRefObject<HTMLElement | null>;
   draggableRef: React.MutableRefObject<HTMLElement | null>;
   'data-draggable-id': string;
   'data-draggable-context-id': string;
@@ -40,6 +41,7 @@ const Draggable = ({
   children,
 }: DraggableProps): JSX.Element => {
   const dragDropDataRef = useContext(DragDropContext);
+  const draggableContainerRef = useRef<HTMLElement | null>(null);
   const draggableRef = useRef<HTMLElement | null>(null);
   const dragHandleRef = useRef<HTMLElement | null>(null);
 
@@ -47,6 +49,7 @@ const Draggable = ({
     if (
       e.button !== 0 ||
       !isEventTargetDragHandle(dragHandleRef, e.target) ||
+      !draggableContainerRef.current ||
       !draggableRef.current ||
       !dragDropDataRef
     ) {
@@ -54,11 +57,12 @@ const Draggable = ({
     }
 
     const dragDropData = dragDropDataRef.current;
-    const draggable = draggableRef.current;
-    dragDropData.draggedElement = draggable;
+    const draggableContainer = draggableContainerRef.current;
+    dragDropData.draggedElement = draggableContainer;
     dragDropData.draggedElementType = type;
     dragDropData.draggedElementInitIdx = idx;
 
+    const draggable = draggableRef.current;
     const draggableRect = draggable.getBoundingClientRect();
     dragDropData.initDistanceFromDraggedElementLeftToMouseX =
       e.pageX - draggableRect.left;
@@ -75,6 +79,7 @@ const Draggable = ({
 
   return children({
     draggableProps: {
+      draggableContainerRef,
       draggableRef,
       'data-draggable-id': draggableId,
       'data-draggable-context-id': DATA_DRAGGABLE_CONTEXT_ID,

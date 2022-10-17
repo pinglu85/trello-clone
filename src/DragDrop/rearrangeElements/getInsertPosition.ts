@@ -10,7 +10,7 @@ function getInsertPosition(
   currDroppableId: string,
   currDroppableType: string
 ): string {
-  if (currDroppableType === DragDropTypes.Column) {
+  if (currDroppableType === DragDropTypes.List) {
     return getHorizontalInsertPosition(
       mousePosition.movementX,
       draggedElementRect,
@@ -19,7 +19,7 @@ function getInsertPosition(
     );
   }
 
-  if (currDroppableType === DragDropTypes.Row) {
+  if (currDroppableType === DragDropTypes.Card) {
     return getVerticalInsertPosition(
       mousePosition.movementY,
       draggedElementRect,

@@ -17,34 +17,47 @@ const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
     <BoardListContext.Provider value={{ currListIdx, currList: list }}>
       <Draggable
         draggableId={list.id}
-        type={DragDropTypes.Column}
+        type={DragDropTypes.List}
         idx={currListIdx}
         placeholderClassName={styles.dragDropPlaceholder}
       >
         {({
-          draggableProps: { draggableRef, ...draggableProps },
+          draggableProps: {
+            draggableContainerRef,
+            draggableRef,
+            ...draggableProps
+          },
           dragHandleProps: { dragHandleRef, ...dragHandleProps },
         }): JSX.Element => (
           <div
-            ref={draggableRef as React.MutableRefObject<HTMLDivElement | null>}
-            className={styles.BoardList}
+            ref={
+              draggableContainerRef as React.MutableRefObject<HTMLDivElement | null>
+            }
+            className={styles.listContainer}
             {...draggableProps}
           >
             <div
               ref={
-                dragHandleRef as React.MutableRefObject<HTMLDivElement | null>
+                draggableRef as React.MutableRefObject<HTMLDivElement | null>
               }
-              className={styles.header}
-              {...dragHandleProps}
+              className={styles.list}
             >
-              <span className={styles.title}>{list.name}</span>
+              <div
+                ref={
+                  dragHandleRef as React.MutableRefObject<HTMLDivElement | null>
+                }
+                className={styles.header}
+                {...dragHandleProps}
+              >
+                <span className={styles.title}>{list.name}</span>
 
-              <BoardListActions />
+                <BoardListActions />
+              </div>
+
+              <BoardListCardList listId={list.id} cards={list.cards} />
+
+              <div className={styles.cardActions}>Add Cards</div>
             </div>
-
-            <BoardListCardList listId={list.id} cards={list.cards} />
-
-            <div className={styles.cardActions}>Add Cards</div>
           </div>
         )}
       </Draggable>

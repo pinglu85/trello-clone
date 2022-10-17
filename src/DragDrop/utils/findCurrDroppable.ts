@@ -1,33 +1,37 @@
-import isDraggable from './isDraggable';
 import getClosestDroppable from './getClosestDroppable';
-import intersect from './intersect';
+import { DragDropTypes } from '../types';
 import type { DragDropData } from '../types';
 
 function findCurrDroppable(
   eventTarget: EventTarget | null,
-  { draggedElementRect, emptyDroppables }: DragDropData
+  { draggedElement, draggedElementType }: DragDropData
 ): HTMLDivElement | null {
-  if (!eventTarget) return null;
+  if (!(eventTarget instanceof Element)) return null;
 
-  if (isDroppable(eventTarget)) {
-    return <HTMLDivElement>eventTarget;
+  if (isDroppable(eventTarget)) return <HTMLDivElement>eventTarget;
+
+  if (draggedElementType === DragDropTypes.List) {
+    return draggedElement && getClosestDroppable(draggedElement);
   }
 
-  if (isDraggable(eventTarget)) {
-    const draggable = <HTMLElement>eventTarget;
-    return getClosestDroppable(draggable);
-  }
+  return findClosestChildDroppable(eventTarget);
+}
 
-  for (const droppable of emptyDroppables) {
-    const droppableRect = droppable.getBoundingClientRect();
-    if (intersect(draggedElementRect, droppableRect)) return droppable;
+function findClosestChildDroppable(parent: Element): HTMLDivElement | null {
+  const stack: Element[] = [parent];
+
+  while (stack.length > 0) {
+    const element = <Element>stack.pop();
+    if (isDroppable(element)) return <HTMLDivElement>element;
+
+    stack.push(...element.children);
   }
 
   return null;
 }
 
-function isDroppable(eventTarget: EventTarget): boolean {
-  if (eventTarget instanceof HTMLDivElement) {
+function isDroppable(eventTarget: Element): boolean {
+  if (eventTarget instanceof HTMLElement) {
     return !!eventTarget.dataset.droppableId;
   }
 

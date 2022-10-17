@@ -17,7 +17,7 @@ const BoardListCardList = ({
     <Droppable
       className={joinClassNames(styles.BoardListCardList, 'verticalScrollbar')}
       droppableId={listId}
-      type={DragDropTypes.Row}
+      type={DragDropTypes.Card}
     >
       {cards.map(({ id, name }, idx) => (
         <BoardListCard key={id} id={id} name={name} idx={idx} />

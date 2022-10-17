@@ -14,8 +14,8 @@ export interface MousePosition {
 }
 
 export enum DragDropTypes {
-  Row = 'ROW',
-  Column = 'COLUMN',
+  Card = 'CARD',
+  List = 'LIST',
 }
 
 export interface Rect {
@@ -26,10 +26,6 @@ export interface Rect {
   width: number;
   height: number;
 }
-
-export type Droppables = Map<string, HTMLDivElement>;
-
-export type EmptyDroppables = Set<HTMLDivElement>;
 
 export interface DragDropData {
   isDragging: boolean;
@@ -43,8 +39,6 @@ export interface DragDropData {
   initParentId: string;
   destinationIdx: number;
   newParentId: string;
-  droppables: Droppables;
-  emptyDroppables: EmptyDroppables;
   placeholder: HTMLElement | null;
   placeholderClassName: string;
 }

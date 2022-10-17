@@ -13,16 +13,21 @@ const BoardListCard = ({ id, name, idx }: BoardListCardProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
-      type={DragDropTypes.Row}
+      type={DragDropTypes.Card}
       idx={idx}
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({
-        draggableProps: { draggableRef, ...draggableProps },
+        draggableProps: {
+          draggableContainerRef,
+          draggableRef,
+          ...draggableProps
+        },
         dragHandleProps: { dragHandleRef, ...dragHandleProps },
       }): JSX.Element => (
         <div
           ref={(element): void => {
+            draggableContainerRef.current = element;
             draggableRef.current = element;
             dragHandleRef.current = element;
           }}

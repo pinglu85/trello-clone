@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { INIT_GLOBAL_STYLES } from './constants';
-import createInitRect from './utils/createInitRect';
+import newRect from './utils/newRect';
 import getClosestDroppable from './utils/getClosestDroppable';
 import updateMousePosition from './utils/updateMousePosition';
 import createPlaceholder from './utils/createPlaceholder';
@@ -30,7 +30,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     isRAFRunning: false,
     draggedElement: null,
     draggedElementType: '',
-    draggedElementRect: createInitRect(),
+    draggedElementRect: newRect(),
     initDistanceFromDraggedElementLeftToMouseX: 0,
     initDistanceFromDraggedElementTopToMouseY: 0,
     draggedElementInitIdx: -1,

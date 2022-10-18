@@ -1,6 +1,6 @@
 import type { Rect } from '../types';
 
-function createInitRect(): Rect {
+function newRect(): Rect {
   return {
     top: 0,
     right: 0,
@@ -11,4 +11,4 @@ function createInitRect(): Rect {
   };
 }
 
-export default createInitRect;
+export default newRect;

@@ -2,20 +2,19 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { INIT_GLOBAL_STYLES } from './constants';
 import newRect from './utils/newRect';
+import findCurrDroppable from './utils/findCurrDroppable';
 import getClosestDroppable from './utils/getClosestDroppable';
 import updateMousePosition from './utils/updateMousePosition';
 import createPlaceholder from './utils/createPlaceholder';
 import setDraggedElementInitStyles from './utils/setDraggedElementInitStyles';
 import { getDroppableId, getDroppableType } from './utils/getDroppableInfo';
 import getOnDragGlobalStyles from './utils/getOnDragGlobalStyles';
-import findCurrDroppable from './utils/findCurrDroppable';
+import scrollDroppableCard from './scrollDroppableCard';
 import moveDraggedElement from './moveDraggedElement';
 import rearrangeElements from './rearrangeElements';
-import scrollWhileDragging from './scrollWhileDragging';
 import resetDragDropData from './utils/resetDragDropData';
 import DragDropContext from './context';
-import type { MousePosition, OnDragEnd } from './types';
-import type { DragDropData } from './types';
+import type { DragDropData, MousePosition, OnDragEnd } from './types';
 
 interface DragDropProps extends WithChildrenProps {
   onDragEnd: OnDragEnd;
@@ -27,7 +26,6 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   const styleElementRef = useRef<HTMLStyleElement | null>(null);
   const dragDropDataRef = useRef<DragDropData>({
     isDragging: false,
-    isRAFRunning: false,
     draggedElement: null,
     draggedElementType: '',
     draggedElementRect: newRect(),
@@ -61,27 +59,30 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   }, [setGlobalStyles]);
 
   useEffect(() => {
-    let eventTarget: EventTarget | null = null;
     const mousePosition: MousePosition = {
       pageX: 0,
       pageY: 0,
       movementX: 0,
       movementY: 0,
     };
+    let currDroppable: HTMLDivElement | null = null;
+    let isRAFRunning = false;
 
     const onMouseMove = (e: MouseEvent): void => {
       const dragDropData = dragDropDataRef.current;
       const { isDragging, draggedElement, draggedElementType } = dragDropData;
       if (!draggedElement) return;
 
-      eventTarget = e.target;
       updateMousePosition(e, mousePosition);
 
-      if (!isDragging) {
-        const droppable = getClosestDroppable(draggedElement);
-        if (!droppable) return;
+      if (isDragging) {
+        currDroppable = findCurrDroppable(e.target, dragDropData);
+      } else {
+        currDroppable = getClosestDroppable(draggedElement);
+        if (!currDroppable) return;
 
         dragDropData.isDragging = true;
+        isRAFRunning = false;
 
         const { width, height } = dragDropData.draggedElementRect;
         setDraggedElementInitStyles(draggedElement, width, height);
@@ -91,9 +92,9 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
           dragDropData.placeholderClassName
         );
         dragDropData.placeholder = placeholder;
-        droppable.insertBefore(placeholder, draggedElement);
+        currDroppable.insertBefore(placeholder, draggedElement);
 
-        const droppableId = getDroppableId(droppable);
+        const droppableId = getDroppableId(currDroppable);
         dragDropData.initParentId = droppableId;
         dragDropData.newParentId = droppableId;
 
@@ -101,11 +102,12 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
       }
 
       requestRAF();
+      scrollDroppableCard(currDroppable, dragDropData);
     };
 
     function requestRAF(): void {
-      if (!dragDropDataRef.current.isRAFRunning) {
-        dragDropDataRef.current.isRAFRunning = true;
+      if (!isRAFRunning) {
+        isRAFRunning = true;
         requestAnimationFrame(update);
       }
     }
@@ -115,7 +117,6 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
       if (dragDropData.isDragging) {
         moveDraggedElement(mousePosition, dragDropData);
 
-        const currDroppable = findCurrDroppable(eventTarget, dragDropData);
         if (currDroppable) {
           const currDroppableType = getDroppableType(currDroppable);
           rearrangeElements(
@@ -124,16 +125,10 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
             currDroppableType,
             dragDropData
           );
-          scrollWhileDragging(
-            mousePosition,
-            currDroppable,
-            currDroppableType,
-            dragDropData
-          );
         }
       }
 
-      dragDropData.isRAFRunning = false;
+      isRAFRunning = false;
     }
 
     document.body.addEventListener('mousemove', onMouseMove);

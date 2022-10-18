@@ -18,6 +18,13 @@ export enum DragDropTypes {
   List = 'LIST',
 }
 
+export enum ScrollDirections {
+  Top = 'TOP',
+  Right = 'RIGHT',
+  Bottom = 'BOTTOM',
+  Left = 'LEFT',
+}
+
 export interface Rect {
   top: number;
   right: number;
@@ -29,7 +36,6 @@ export interface Rect {
 
 export interface DragDropData {
   isDragging: boolean;
-  isRAFRunning: boolean;
   draggedElement: HTMLElement | null;
   draggedElementType: string;
   draggedElementRect: Rect;

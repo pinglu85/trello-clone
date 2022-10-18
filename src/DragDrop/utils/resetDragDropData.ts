@@ -2,7 +2,6 @@ import type { DragDropData, Rect } from '../types';
 
 function resetDragDropData(dragDropData: DragDropData): void {
   dragDropData.isDragging = false;
-  dragDropData.isRAFRunning = false;
   dragDropData.draggedElementType = '';
 
   const { draggedElementRect } = dragDropData;

@@ -1,11 +1,12 @@
 import { getDroppableId } from '../utils/getDroppableInfo';
 import getDraggablesInDroppable from './getDraggablesInDroppable';
+import { DragDropTypes } from '../types';
 import intersect from './intersect';
 import findIntersectingDraggable from './findIntersectingDraggable';
 import getInsertPosition from './getInsertPosition';
 import { InsertPositions } from './types';
 import { DATA_PLACEHOLDER_ID } from '../constants';
-import { DragDropData, DragDropTypes, MousePosition } from '../types';
+import type { DragDropData, MousePosition } from '../types';
 
 function rearrangeElements(
   mousePosition: MousePosition,

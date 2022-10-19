@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { INIT_GLOBAL_STYLES } from './constants';
+import { INIT_GLOBAL_STYLES } from './constants/globalStyles';
 import newRect from './utils/newRect';
 import findCurrDroppable from './utils/findCurrDroppable';
 import getClosestDroppable from './utils/getClosestDroppable';

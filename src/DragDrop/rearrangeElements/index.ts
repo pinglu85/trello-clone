@@ -5,7 +5,7 @@ import intersect from './intersect';
 import findIntersectingDraggable from './findIntersectingDraggable';
 import getInsertPosition from './getInsertPosition';
 import { InsertPositions } from './types';
-import { DATA_PLACEHOLDER_ID } from '../constants';
+import { DATA_PLACEHOLDER_ID } from '../constants/ids';
 import type { DragDropData, MousePosition } from '../types';
 
 function rearrangeElements(

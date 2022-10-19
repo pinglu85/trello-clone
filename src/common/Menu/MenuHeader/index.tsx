@@ -1,7 +1,7 @@
 import joinClassNames from '../../../utils/joinClassNames';
 import styles from './styles.module.css';
 
-interface MenuHeaderProps extends WithChildrenProps {
+interface MenuHeaderProps extends PropsWithChildren {
   className?: string;
 }
 

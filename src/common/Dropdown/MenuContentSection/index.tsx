@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const MenuContentSection = ({ children }: WithChildrenProps): JSX.Element => {
+const MenuContentSection = ({ children }: PropsWithChildren): JSX.Element => {
   return <div className={styles.MenuContentSection}>{children}</div>;
 };
 

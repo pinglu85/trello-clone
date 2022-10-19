@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import DropdownContext from '../context';
 
-interface DropdownMenuToggleProps extends WithChildrenProps {
+interface DropdownMenuToggleProps extends PropsWithChildren {
   className: string;
 }
 

@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import DropdownContext from '../context';
 
-const Dropdown = ({ children }: WithChildrenProps): JSX.Element => {
+const Dropdown = ({ children }: PropsWithChildren): JSX.Element => {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const dropdownMenuToggleRef = useRef<HTMLButtonElement>(null);
 

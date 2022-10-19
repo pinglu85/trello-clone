@@ -1,7 +1,7 @@
 import { ButtonPrimary } from '../../common/Button';
 import styles from './styles.module.css';
 
-const FormSubmitButton = ({ children }: WithChildrenProps): JSX.Element => {
+const FormSubmitButton = ({ children }: PropsWithChildren): JSX.Element => {
   return (
     <ButtonPrimary type="submit" className={styles.FormSubmitButton}>
       {children}

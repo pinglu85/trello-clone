@@ -9,7 +9,7 @@ import withPortal from '../../../hoc/withPortal';
 import styles from './styles.module.css';
 import type { MultiLevelMenuProps } from '../../MultiLevelMenu';
 
-interface DropdownMenuProps extends WithChildrenProps {
+interface DropdownMenuProps extends PropsWithChildren {
   fixedTop?: boolean;
 }
 

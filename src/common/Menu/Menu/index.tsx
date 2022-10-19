@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import joinClassNames from '../../../utils/joinClassNames';
 import styles from './styles.module.css';
 
-interface MenuProps extends WithChildrenProps {
+interface MenuProps extends PropsWithChildren {
   className?: string;
 }
 

@@ -8,7 +8,7 @@ import { InsertPositions } from './types';
 import { DATA_PLACEHOLDER_ID } from '../constants/ids';
 import type { IDragDropContext, MousePosition } from '../types';
 
-function rearrangeElements(
+function insertPlaceholder(
   mousePosition: MousePosition,
   currDroppable: HTMLDivElement,
   currDroppableType: string,
@@ -109,4 +109,4 @@ function isPlaceholder(element: Element | null): boolean {
   return false;
 }
 
-export default rearrangeElements;
+export default insertPlaceholder;

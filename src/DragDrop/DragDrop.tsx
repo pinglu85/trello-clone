@@ -11,7 +11,7 @@ import { getDroppableId, getDroppableType } from './utils/getDroppableInfo';
 import getOnDragGlobalStyles from './utils/getOnDragGlobalStyles';
 import scrollDroppableCard from './scrollDroppableCard';
 import moveDraggedElement from './moveDraggedElement';
-import rearrangeElements from './rearrangeElements';
+import insertPlaceholder from './insertPlaceholder';
 import resetContext from './utils/resetContext';
 import DragDropContext from './context';
 import type { IDragDropContext, MousePosition, OnDragEnd } from './types';
@@ -119,7 +119,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
 
         if (currDroppable) {
           const currDroppableType = getDroppableType(currDroppable);
-          rearrangeElements(
+          insertPlaceholder(
             mousePosition,
             currDroppable,
             currDroppableType,

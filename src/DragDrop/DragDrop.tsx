@@ -70,12 +70,12 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
 
     const onMouseMove = (e: MouseEvent): void => {
       const context = contextRef.current;
-      const { isDragging, draggedElement, draggedElementType } = context;
+      const { draggedElement } = context;
       if (!draggedElement) return;
 
       updateMousePosition(e, mousePosition);
 
-      if (isDragging) {
+      if (context.isDragging) {
         currDroppable = findCurrDroppable(e.target, context);
       } else {
         currDroppable = getClosestDroppable(draggedElement);
@@ -98,7 +98,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
         context.initParentId = droppableId;
         context.newParentId = droppableId;
 
-        setGlobalStyles(getOnDragGlobalStyles(draggedElementType));
+        setGlobalStyles(getOnDragGlobalStyles(context.draggedElementType));
       }
 
       requestRAF();

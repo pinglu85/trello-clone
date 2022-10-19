@@ -1,7 +1,7 @@
 import {
   DATA_DRAGGABLE_CONTEXT_ID,
   DATA_DRAG_HANDLE_CONTEXT_ID,
-} from '../constants';
+} from '../constants/ids';
 import { DragDropTypes } from '../types';
 
 function getOnDragGlobalStyles(draggedElementType: string): string {

@@ -1,4 +1,4 @@
-import { DATA_PLACEHOLDER_ID } from '../constants';
+import { DATA_PLACEHOLDER_ID } from '../constants/ids';
 
 function createPlaceholder(
   draggedElement: HTMLElement,

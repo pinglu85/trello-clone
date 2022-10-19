@@ -4,7 +4,7 @@ import DragDropContext from '../context';
 import {
   DATA_DRAGGABLE_CONTEXT_ID,
   DATA_DRAG_HANDLE_CONTEXT_ID,
-} from '../constants';
+} from '../constants/ids';
 import type { DragDropTypes, Rect } from '../types';
 
 interface ProvidedDraggableProps {

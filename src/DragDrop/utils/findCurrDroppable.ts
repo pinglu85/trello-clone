@@ -1,10 +1,10 @@
 import getClosestDroppable from './getClosestDroppable';
 import { DragDropTypes } from '../types';
-import type { DragDropData } from '../types';
+import type { IDragDropContext } from '../types';
 
 function findCurrDroppable(
   eventTarget: EventTarget | null,
-  { draggedElement, draggedElementType }: DragDropData
+  { draggedElement, draggedElementType }: IDragDropContext
 ): HTMLDivElement | null {
   if (!(eventTarget instanceof Element)) return null;
 

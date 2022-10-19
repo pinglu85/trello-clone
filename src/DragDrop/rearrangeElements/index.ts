@@ -6,20 +6,20 @@ import findIntersectingDraggable from './findIntersectingDraggable';
 import getInsertPosition from './getInsertPosition';
 import { InsertPositions } from './types';
 import { DATA_PLACEHOLDER_ID } from '../constants/ids';
-import type { DragDropData, MousePosition } from '../types';
+import type { IDragDropContext, MousePosition } from '../types';
 
 function rearrangeElements(
   mousePosition: MousePosition,
   currDroppable: HTMLDivElement,
   currDroppableType: string,
-  dragDropData: DragDropData
+  context: IDragDropContext
 ): void {
   const {
     draggedElement,
     draggedElementRect,
     draggedElementType,
     placeholder,
-  } = dragDropData;
+  } = context;
 
   if (
     !draggedElement ||
@@ -38,8 +38,8 @@ function rearrangeElements(
     (draggablesInCurrDroppable.length === 0 ||
       !intersect(draggedElementRect, currDroppableRect))
   ) {
-    dragDropData.destinationIdx = draggablesInCurrDroppable.length;
-    dragDropData.newParentId = currDroppableId;
+    context.destinationIdx = draggablesInCurrDroppable.length;
+    context.newParentId = currDroppableId;
     currDroppable.appendChild(placeholder);
     return;
   }
@@ -55,9 +55,9 @@ function rearrangeElements(
 
   const insertPosition = getInsertPosition(
     mousePosition,
-    dragDropData.draggedElementRect,
+    context.draggedElementRect,
     draggableRect,
-    dragDropData.newParentId,
+    context.newParentId,
     currDroppableId,
     currDroppableType
   );
@@ -83,8 +83,8 @@ function rearrangeElements(
   }
 
   if (destinationIdx !== -1) {
-    dragDropData.destinationIdx = destinationIdx;
-    dragDropData.newParentId = currDroppableId;
+    context.destinationIdx = destinationIdx;
+    context.newParentId = currDroppableId;
     currDroppable.insertBefore(placeholder, insertReferenceNode);
   }
 }

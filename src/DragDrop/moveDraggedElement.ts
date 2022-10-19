@@ -1,4 +1,4 @@
-import type { DragDropData, MousePosition } from './types';
+import type { IDragDropContext, MousePosition } from './types';
 
 function moveDraggedElement(
   mousePosition: MousePosition,
@@ -7,7 +7,7 @@ function moveDraggedElement(
     draggedElementRect,
     initDistanceFromDraggedElementLeftToMouseX,
     initDistanceFromDraggedElementTopToMouseY,
-  }: DragDropData
+  }: IDragDropContext
 ): void {
   if (!draggedElement) return;
 

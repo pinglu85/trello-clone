@@ -1,7 +1,7 @@
 import { getDroppableType } from './utils/getDroppableInfo';
 import { DragDropTypes, ScrollDirections } from './types';
 import isOverscroll from './utils/isOverscroll';
-import type { DragDropData } from './types';
+import type { IDragDropContext } from './types';
 
 const SCROLL_THRESHOLD = 50;
 const SCROLL_DISTANCE = 5;
@@ -10,9 +10,9 @@ let scrollDirection: ScrollDirections | '' = '';
 
 function scrollDroppableCard(
   droppable: HTMLDivElement | null,
-  dragDropData: DragDropData
+  context: IDragDropContext
 ): void {
-  const { isDragging, draggedElementRect, draggedElementType } = dragDropData;
+  const { isDragging, draggedElementRect, draggedElementType } = context;
   if (!droppable || !isDragging) return;
 
   const currDroppableType = getDroppableType(droppable);
@@ -39,16 +39,16 @@ function scrollDroppableCard(
 
   if (!isScrolling)
     requestAnimationFrame(() => {
-      scroll(droppable, dragDropData);
+      scroll(droppable, context);
     });
 }
 
-function scroll(droppable: HTMLDivElement, dragDropData: DragDropData): void {
+function scroll(droppable: HTMLDivElement, context: IDragDropContext): void {
   isScrolling = true;
 
   if (
     scrollDirection === '' ||
-    !dragDropData.isDragging ||
+    !context.isDragging ||
     !droppable ||
     isOverscroll(droppable, scrollDirection)
   ) {
@@ -62,7 +62,7 @@ function scroll(droppable: HTMLDivElement, dragDropData: DragDropData): void {
     droppable.scrollTop += SCROLL_DISTANCE;
   }
   requestAnimationFrame(() => {
-    scroll(droppable, dragDropData);
+    scroll(droppable, context);
   });
 }
 

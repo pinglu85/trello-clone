@@ -40,7 +40,7 @@ const Draggable = ({
   placeholderClassName,
   children,
 }: DraggableProps): JSX.Element => {
-  const dragDropDataRef = useContext(DragDropContext);
+  const contextRef = useContext(DragDropContext);
   const draggableContainerRef = useRef<HTMLElement | null>(null);
   const draggableRef = useRef<HTMLElement | null>(null);
   const dragHandleRef = useRef<HTMLElement | null>(null);
@@ -51,30 +51,30 @@ const Draggable = ({
       !isEventTargetDragHandle(dragHandleRef, e.target) ||
       !draggableContainerRef.current ||
       !draggableRef.current ||
-      !dragDropDataRef
+      !contextRef
     ) {
       return;
     }
 
-    const dragDropData = dragDropDataRef.current;
+    const context = contextRef.current;
     const draggableContainer = draggableContainerRef.current;
-    dragDropData.draggedElement = draggableContainer;
-    dragDropData.draggedElementType = type;
-    dragDropData.draggedElementInitIdx = idx;
+    context.draggedElement = draggableContainer;
+    context.draggedElementType = type;
+    context.draggedElementInitIdx = idx;
 
     const draggable = draggableRef.current;
     const draggableRect = draggable.getBoundingClientRect();
-    dragDropData.initDistanceFromDraggedElementLeftToMouseX =
+    context.initDistanceFromDraggedElementLeftToMouseX =
       e.pageX - draggableRect.left;
-    dragDropData.initDistanceFromDraggedElementTopToMouseY =
+    context.initDistanceFromDraggedElementTopToMouseY =
       e.pageY - draggableRect.top;
 
-    const { draggedElementRect } = dragDropData;
+    const { draggedElementRect } = context;
     for (const key of Object.keys(draggedElementRect) as (keyof Rect)[]) {
       draggedElementRect[key] = draggableRect[key];
     }
 
-    dragDropData.placeholderClassName = placeholderClassName;
+    context.placeholderClassName = placeholderClassName;
   };
 
   return children({

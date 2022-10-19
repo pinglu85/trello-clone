@@ -1,7 +1,7 @@
 import joinClassNames from '../../../utils/joinClassNames';
 import styles from './styles.module.css';
 
-interface ListItemProps extends WithChildrenProps {
+interface ListItemProps extends PropsWithChildren {
   className?: string;
 }
 

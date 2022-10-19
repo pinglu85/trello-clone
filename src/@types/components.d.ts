@@ -1,4 +1,4 @@
-interface WithChildrenProps {
+interface PropsWithChildren {
   children: React.ReactNode;
 }
 

@@ -4,7 +4,7 @@ import MultiLevelMenuContext from '../context';
 import joinClassNames from '../../../utils/joinClassNames';
 import styles from './styles.module.css';
 
-interface SubmenuTriggerProps extends WithChildrenProps {
+interface SubmenuTriggerProps extends PropsWithChildren {
   className?: string;
   submenuTitle: string;
   submenuContent: React.ReactNode;

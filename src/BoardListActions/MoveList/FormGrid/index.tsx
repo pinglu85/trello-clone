@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-interface FormGridProps<T> extends WithChildrenProps {
+interface FormGridProps<T> extends PropsWithChildren {
   label: string;
   inputId: string;
   displayValueOfSelectedValue: T;

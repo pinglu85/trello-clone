@@ -4,7 +4,7 @@ import DragDropContext from '../context';
 import { DragDropTypes, ScrollDirections } from '../types';
 import isOverscroll from '../utils/isOverscroll';
 
-interface DroppableProps extends WithChildrenProps {
+interface DroppableProps extends PropsWithChildren {
   droppableId: string;
   type: DragDropTypes;
   className?: string;

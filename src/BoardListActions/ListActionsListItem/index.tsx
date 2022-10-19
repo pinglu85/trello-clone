@@ -2,7 +2,7 @@ import joinClassNames from '../../utils/joinClassNames';
 import { ListItem } from '../../common/Dropdown';
 import styles from './styles.module.css';
 
-interface ListActionsListItemProps extends WithChildrenProps {
+interface ListActionsListItemProps extends PropsWithChildren {
   disabled?: boolean;
 }
 

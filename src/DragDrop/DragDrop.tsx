@@ -12,9 +12,9 @@ import getOnDragGlobalStyles from './utils/getOnDragGlobalStyles';
 import scrollDroppableCard from './scrollDroppableCard';
 import moveDraggedElement from './moveDraggedElement';
 import rearrangeElements from './rearrangeElements';
-import resetDragDropData from './utils/resetDragDropData';
+import resetContext from './utils/resetContext';
 import DragDropContext from './context';
-import type { DragDropData, MousePosition, OnDragEnd } from './types';
+import type { IDragDropContext, MousePosition, OnDragEnd } from './types';
 
 interface DragDropProps extends WithChildrenProps {
   onDragEnd: OnDragEnd;
@@ -24,7 +24,7 @@ type SetGlobalStyles = (newStyles: string) => void;
 
 const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
   const styleElementRef = useRef<HTMLStyleElement | null>(null);
-  const dragDropDataRef = useRef<DragDropData>({
+  const contextRef = useRef<IDragDropContext>({
     isDragging: false,
     draggedElement: null,
     draggedElementType: '',
@@ -69,40 +69,40 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     let isRAFRunning = false;
 
     const onMouseMove = (e: MouseEvent): void => {
-      const dragDropData = dragDropDataRef.current;
-      const { isDragging, draggedElement, draggedElementType } = dragDropData;
+      const context = contextRef.current;
+      const { isDragging, draggedElement, draggedElementType } = context;
       if (!draggedElement) return;
 
       updateMousePosition(e, mousePosition);
 
       if (isDragging) {
-        currDroppable = findCurrDroppable(e.target, dragDropData);
+        currDroppable = findCurrDroppable(e.target, context);
       } else {
         currDroppable = getClosestDroppable(draggedElement);
         if (!currDroppable) return;
 
-        dragDropData.isDragging = true;
+        context.isDragging = true;
         isRAFRunning = false;
 
-        const { width, height } = dragDropData.draggedElementRect;
+        const { width, height } = context.draggedElementRect;
         setDraggedElementInitStyles(draggedElement, width, height);
         const placeholder = createPlaceholder(
           draggedElement,
           height,
-          dragDropData.placeholderClassName
+          context.placeholderClassName
         );
-        dragDropData.placeholder = placeholder;
+        context.placeholder = placeholder;
         currDroppable.insertBefore(placeholder, draggedElement);
 
         const droppableId = getDroppableId(currDroppable);
-        dragDropData.initParentId = droppableId;
-        dragDropData.newParentId = droppableId;
+        context.initParentId = droppableId;
+        context.newParentId = droppableId;
 
         setGlobalStyles(getOnDragGlobalStyles(draggedElementType));
       }
 
       requestRAF();
-      scrollDroppableCard(currDroppable, dragDropData);
+      scrollDroppableCard(currDroppable, context);
     };
 
     function requestRAF(): void {
@@ -113,9 +113,9 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     }
 
     function update(): void {
-      const dragDropData = dragDropDataRef.current;
-      if (dragDropData.isDragging) {
-        moveDraggedElement(mousePosition, dragDropData);
+      const context = contextRef.current;
+      if (context.isDragging) {
+        moveDraggedElement(mousePosition, context);
 
         if (currDroppable) {
           const currDroppableType = getDroppableType(currDroppable);
@@ -123,7 +123,7 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
             mousePosition,
             currDroppable,
             currDroppableType,
-            dragDropData
+            context
           );
         }
       }
@@ -140,9 +140,9 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
 
   useEffect(() => {
     const onMouseUp = (): void => {
-      const dragDropData = dragDropDataRef.current;
-      const { draggedElement, isDragging, placeholder } = dragDropData;
-      dragDropData.draggedElement = null;
+      const context = contextRef.current;
+      const { draggedElement, isDragging, placeholder } = context;
+      context.draggedElement = null;
 
       if (!isDragging || !draggedElement || !placeholder) return;
 
@@ -150,14 +150,14 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
       draggedElement.setAttribute('style', '');
 
       onDragEnd({
-        sourceIdx: dragDropData.draggedElementInitIdx,
-        destinationIdx: dragDropData.destinationIdx,
-        oldParentId: dragDropData.initParentId,
-        newParentId: dragDropData.newParentId,
+        sourceIdx: context.draggedElementInitIdx,
+        destinationIdx: context.destinationIdx,
+        oldParentId: context.initParentId,
+        newParentId: context.newParentId,
       });
 
       placeholder.parentElement?.removeChild(placeholder);
-      resetDragDropData(dragDropDataRef.current);
+      resetContext(contextRef.current);
     };
 
     document.body.addEventListener('mouseup', onMouseUp);
@@ -169,17 +169,17 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
 
   useEffect(() => {
     const cancelDrag = (e: KeyboardEvent): void => {
-      const dragDropData = dragDropDataRef.current;
-      if (e.code === 'Escape' && dragDropData.isDragging) {
+      const context = contextRef.current;
+      if (e.code === 'Escape' && context.isDragging) {
         setGlobalStyles(INIT_GLOBAL_STYLES);
 
-        const { draggedElement, placeholder } = dragDropData;
+        const { draggedElement, placeholder } = context;
         if (!draggedElement || !placeholder) return;
 
         draggedElement.setAttribute('style', '');
         placeholder.parentElement?.removeChild(placeholder);
-        dragDropData.draggedElement = null;
-        resetDragDropData(dragDropDataRef.current);
+        context.draggedElement = null;
+        resetContext(contextRef.current);
       }
     };
 
@@ -188,10 +188,10 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     return () => {
       document.body.removeEventListener('keydown', cancelDrag);
     };
-  }, [dragDropDataRef, setGlobalStyles]);
+  }, [contextRef, setGlobalStyles]);
 
   return (
-    <DragDropContext.Provider value={dragDropDataRef}>
+    <DragDropContext.Provider value={contextRef}>
       {children}
     </DragDropContext.Provider>
   );

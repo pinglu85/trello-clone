@@ -34,7 +34,7 @@ export interface Rect {
   height: number;
 }
 
-export interface DragDropData {
+export interface IDragDropContext {
   isDragging: boolean;
   draggedElement: HTMLElement | null;
   draggedElementType: string;

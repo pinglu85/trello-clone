@@ -19,25 +19,21 @@ const Droppable = ({
   children,
   ...props
 }: DroppableProps): JSX.Element => {
-  const dragDropDataRef = useContext(DragDropContext);
+  const contextRef = useContext(DragDropContext);
   const droppableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (
-      type !== DragDropTypes.List ||
-      !droppableRef.current ||
-      !dragDropDataRef
-    ) {
+    if (type !== DragDropTypes.List || !droppableRef.current || !contextRef) {
       return;
     }
 
     const droppable = droppableRef.current;
-    const dragDropData = dragDropDataRef.current;
+    const context = contextRef.current;
     let isScrolling = false;
     let scrollDirection: ScrollDirections | '' = '';
 
     const scrollDroppable = (): void => {
-      const { isDragging, draggedElementRect } = dragDropData;
+      const { isDragging, draggedElementRect } = context;
       if (!isDragging) return;
 
       const { clientWidth, offsetLeft } = droppable;
@@ -61,7 +57,7 @@ const Droppable = ({
 
       if (
         scrollDirection === '' ||
-        !dragDropData.isDragging ||
+        !context.isDragging ||
         isOverscroll(droppable, scrollDirection)
       ) {
         isScrolling = false;
@@ -81,7 +77,7 @@ const Droppable = ({
     return () => {
       document.body.removeEventListener('mousemove', scrollDroppable);
     };
-  }, [droppableRef, dragDropDataRef, type]);
+  }, [droppableRef, contextRef, type]);
 
   return (
     <div

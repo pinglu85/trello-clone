@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-import type { DragDropData } from '../types';
+import type { IDragDropContext } from '../types';
 
 const DragDropContext =
-  createContext<React.MutableRefObject<DragDropData> | null>(null);
+  createContext<React.MutableRefObject<IDragDropContext> | null>(null);
 
 export default DragDropContext;

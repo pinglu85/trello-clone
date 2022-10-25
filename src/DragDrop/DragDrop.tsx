@@ -31,9 +31,9 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
     draggedElementRect: newRect(),
     initDistanceFromDraggedElementLeftToMouseX: 0,
     initDistanceFromDraggedElementTopToMouseY: 0,
-    draggedElementInitIdx: -1,
+    draggedElementInitIndex: -1,
     initParentId: '',
-    destinationIdx: -1,
+    destinationIndex: -1,
     newParentId: '',
     placeholder: null,
     placeholderClassName: '',
@@ -150,8 +150,8 @@ const DragDrop = ({ onDragEnd, children }: DragDropProps): JSX.Element => {
       draggedElement.setAttribute('style', '');
 
       onDragEnd({
-        sourceIdx: context.draggedElementInitIdx,
-        destinationIdx: context.destinationIdx,
+        sourceIndex: context.draggedElementInitIndex,
+        destinationIndex: context.destinationIndex,
         oldParentId: context.initParentId,
         newParentId: context.newParentId,
       });

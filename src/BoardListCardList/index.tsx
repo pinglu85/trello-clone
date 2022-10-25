@@ -19,8 +19,8 @@ const BoardListCardList = ({
       droppableId={listId}
       type={DragDropTypes.Card}
     >
-      {cards.map(({ id, name }, idx) => (
-        <BoardListCard key={id} id={id} name={name} idx={idx} />
+      {cards.map(({ id, name }, index) => (
+        <BoardListCard key={id} id={id} name={name} index={index} />
       ))}
     </Droppable>
   );

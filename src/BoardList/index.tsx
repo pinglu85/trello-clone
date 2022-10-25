@@ -8,17 +8,17 @@ import styles from './styles.module.css';
 import type { List } from '../generated/graphql';
 
 interface BoardListProps {
-  currListIdx: number;
+  currListIndex: number;
   list: List;
 }
 
-const BoardList = ({ currListIdx, list }: BoardListProps): JSX.Element => {
+const BoardList = ({ currListIndex, list }: BoardListProps): JSX.Element => {
   return (
-    <BoardListContext.Provider value={{ currListIdx, currList: list }}>
+    <BoardListContext.Provider value={{ currListIndex, currList: list }}>
       <Draggable
         draggableId={list.id}
         type={DragDropTypes.List}
-        idx={currListIdx}
+        index={currListIndex}
         placeholderClassName={styles.dragDropPlaceholder}
       >
         {({

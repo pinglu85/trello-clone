@@ -1,1 +1,1 @@
-type ReorderLists = (sourceIdx: number, destinationIdx: number) => void;
+type ReorderLists = (sourceIndex: number, destinationIndex: number) => void;

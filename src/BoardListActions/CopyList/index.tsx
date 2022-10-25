@@ -23,13 +23,13 @@ const CopyList = (): JSX.Element | null => {
   const boardListContext = useContext(BoardListContext);
   if (!boardListContext) return null;
 
-  const { currListIdx, currList } = boardListContext;
+  const { currListIndex, currList } = boardListContext;
 
   return (
     <SubmenuTrigger
       submenuTitle="Copy list"
       submenuContent={
-        <CopyListMenu currListIdx={currListIdx} currList={currList} />
+        <CopyListMenu currListIndex={currListIndex} currList={currList} />
       }
     >
       Copy list..
@@ -38,12 +38,12 @@ const CopyList = (): JSX.Element | null => {
 };
 
 interface CopyListMenuProps {
-  currListIdx: number;
+  currListIndex: number;
   currList: List;
 }
 
 const CopyListMenu = ({
-  currListIdx,
+  currListIndex,
   currList,
 }: CopyListMenuProps): JSX.Element => {
   const boardCanvasContext = useContext(BoardCanvasContext);
@@ -68,8 +68,8 @@ const CopyListMenu = ({
     e.preventDefault();
 
     const { lists } = boardCanvasContext;
-    const currList = lists[currListIdx];
-    const newListRank = calcItemRank(currList, lists[currListIdx + 1]);
+    const currList = lists[currListIndex];
+    const newListRank = calcItemRank(currList, lists[currListIndex + 1]);
     const newListTempId = nanoid();
 
     copyList({

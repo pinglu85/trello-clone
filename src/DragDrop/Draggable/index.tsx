@@ -28,7 +28,7 @@ interface DraggableChildrenProps {
 interface DraggableProps {
   draggableId: string;
   type: DragDropTypes;
-  idx: number;
+  index: number;
   placeholderClassName: string;
   children: (provided: DraggableChildrenProps) => JSX.Element;
 }
@@ -36,7 +36,7 @@ interface DraggableProps {
 const Draggable = ({
   draggableId,
   type,
-  idx,
+  index,
   placeholderClassName,
   children,
 }: DraggableProps): JSX.Element => {
@@ -60,7 +60,7 @@ const Draggable = ({
     const draggableContainer = draggableContainerRef.current;
     context.draggedElement = draggableContainer;
     context.draggedElementType = type;
-    context.draggedElementInitIdx = idx;
+    context.draggedElementInitIndex = index;
 
     const draggable = draggableRef.current;
     const draggableRect = draggable.getBoundingClientRect();

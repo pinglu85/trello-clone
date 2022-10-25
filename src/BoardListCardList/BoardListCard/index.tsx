@@ -6,15 +6,19 @@ import styles from './styles.module.css';
 interface BoardListCardProps {
   id: string;
   name: string;
-  idx: number;
+  index: number;
 }
 
-const BoardListCard = ({ id, name, idx }: BoardListCardProps): JSX.Element => {
+const BoardListCard = ({
+  id,
+  name,
+  index,
+}: BoardListCardProps): JSX.Element => {
   return (
     <Draggable
       draggableId={id}
       type={DragDropTypes.Card}
-      idx={idx}
+      index={index}
       placeholderClassName={styles.dragDropPlaceholder}
     >
       {({

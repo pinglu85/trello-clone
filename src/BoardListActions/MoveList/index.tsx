@@ -18,7 +18,7 @@ const MoveList = (): JSX.Element | null => {
     <SubmenuTrigger
       submenuTitle="Move list"
       submenuContent={
-        <MoveListMenu currListIdx={boardListContext.currListIdx} />
+        <MoveListMenu currListIndex={boardListContext.currListIndex} />
       }
     >
       Move list
@@ -27,15 +27,15 @@ const MoveList = (): JSX.Element | null => {
 };
 
 interface MoveListMenuProps {
-  currListIdx: number;
+  currListIndex: number;
 }
 
 const MoveListMenu = ({
-  currListIdx,
+  currListIndex,
 }: MoveListMenuProps): JSX.Element | null => {
   const boardCanvasContext = useContext(BoardCanvasContext);
   const dropdownContext = useContext(DropdownContext);
-  const [destinationIdx, setDestinationIdx] = useState(currListIdx);
+  const [destinationIndex, setDestinationIndex] = useState(currListIndex);
 
   if (!boardCanvasContext || !dropdownContext) return null;
 
@@ -43,16 +43,16 @@ const MoveListMenu = ({
   const positionOptions = generatePositionOptions(lists.length);
 
   const onPositionChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setDestinationIdx(Number(e.target.value));
+    setDestinationIndex(Number(e.target.value));
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    if (destinationIdx < currListIdx) {
-      reorderLists(currListIdx, destinationIdx);
-    } else if (destinationIdx > currListIdx) {
-      reorderLists(currListIdx, destinationIdx + 1);
+    if (destinationIndex < currListIndex) {
+      reorderLists(currListIndex, destinationIndex);
+    } else if (destinationIndex > currListIndex) {
+      reorderLists(currListIndex, destinationIndex + 1);
     }
 
     dropdownContext.closeDropdownMenu();
@@ -64,13 +64,13 @@ const MoveListMenu = ({
         <FormGrid
           label="Position"
           inputId="position"
-          displayValueOfSelectedValue={destinationIdx + 1}
+          displayValueOfSelectedValue={destinationIndex + 1}
         >
           <Select
             selectId="position"
-            selectedValue={destinationIdx}
+            selectedValue={destinationIndex}
             options={positionOptions}
-            currValue={currListIdx}
+            currValue={currListIndex}
             onChange={onPositionChange}
           />
         </FormGrid>

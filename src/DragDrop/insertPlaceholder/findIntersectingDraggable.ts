@@ -8,11 +8,11 @@ function findIntersectingDraggable(
 ): [
   draggable: Element | null,
   draggableRect: DOMRect | null,
-  draggableIdx: number
+  draggableIndex: number
 ] {
   let intersectingDraggable = null;
   let intersectingDraggableRect = null;
-  let intersectingDraggableIdx = 0;
+  let intersectingDraggableIndex = 0;
 
   for (let i = 0; i < draggablesInCurrDroppable.length; i++) {
     const draggable = draggablesInCurrDroppable[i];
@@ -23,7 +23,7 @@ function findIntersectingDraggable(
       if (intersect(draggedElementRect, draggableRect)) {
         intersectingDraggable = draggable;
         intersectingDraggableRect = draggableRect;
-        intersectingDraggableIdx = i;
+        intersectingDraggableIndex = i;
         break;
       }
     }
@@ -32,7 +32,7 @@ function findIntersectingDraggable(
   return [
     intersectingDraggable,
     intersectingDraggableRect,
-    intersectingDraggableIdx,
+    intersectingDraggableIndex,
   ];
 }
 

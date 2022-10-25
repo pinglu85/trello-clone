@@ -39,12 +39,12 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
   );
 
   const reorderLists: ReorderLists = useCallback(
-    (sourceIdx, destinationIdx) => {
+    (sourceIndex, destinationIndex) => {
       const { lists } = board;
-      const movedList = lists[sourceIdx];
+      const movedList = lists[sourceIndex];
       const newRank = calcItemNewRank(
-        lists[destinationIdx - 1],
-        lists[destinationIdx]
+        lists[destinationIndex - 1],
+        lists[destinationIndex]
       );
 
       moveList({
@@ -69,8 +69,8 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
 
   const reorderCards = useCallback(
     (
-      sourceIdx: number,
-      destinationIdx: number,
+      sourceIndex: number,
+      destinationIndex: number,
       oldParentId: string,
       newParentId: string
     ) => {
@@ -84,10 +84,10 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
           : lists.find(({ id }) => id === newParentId);
       if (!newParent) return;
 
-      const movedCard = oldParent.cards[sourceIdx];
+      const movedCard = oldParent.cards[sourceIndex];
       const newRank = calcItemNewRank(
-        newParent.cards[destinationIdx - 1],
-        newParent.cards[destinationIdx]
+        newParent.cards[destinationIndex - 1],
+        newParent.cards[destinationIndex]
       );
 
       moveCard({
@@ -115,17 +115,17 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
   );
 
   const onDragEnd: OnDragEnd = useCallback(
-    ({ sourceIdx, destinationIdx, oldParentId, newParentId }) => {
-      if (destinationIdx === -1) return;
+    ({ sourceIndex, destinationIndex, oldParentId, newParentId }) => {
+      if (destinationIndex === -1) return;
 
-      if (newParentId === oldParentId && destinationIdx === sourceIdx) {
+      if (newParentId === oldParentId && destinationIndex === sourceIndex) {
         return;
       }
 
       if (oldParentId === BOARD_CANVAS_ID) {
-        reorderLists(sourceIdx, destinationIdx);
+        reorderLists(sourceIndex, destinationIndex);
       } else {
-        reorderCards(sourceIdx, destinationIdx, oldParentId, newParentId);
+        reorderCards(sourceIndex, destinationIndex, oldParentId, newParentId);
       }
     },
     [reorderLists, reorderCards]
@@ -139,8 +139,8 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
           droppableId={BOARD_CANVAS_ID}
           type={DragDropTypes.List}
         >
-          {board.lists.map((list, idx) => (
-            <BoardList key={list.id} list={list} currListIdx={idx} />
+          {board.lists.map((list, index) => (
+            <BoardList key={list.id} list={list} currListIndex={index} />
           ))}
         </Droppable>
       </DragDrop>

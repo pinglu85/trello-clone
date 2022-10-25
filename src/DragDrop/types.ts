@@ -1,6 +1,6 @@
 interface DragDropResult {
-  sourceIdx: number;
-  destinationIdx: number;
+  sourceIndex: number;
+  destinationIndex: number;
   oldParentId: string;
   newParentId: string;
 }
@@ -41,9 +41,9 @@ export interface IDragDropContext {
   draggedElementRect: Rect;
   initDistanceFromDraggedElementLeftToMouseX: number;
   initDistanceFromDraggedElementTopToMouseY: number;
-  draggedElementInitIdx: number;
+  draggedElementInitIndex: number;
   initParentId: string;
-  destinationIdx: number;
+  destinationIndex: number;
   newParentId: string;
   placeholder: HTMLElement | null;
   placeholderClassName: string;

@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { List } from '../generated/graphql';
 
 interface IBoardListContext {
-  currListIdx: number;
+  currListIndex: number;
   currList: List;
 }
 

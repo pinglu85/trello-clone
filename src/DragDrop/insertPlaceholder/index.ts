@@ -38,14 +38,14 @@ function insertPlaceholder(
     (draggablesInCurrDroppable.length === 0 ||
       !intersect(draggedElementRect, currDroppableRect))
   ) {
-    context.destinationIdx = draggablesInCurrDroppable.length;
+    context.destinationIndex = draggablesInCurrDroppable.length;
     context.newParentId = currDroppableId;
     currDroppable.appendChild(placeholder);
     return;
   }
 
   const draggedElementId = getDraggedElementId(draggedElement);
-  const [draggable, draggableRect, draggableIdx] = findIntersectingDraggable(
+  const [draggable, draggableRect, draggableIndex] = findIntersectingDraggable(
     draggedElementId,
     draggedElementRect,
     draggablesInCurrDroppable
@@ -62,28 +62,28 @@ function insertPlaceholder(
     currDroppableType
   );
 
-  let destinationIdx = -1;
+  let destinationIndex = -1;
   let insertReferenceNode: Element | null = null;
 
   switch (insertPosition) {
     case InsertPositions.Before:
       if (!isPreviousSiblingPlaceholder(draggable)) {
         insertReferenceNode = draggable;
-        destinationIdx = draggableIdx;
+        destinationIndex = draggableIndex;
       }
       break;
     case InsertPositions.After:
       if (!isNextSiblingPlaceholder(draggable)) {
         insertReferenceNode = draggable.nextElementSibling;
-        destinationIdx = draggableIdx + 1;
+        destinationIndex = draggableIndex + 1;
       }
       break;
     default:
     // do nothing
   }
 
-  if (destinationIdx !== -1) {
-    context.destinationIdx = destinationIdx;
+  if (destinationIndex !== -1) {
+    context.destinationIndex = destinationIndex;
     context.newParentId = currDroppableId;
     currDroppable.insertBefore(placeholder, insertReferenceNode);
   }

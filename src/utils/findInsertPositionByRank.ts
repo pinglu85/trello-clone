@@ -8,8 +8,6 @@ function findInsertPositionByRank<T extends Orderable>(
   while (left <= right) {
     const mid = left + Math.floor((right - left) / 2);
 
-    if (items[mid].rank === targetRank) return mid;
-
     if (items[mid].rank > targetRank) {
       right = mid - 1;
     } else {

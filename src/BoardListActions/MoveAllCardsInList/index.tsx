@@ -6,7 +6,7 @@ import BoardCanvasContext from '../../contexts/BoardCanvasContext';
 import BoardListContext from '../../contexts/BoardListContext';
 import { DropdownContext } from '../../common/Dropdown';
 import { MOVE_ALL_CARDS_IN_LIST } from './mutation';
-import updateCacheAfterAllCardsMoved from './updateCacheAfterAllCardsMoved';
+import updateCacheAfterCardsMoved from './updateCacheAfterCardsMoved';
 import { MenuContent } from '../../common/Menu';
 import ListActionsListItem from '../ListActionsListItem';
 import styles from './styles.module.css';
@@ -34,7 +34,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
     MoveAllCardsInListMutation,
     MoveAllCardsInListMutationVariables
   >(MOVE_ALL_CARDS_IN_LIST, {
-    update: updateCacheAfterAllCardsMoved,
+    update: updateCacheAfterCardsMoved,
   });
 
   if (!boardCanvasContext || !boardListContext || !dropdownContext) {

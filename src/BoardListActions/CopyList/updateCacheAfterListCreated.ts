@@ -10,29 +10,29 @@ import {
 } from '../../utils/readWriteBoardInCache';
 import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
 import type {
-  CopyListMutation,
-  CopyListMutationVariables,
+  CreateListMutation,
+  CreateListMutationVariables,
 } from '../../generated/graphql';
 
-const updateCacheAfterListCopied: MutationUpdaterFunction<
-  CopyListMutation,
-  CopyListMutationVariables,
+const updateCacheAfterListCreated: MutationUpdaterFunction<
+  CreateListMutation,
+  CreateListMutationVariables,
   DefaultContext,
   ApolloCache<unknown>
 > = (cache, { data }) => {
   if (!data) return;
 
-  const newList = data.copyList;
-  const boardId = newList.boardId;
+  const { createList: list } = data;
+  const { boardId } = list;
   const board = readBoardFromCache(cache, boardId);
   if (!board) return;
 
   const newLists = [...board.lists];
-  const insertPosition = findInsertPositionByRank(newLists, newList.rank);
-  newLists.splice(insertPosition, 0, newList);
+  const insertPosition = findInsertPositionByRank(newLists, list.rank);
+  newLists.splice(insertPosition, 0, list);
 
   const newBoard = { ...board, lists: newLists };
   writeBoardToCache(cache, boardId, newBoard);
 };
 
-export default updateCacheAfterListCopied;
+export default updateCacheAfterListCreated;

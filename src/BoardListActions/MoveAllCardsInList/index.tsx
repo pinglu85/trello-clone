@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import { LexoRank } from 'lexorank';
 
 import { SubmenuTrigger } from '../../common/MultiLevelMenu';
 import BoardCanvasContext from '../../contexts/BoardCanvasContext';
@@ -12,7 +11,6 @@ import { MenuContent } from '../../common/Menu';
 import ListActionsListItem from '../ListActionsListItem';
 import styles from './styles.module.css';
 import type {
-  Card,
   MoveAllCardsInListMutation,
   MoveAllCardsInListMutationVariables,
 } from '../../generated/graphql';
@@ -44,58 +42,21 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
   }
 
   const { lists } = boardCanvasContext;
-  const { id: currListId, cards: cardsInCurrList } = boardListContext.currList;
+  const { currList } = boardListContext;
 
   const moveAllCardsToList = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
-    if (cardsInCurrList.length === 0 || !(e.target instanceof Element)) {
+    if (currList.cards.length === 0 || !(e.target instanceof Element)) {
       dropdownContext.closeDropdownMenu();
       return;
     }
 
-    const destinationListId = e.target.id;
-    const destinationList = lists.find((list) => list.id === destinationListId);
-    if (!destinationList) return;
-
-    let prevCardLexoRank: LexoRank | null = null;
-    if (destinationList.cards.length > 0) {
-      const { cards } = destinationList;
-      const lastCard = cards[cards.length - 1];
-      prevCardLexoRank = LexoRank.parse(lastCard.rank);
-    }
-
-    const newRankMap: Record<string, string> = {};
-    const updatedCards: Card[] = [];
-    for (const card of cardsInCurrList) {
-      const currCardNewLexoRank = prevCardLexoRank
-        ? prevCardLexoRank.genNext()
-        : LexoRank.middle();
-      const currCardNewRank = currCardNewLexoRank.toString();
-      newRankMap[card.id] = currCardNewRank;
-      prevCardLexoRank = currCardNewLexoRank;
-
-      updatedCards.push({
-        ...card,
-        boardId: destinationList.boardId,
-        listId: destinationList.id,
-        rank: currCardNewRank,
-      });
-    }
-
     moveAllCardsInList({
       variables: {
-        oldListId: currListId,
-        newBoardId: destinationList.boardId,
-        newListId: destinationListId,
-        newRankMap,
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        moveAllCardsInList: {
-          oldListId: currListId,
-          cards: updatedCards,
-        },
+        sourceListId: currList.id,
+        destinationBoardId: currList.boardId,
+        destinationListId: e.target.id,
       },
     });
 
@@ -106,14 +67,14 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
     <MenuContent>
       <ul>
         {lists.map(({ id, name }) => (
-          <ListActionsListItem key={id} disabled={id === currListId}>
+          <ListActionsListItem key={id} disabled={id === currList.id}>
             <button
               id={id}
               className={styles.moveAllCardsButton}
               onClick={moveAllCardsToList}
-              disabled={id === currListId}
+              disabled={id === currList.id}
             >
-              {`${name}${id === currListId ? ' (current)' : ''}`}
+              {`${name}${id === currList.id ? ' (current)' : ''}`}
             </button>
           </ListActionsListItem>
         ))}

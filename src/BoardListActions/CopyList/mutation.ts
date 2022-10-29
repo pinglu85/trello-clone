@@ -2,18 +2,20 @@ import { gql } from 'graphql.macro';
 
 import { CARD_FRAGMENT } from '../../BoardComponent/fragments';
 
-const COPY_LIST = gql`
+const CREATE_LIST = gql`
   ${CARD_FRAGMENT}
 
-  mutation CopyList(
-    $sourceListId: ID!
-    $newListName: String!
-    $newListRank: String!
+  mutation CreateList(
+    $boardId: String!
+    $name: String!
+    $rank: String!
+    $sourceListId: ID
   ) {
-    copyList(
+    createList(
+      boardId: $boardId
+      name: $name
+      rank: $rank
       sourceListId: $sourceListId
-      newListName: $newListName
-      newListRank: $newListRank
     ) {
       id
       boardId
@@ -27,4 +29,4 @@ const COPY_LIST = gql`
   }
 `;
 
-export default COPY_LIST;
+export default CREATE_LIST;

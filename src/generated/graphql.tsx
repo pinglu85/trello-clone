@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  JSONObject: { [key: string]: any };
 };
 
 export type Board = {
@@ -64,12 +63,6 @@ export type ListUpdates = {
   name?: InputMaybe<Scalars['String']>;
 };
 
-export type MoveAllCardsInListResult = {
-  __typename?: 'MoveAllCardsInListResult';
-  cards: Array<Card>;
-  oldListId: Scalars['String'];
-};
-
 export type MoveCardResult = {
   __typename?: 'MoveCardResult';
   card: Card;
@@ -86,24 +79,16 @@ export type MoveListResult = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  copyList: List;
   createBoard: Board;
   createCard: Card;
   createList: List;
   deleteBoard: Scalars['Boolean'];
-  moveAllCardsInList: MoveAllCardsInListResult;
+  moveAllCardsInList: Array<Card>;
   moveCard: MoveCardResult;
   moveList: MoveListResult;
   updateBoard: Board;
   updateCard: Card;
   updateList: List;
-};
-
-
-export type MutationCopyListArgs = {
-  newListName: Scalars['String'];
-  newListRank: Scalars['String'];
-  sourceListId: Scalars['ID'];
 };
 
 
@@ -125,6 +110,7 @@ export type MutationCreateListArgs = {
   boardId: Scalars['String'];
   name: Scalars['String'];
   rank: Scalars['String'];
+  sourceListId?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -134,10 +120,9 @@ export type MutationDeleteBoardArgs = {
 
 
 export type MutationMoveAllCardsInListArgs = {
-  newBoardId: Scalars['String'];
-  newListId: Scalars['String'];
-  newRankMap: Scalars['JSONObject'];
-  oldListId: Scalars['String'];
+  destinationBoardId: Scalars['String'];
+  destinationListId: Scalars['String'];
+  sourceListId: Scalars['String'];
 };
 
 
@@ -241,24 +226,24 @@ export type GetBoardQueryVariables = Exact<{
 
 export type GetBoardQuery = { __typename?: 'Query', board: { __typename?: 'Board', id: string, backgroundColor?: string | null, backgroundImage?: string | null, closed: boolean, name: string, lists: Array<{ __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> }> } };
 
-export type CopyListMutationVariables = Exact<{
-  sourceListId: Scalars['ID'];
-  newListName: Scalars['String'];
-  newListRank: Scalars['String'];
+export type CreateListMutationVariables = Exact<{
+  boardId: Scalars['String'];
+  name: Scalars['String'];
+  rank: Scalars['String'];
+  sourceListId?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type CopyListMutation = { __typename?: 'Mutation', copyList: { __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> } };
+export type CreateListMutation = { __typename?: 'Mutation', createList: { __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> } };
 
 export type MoveAllCardsInListMutationVariables = Exact<{
-  oldListId: Scalars['String'];
-  newBoardId: Scalars['String'];
-  newListId: Scalars['String'];
-  newRankMap: Scalars['JSONObject'];
+  sourceListId: Scalars['String'];
+  destinationBoardId: Scalars['String'];
+  destinationListId: Scalars['String'];
 }>;
 
 
-export type MoveAllCardsInListMutation = { __typename?: 'Mutation', moveAllCardsInList: { __typename?: 'MoveAllCardsInListResult', oldListId: string, cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> } };
+export type MoveAllCardsInListMutation = { __typename?: 'Mutation', moveAllCardsInList: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
 
 export type ListFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
 
@@ -411,12 +396,13 @@ export function useGetBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
 export type GetBoardLazyQueryHookResult = ReturnType<typeof useGetBoardLazyQuery>;
 export type GetBoardQueryResult = Apollo.QueryResult<GetBoardQuery, GetBoardQueryVariables>;
-export const CopyListDocument = gql`
-    mutation CopyList($sourceListId: ID!, $newListName: String!, $newListRank: String!) {
-  copyList(
+export const CreateListDocument = gql`
+    mutation CreateList($boardId: String!, $name: String!, $rank: String!, $sourceListId: ID) {
+  createList(
+    boardId: $boardId
+    name: $name
+    rank: $rank
     sourceListId: $sourceListId
-    newListName: $newListName
-    newListRank: $newListRank
   ) {
     id
     boardId
@@ -429,46 +415,43 @@ export const CopyListDocument = gql`
   }
 }
     ${CardFragmentDoc}`;
-export type CopyListMutationFn = Apollo.MutationFunction<CopyListMutation, CopyListMutationVariables>;
+export type CreateListMutationFn = Apollo.MutationFunction<CreateListMutation, CreateListMutationVariables>;
 
 /**
- * __useCopyListMutation__
+ * __useCreateListMutation__
  *
- * To run a mutation, you first call `useCopyListMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCopyListMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateListMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [copyListMutation, { data, loading, error }] = useCopyListMutation({
+ * const [createListMutation, { data, loading, error }] = useCreateListMutation({
  *   variables: {
+ *      boardId: // value for 'boardId'
+ *      name: // value for 'name'
+ *      rank: // value for 'rank'
  *      sourceListId: // value for 'sourceListId'
- *      newListName: // value for 'newListName'
- *      newListRank: // value for 'newListRank'
  *   },
  * });
  */
-export function useCopyListMutation(baseOptions?: Apollo.MutationHookOptions<CopyListMutation, CopyListMutationVariables>) {
+export function useCreateListMutation(baseOptions?: Apollo.MutationHookOptions<CreateListMutation, CreateListMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CopyListMutation, CopyListMutationVariables>(CopyListDocument, options);
+        return Apollo.useMutation<CreateListMutation, CreateListMutationVariables>(CreateListDocument, options);
       }
-export type CopyListMutationHookResult = ReturnType<typeof useCopyListMutation>;
-export type CopyListMutationResult = Apollo.MutationResult<CopyListMutation>;
-export type CopyListMutationOptions = Apollo.BaseMutationOptions<CopyListMutation, CopyListMutationVariables>;
+export type CreateListMutationHookResult = ReturnType<typeof useCreateListMutation>;
+export type CreateListMutationResult = Apollo.MutationResult<CreateListMutation>;
+export type CreateListMutationOptions = Apollo.BaseMutationOptions<CreateListMutation, CreateListMutationVariables>;
 export const MoveAllCardsInListDocument = gql`
-    mutation MoveAllCardsInList($oldListId: String!, $newBoardId: String!, $newListId: String!, $newRankMap: JSONObject!) {
+    mutation MoveAllCardsInList($sourceListId: String!, $destinationBoardId: String!, $destinationListId: String!) {
   moveAllCardsInList(
-    oldListId: $oldListId
-    newBoardId: $newBoardId
-    newListId: $newListId
-    newRankMap: $newRankMap
+    sourceListId: $sourceListId
+    destinationBoardId: $destinationBoardId
+    destinationListId: $destinationListId
   ) {
-    oldListId
-    cards {
-      ...Card
-    }
+    ...Card
   }
 }
     ${CardFragmentDoc}`;
@@ -487,10 +470,9 @@ export type MoveAllCardsInListMutationFn = Apollo.MutationFunction<MoveAllCardsI
  * @example
  * const [moveAllCardsInListMutation, { data, loading, error }] = useMoveAllCardsInListMutation({
  *   variables: {
- *      oldListId: // value for 'oldListId'
- *      newBoardId: // value for 'newBoardId'
- *      newListId: // value for 'newListId'
- *      newRankMap: // value for 'newRankMap'
+ *      sourceListId: // value for 'sourceListId'
+ *      destinationBoardId: // value for 'destinationBoardId'
+ *      destinationListId: // value for 'destinationListId'
  *   },
  * });
  */

@@ -20,20 +20,23 @@ const updateCacheAfterAllCardsMoved: MutationUpdaterFunction<
   MoveAllCardsInListMutationVariables,
   DefaultContext,
   ApolloCache<unknown>
-> = (cache, { data }) => {
-  if (!data) return;
+> = (cache, { data }, { variables }) => {
+  if (!data || !variables) return;
 
-  const { oldListId, cards } = data.moveAllCardsInList;
+  const { moveAllCardsInList: cards } = data;
   if (cards.length === 0) return;
 
-  const oldListCacheId = getListCacheId(oldListId);
-  const currListId = cards[0].listId;
-  const currListCacheId = getListCacheId(currListId);
-  const cardsInCurrList = readCardsFromCache(cache, currListCacheId);
-  if (!cardsInCurrList) return;
+  const { sourceListId, destinationListId } = variables;
+  const sourceListCacheId = getListCacheId(sourceListId);
+  const destinationListCacheId = getListCacheId(destinationListId);
+  const cardsInDestinationList = readCardsFromCache(
+    cache,
+    destinationListCacheId
+  );
+  if (!cardsInDestinationList) return;
 
   cache.modify({
-    id: oldListCacheId,
+    id: sourceListCacheId,
     fields: {
       cards() {
         return <Reference[]>[];
@@ -41,8 +44,8 @@ const updateCacheAfterAllCardsMoved: MutationUpdaterFunction<
     },
   });
 
-  const newCardsForCurrList = [...cardsInCurrList, ...cards];
-  writeCardsToCache(cache, currListCacheId, newCardsForCurrList);
+  const newCardsInDestinationList = [...cardsInDestinationList, ...cards];
+  writeCardsToCache(cache, destinationListCacheId, newCardsInDestinationList);
 };
 
 export default updateCacheAfterAllCardsMoved;

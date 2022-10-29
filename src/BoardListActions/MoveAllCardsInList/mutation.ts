@@ -6,21 +6,16 @@ export const MOVE_ALL_CARDS_IN_LIST = gql`
   ${CARD_FRAGMENT}
 
   mutation MoveAllCardsInList(
-    $oldListId: String!
-    $newBoardId: String!
-    $newListId: String!
-    $newRankMap: JSONObject!
+    $sourceListId: String!
+    $destinationBoardId: String!
+    $destinationListId: String!
   ) {
     moveAllCardsInList(
-      oldListId: $oldListId
-      newBoardId: $newBoardId
-      newListId: $newListId
-      newRankMap: $newRankMap
+      sourceListId: $sourceListId
+      destinationBoardId: $destinationBoardId
+      destinationListId: $destinationListId
     ) {
-      oldListId
-      cards {
-        ...Card
-      }
+      ...Card
     }
   }
 `;

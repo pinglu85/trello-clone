@@ -6,17 +6,17 @@ import BoardListContext from '../../contexts/BoardListContext';
 import { SubmenuTrigger } from '../../common/MultiLevelMenu';
 import BoardCanvasContext from '../../contexts/BoardCanvasContext';
 import { DropdownContext } from '../../common/Dropdown';
-import COPY_LIST from './mutation';
-import updateCacheAfterListCopied from './updateCacheAfterListCopied';
+import CREATE_LIST from './mutation';
+import updateCacheAfterListCreated from './updateCacheAfterListCreated';
 import calcItemRank from '../../utils/calcItemRank';
 import { MenuContent } from '../../common/Menu';
 import Textarea from '../../common/Textarea';
 import FormSubmitButton from '../FormSubmitButton';
 import styles from './styles.module.css';
 import type {
-  CopyListMutation,
-  CopyListMutationVariables,
   List,
+  CreateListMutation,
+  CreateListMutationVariables,
 } from '../../generated/graphql';
 
 const CopyList = (): JSX.Element | null => {
@@ -49,12 +49,12 @@ const CopyListMenu = ({
   const boardCanvasContext = useContext(BoardCanvasContext);
   const dropdownContext = useContext(DropdownContext);
   const [listName, setListName] = useState(currList.name);
-  const [copyList] = useMutation<CopyListMutation, CopyListMutationVariables>(
-    COPY_LIST,
-    {
-      update: updateCacheAfterListCopied,
-    }
-  );
+  const [createList] = useMutation<
+    CreateListMutation,
+    CreateListMutationVariables
+  >(CREATE_LIST, {
+    update: updateCacheAfterListCreated,
+  });
 
   const onListNameChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -72,15 +72,16 @@ const CopyListMenu = ({
     const newListRank = calcItemRank(currList, lists[currListIndex + 1]);
     const newListTempId = nanoid();
 
-    copyList({
+    createList({
       variables: {
+        boardId: currList.boardId,
+        name: listName,
+        rank: newListRank,
         sourceListId: currList.id,
-        newListName: listName,
-        newListRank,
       },
       optimisticResponse: {
         __typename: 'Mutation',
-        copyList: {
+        createList: {
           ...currList,
           id: newListTempId,
           name: listName,

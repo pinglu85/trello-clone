@@ -15,7 +15,7 @@ import {
   writeCardsToCache,
 } from '../../utils/readWriteCardsInCache';
 
-const updateCacheAfterAllCardsMoved: MutationUpdaterFunction<
+const updateCacheAfterCardsMoved: MutationUpdaterFunction<
   MoveAllCardsInListMutation,
   MoveAllCardsInListMutationVariables,
   DefaultContext,
@@ -48,4 +48,4 @@ const updateCacheAfterAllCardsMoved: MutationUpdaterFunction<
   writeCardsToCache(cache, destinationListCacheId, newCardsInDestinationList);
 };
 
-export default updateCacheAfterAllCardsMoved;
+export default updateCacheAfterCardsMoved;

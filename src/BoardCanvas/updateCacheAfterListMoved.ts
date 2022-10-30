@@ -7,13 +7,13 @@ import type {
 import {
   readBoardFromCache,
   writeBoardToCache,
-} from '../../utils/readWriteBoardInCache';
-import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
+} from '../utils/readWriteBoardInCache';
+import findInsertPositionByRank from '../utils/findInsertPositionByRank';
 import type {
   MoveListMutation,
   MoveListMutationVariables,
   List,
-} from '../../generated/graphql';
+} from '../generated/graphql';
 
 const updateCacheAfterListMoved: MutationUpdaterFunction<
   MoveListMutation,

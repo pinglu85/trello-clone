@@ -4,16 +4,16 @@ import type {
   MutationUpdaterFunction,
 } from '@apollo/client';
 
-import getListCacheId from '../../utils/getListCacheId';
+import getListCacheId from '../utils/getListCacheId';
 import {
   readCardsFromCache,
   writeCardsToCache,
-} from '../../utils/readWriteCardsInCache';
-import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
+} from '../utils/readWriteCardsInCache';
+import findInsertPositionByRank from '../utils/findInsertPositionByRank';
 import type {
   MoveCardMutation,
   MoveCardMutationVariables,
-} from '../../generated/graphql';
+} from '../generated/graphql';
 
 const updateCacheAfterCardMoved: MutationUpdaterFunction<
   MoveCardMutation,

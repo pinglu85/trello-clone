@@ -63,12 +63,6 @@ export type ListUpdates = {
   name?: InputMaybe<Scalars['String']>;
 };
 
-export type MoveCardResult = {
-  __typename?: 'MoveCardResult';
-  card: Card;
-  oldListId: Scalars['String'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createBoard: Board;
@@ -76,7 +70,7 @@ export type Mutation = {
   createList: List;
   deleteBoard: Scalars['Boolean'];
   moveAllCardsInList: Array<Card>;
-  moveCard: MoveCardResult;
+  moveCard: Card;
   moveList: List;
   updateBoard: Board;
   updateCard: Card;
@@ -119,10 +113,11 @@ export type MutationMoveAllCardsInListArgs = {
 
 
 export type MutationMoveCardArgs = {
+  destinationBoardId: Scalars['String'];
+  destinationListId: Scalars['String'];
   id: Scalars['ID'];
-  newBoardId: Scalars['String'];
-  newListId: Scalars['String'];
   newRank: Scalars['String'];
+  sourceListId: Scalars['String'];
 };
 
 
@@ -201,13 +196,14 @@ export type GetBoardsAndBoardQuery = { __typename?: 'Query', boards: Array<{ __t
 
 export type MoveCardMutationVariables = Exact<{
   moveCardId: Scalars['ID'];
-  newBoardId: Scalars['String'];
-  newListId: Scalars['String'];
+  sourceListId: Scalars['String'];
+  destinationBoardId: Scalars['String'];
+  destinationListId: Scalars['String'];
   newRank: Scalars['String'];
 }>;
 
 
-export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'MoveCardResult', oldListId: string, card: { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string } } };
+export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string } };
 
 export type CreateListMutationVariables = Exact<{
   boardId: Scalars['String'];
@@ -344,17 +340,15 @@ export type GetBoardsAndBoardQueryHookResult = ReturnType<typeof useGetBoardsAnd
 export type GetBoardsAndBoardLazyQueryHookResult = ReturnType<typeof useGetBoardsAndBoardLazyQuery>;
 export type GetBoardsAndBoardQueryResult = Apollo.QueryResult<GetBoardsAndBoardQuery, GetBoardsAndBoardQueryVariables>;
 export const MoveCardDocument = gql`
-    mutation MoveCard($moveCardId: ID!, $newBoardId: String!, $newListId: String!, $newRank: String!) {
+    mutation MoveCard($moveCardId: ID!, $sourceListId: String!, $destinationBoardId: String!, $destinationListId: String!, $newRank: String!) {
   moveCard(
     id: $moveCardId
-    newBoardId: $newBoardId
-    newListId: $newListId
+    sourceListId: $sourceListId
+    destinationBoardId: $destinationBoardId
+    destinationListId: $destinationListId
     newRank: $newRank
   ) {
-    oldListId
-    card {
-      ...Card
-    }
+    ...Card
   }
 }
     ${CardFragmentDoc}`;
@@ -374,8 +368,9 @@ export type MoveCardMutationFn = Apollo.MutationFunction<MoveCardMutation, MoveC
  * const [moveCardMutation, { data, loading, error }] = useMoveCardMutation({
  *   variables: {
  *      moveCardId: // value for 'moveCardId'
- *      newBoardId: // value for 'newBoardId'
- *      newListId: // value for 'newListId'
+ *      sourceListId: // value for 'sourceListId'
+ *      destinationBoardId: // value for 'destinationBoardId'
+ *      destinationListId: // value for 'destinationListId'
  *      newRank: // value for 'newRank'
  *   },
  * });

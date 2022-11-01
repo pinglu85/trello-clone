@@ -5,20 +5,19 @@ import { CARD_FRAGMENT } from '../shared/fragments';
 export const MOVE_CARD = gql`
   mutation MoveCard(
     $moveCardId: ID!
-    $newBoardId: String!
-    $newListId: String!
+    $sourceListId: String!
+    $destinationBoardId: String!
+    $destinationListId: String!
     $newRank: String!
   ) {
     moveCard(
       id: $moveCardId
-      newBoardId: $newBoardId
-      newListId: $newListId
+      sourceListId: $sourceListId
+      destinationBoardId: $destinationBoardId
+      destinationListId: $destinationListId
       newRank: $newRank
     ) {
-      oldListId
-      card {
-        ...Card
-      }
+      ...Card
     }
   }
 

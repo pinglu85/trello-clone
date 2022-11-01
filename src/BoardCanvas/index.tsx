@@ -95,20 +95,18 @@ const BoardCanvas = ({ currBoard, boards }: BoardCanvasProps): JSX.Element => {
       moveCard({
         variables: {
           moveCardId: movedCard.id,
-          newBoardId: currBoard.id,
-          newListId: newParent.id,
+          sourceListId: oldParent.id,
+          destinationBoardId: currBoard.id,
+          destinationListId: newParent.id,
           newRank: newRank,
         },
         optimisticResponse: {
           __typename: 'Mutation',
           moveCard: {
-            oldListId: oldParent.id,
-            card: {
-              ...movedCard,
-              boardId: currBoard.id,
-              listId: newParent.id,
-              rank: newRank,
-            },
+            ...movedCard,
+            boardId: currBoard.id,
+            listId: newParent.id,
+            rank: newRank,
           },
         },
       });

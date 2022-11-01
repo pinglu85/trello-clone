@@ -4,12 +4,12 @@ import type {
   MutationUpdaterFunction,
 } from '@apollo/client';
 
-import getListCacheId from '../utils/getListCacheId';
+import { getListCacheId } from '../utils/getCacheId';
 import {
-  readCardsFromCache,
-  writeCardsToCache,
-} from '../utils/readWriteCardsInCache';
-import findInsertPositionByRank from '../utils/findInsertPositionByRank';
+  readListCardsFromCache,
+  writeListCardsToCache,
+} from '../utils/readWriteListCardsInCache';
+import findOrderableInsertPosition from '../utils/findOrderableInsertPosition';
 import type {
   MoveCardMutation,
   MoveCardMutationVariables,
@@ -26,7 +26,7 @@ const updateCacheAfterCardMoved: MutationUpdaterFunction<
   const { oldListId, card: movedCard } = data.moveCard;
   const currListId = movedCard.listId;
   const oldListCacheId = getListCacheId(oldListId);
-  const cardsInOldList = readCardsFromCache(cache, oldListCacheId);
+  const cardsInOldList = readListCardsFromCache(cache, oldListCacheId);
   if (!cardsInOldList) return;
 
   const newCardsForOldList = cardsInOldList.filter(
@@ -34,28 +34,28 @@ const updateCacheAfterCardMoved: MutationUpdaterFunction<
   );
 
   if (oldListId === currListId) {
-    const insertPosition = findInsertPositionByRank(
+    const insertPosition = findOrderableInsertPosition(
       newCardsForOldList,
       movedCard.rank
     );
     newCardsForOldList.splice(insertPosition, 0, movedCard);
-    writeCardsToCache(cache, oldListCacheId, newCardsForOldList);
+    writeListCardsToCache(cache, oldListCacheId, newCardsForOldList);
     return;
   }
 
   const currListCacheId = getListCacheId(currListId);
-  const cardsInCurrList = readCardsFromCache(cache, currListCacheId);
+  const cardsInCurrList = readListCardsFromCache(cache, currListCacheId);
   if (!cardsInCurrList) return;
 
   const newCardsForCurrList = [...cardsInCurrList];
-  const insertPosition = findInsertPositionByRank(
+  const insertPosition = findOrderableInsertPosition(
     newCardsForCurrList,
     movedCard.rank
   );
   newCardsForCurrList.splice(insertPosition, 0, movedCard);
 
-  writeCardsToCache(cache, oldListCacheId, newCardsForOldList);
-  writeCardsToCache(cache, currListCacheId, newCardsForCurrList);
+  writeListCardsToCache(cache, oldListCacheId, newCardsForOldList);
+  writeListCardsToCache(cache, currListCacheId, newCardsForCurrList);
 };
 
 export default updateCacheAfterCardMoved;

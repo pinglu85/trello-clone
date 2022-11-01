@@ -5,15 +5,15 @@ import type {
   Reference,
 } from '@apollo/client';
 
-import getListCacheId from '../../utils/getListCacheId';
+import { getListCacheId } from '../../utils/getCacheId';
+import {
+  readListCardsFromCache,
+  writeListCardsToCache,
+} from '../../utils/readWriteListCardsInCache';
 import type {
   MoveAllCardsInListMutation,
   MoveAllCardsInListMutationVariables,
 } from '../../generated/graphql';
-import {
-  readCardsFromCache,
-  writeCardsToCache,
-} from '../../utils/readWriteCardsInCache';
 
 const updateCacheAfterCardsMoved: MutationUpdaterFunction<
   MoveAllCardsInListMutation,
@@ -29,7 +29,7 @@ const updateCacheAfterCardsMoved: MutationUpdaterFunction<
   const { sourceListId, destinationListId } = variables;
   const sourceListCacheId = getListCacheId(sourceListId);
   const destinationListCacheId = getListCacheId(destinationListId);
-  const cardsInDestinationList = readCardsFromCache(
+  const cardsInDestinationList = readListCardsFromCache(
     cache,
     destinationListCacheId
   );
@@ -45,7 +45,11 @@ const updateCacheAfterCardsMoved: MutationUpdaterFunction<
   });
 
   const newCardsInDestinationList = [...cardsInDestinationList, ...cards];
-  writeCardsToCache(cache, destinationListCacheId, newCardsInDestinationList);
+  writeListCardsToCache(
+    cache,
+    destinationListCacheId,
+    newCardsInDestinationList
+  );
 };
 
 export default updateCacheAfterCardsMoved;

@@ -1,10 +1,12 @@
 import { createContext } from 'react';
 
-import type { List } from '../generated/graphql';
+import type { Board } from '../generated/graphql';
+import type { BoardWithoutLists } from '../shared/types';
 
 interface IBoardCanvasContext {
-  lists: List[];
-  reorderLists: ReorderLists;
+  currBoard: Board;
+  boards: BoardWithoutLists[];
+  reorderListsInCurrBoard: ReorderListsInCurrBoard;
 }
 
 const BoardCanvasContext = createContext<IBoardCanvasContext | null>(null);

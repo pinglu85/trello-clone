@@ -41,7 +41,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
     return null;
   }
 
-  const { lists } = boardCanvasContext;
+  const { currBoard } = boardCanvasContext;
   const { currList } = boardListContext;
 
   const moveAllCardsToList = (
@@ -66,7 +66,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
   return (
     <MenuContent>
       <ul>
-        {lists.map(({ id, name }) => (
+        {currBoard.lists.map(({ id, name }) => (
           <ListActionsListItem key={id} disabled={id === currList.id}>
             <button
               id={id}

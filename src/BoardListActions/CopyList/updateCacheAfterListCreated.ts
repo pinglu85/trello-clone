@@ -2,13 +2,13 @@ import type {
   ApolloCache,
   DefaultContext,
   MutationUpdaterFunction,
+  Reference,
 } from '@apollo/client';
 
-import {
-  readBoardFromCache,
-  writeBoardToCache,
-} from '../../utils/readWriteBoardInCache';
-import findInsertPositionByRank from '../../utils/findInsertPositionByRank';
+import { getBoardCacheId } from '../../utils/getCacheId';
+import findOrderableRefInsertPosition from '../../utils/findOrderableRefInsertPosition';
+import { LIST_TYPENAME } from '../../constants/graphql';
+import insertRef from '../../utils/insertRef';
 import type {
   CreateListMutation,
   CreateListMutationVariables,
@@ -22,17 +22,30 @@ const updateCacheAfterListCreated: MutationUpdaterFunction<
 > = (cache, { data }) => {
   if (!data) return;
 
-  const { createList: list } = data;
-  const { boardId } = list;
-  const board = readBoardFromCache(cache, boardId);
-  if (!board) return;
+  const { id, boardId, rank } = data.createList;
+  const boardCacheId = getBoardCacheId(boardId);
 
-  const newLists = [...board.lists];
-  const insertPosition = findInsertPositionByRank(newLists, list.rank);
-  newLists.splice(insertPosition, 0, list);
+  cache.modify({
+    id: boardCacheId,
+    fields: {
+      lists(existingListRefs: Reference[], { readField, toReference }) {
+        const insertPosition = findOrderableRefInsertPosition(
+          existingListRefs,
+          rank,
+          readField
+        );
 
-  const newBoard = { ...board, lists: newLists };
-  writeBoardToCache(cache, boardId, newBoard);
+        const newListRef = toReference({
+          __typename: LIST_TYPENAME,
+          id,
+        });
+
+        if (!newListRef) return existingListRefs;
+
+        return insertRef(existingListRefs, newListRef, insertPosition);
+      },
+    },
+  });
 };
 
 export default updateCacheAfterListCreated;

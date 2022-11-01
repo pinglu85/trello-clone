@@ -1,1 +1,8 @@
-type ReorderLists = (sourceIndex: number, destinationIndex: number) => void;
+type ReorderListsInCurrBoard = (
+  sourceIndex: number,
+  destinationIndex: number
+) => void;
+
+interface Orderable {
+  rank: string;
+}

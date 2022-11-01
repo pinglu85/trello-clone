@@ -1,10 +1,11 @@
 import { gql } from 'graphql.macro';
 
-import { CARD_FRAGMENT } from '../../BoardComponent/fragments';
+import {
+  LIST_FRAGMENT_WITHOUT_CARDS,
+  CARD_FRAGMENT,
+} from '../../shared/fragments';
 
 const CREATE_LIST = gql`
-  ${CARD_FRAGMENT}
-
   mutation CreateList(
     $boardId: String!
     $name: String!
@@ -17,16 +18,15 @@ const CREATE_LIST = gql`
       rank: $rank
       sourceListId: $sourceListId
     ) {
-      id
-      boardId
+      ...List
       cards {
         ...Card
       }
-      closed
-      name
-      rank
     }
   }
+
+  ${LIST_FRAGMENT_WITHOUT_CARDS}
+  ${CARD_FRAGMENT}
 `;
 
 export default CREATE_LIST;

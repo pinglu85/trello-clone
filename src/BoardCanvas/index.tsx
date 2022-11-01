@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
 
-import { MOVE_CARD, MOVE_LIST } from './mutation';
-import updateCacheAfterListMoved from './utils/updateCacheAfterListMoved';
-import updateCacheAfterCardMoved from './utils/updateCacheAfterCardMoved';
+import { MOVE_LIST } from '../shared/mutation';
+import { MOVE_CARD } from './mutation';
+import updateCacheAfterListMoved from '../utils/updateCacheAfterListMoved';
+import updateCacheAfterCardMoved from './updateCacheAfterCardMoved';
 import calcItemNewRank from '../utils/calcItemRank';
 import BoardCanvasContext from '../contexts/BoardCanvasContext';
 import DragDrop, { Droppable, DragDropTypes } from '../DragDrop';
@@ -17,14 +18,16 @@ import type {
   MoveListMutation,
   MoveListMutationVariables,
 } from '../generated/graphql';
+import type { BoardWithoutLists } from '../shared/types';
 
 interface BoardCanvasProps {
-  board: Board;
+  currBoard: Board;
+  boards: BoardWithoutLists[];
 }
 
 const BOARD_CANVAS_ID = 'boardCanvas';
 
-const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
+const BoardCanvas = ({ currBoard, boards }: BoardCanvasProps): JSX.Element => {
   const [moveList] = useMutation<MoveListMutation, MoveListMutationVariables>(
     MOVE_LIST,
     {
@@ -38,9 +41,9 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
     }
   );
 
-  const reorderLists: ReorderLists = useCallback(
+  const reorderListsInCurrBoard: ReorderListsInCurrBoard = useCallback(
     (sourceIndex, destinationIndex) => {
-      const { lists } = board;
+      const { lists } = currBoard;
       const movedList = lists[sourceIndex];
       const newRank = calcItemNewRank(
         lists[destinationIndex - 1],
@@ -50,21 +53,20 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       moveList({
         variables: {
           moveListId: movedList.id,
-          newBoardId: board.id,
+          sourceBoardId: currBoard.id,
+          destinationBoardId: currBoard.id,
           newRank: newRank,
         },
         optimisticResponse: {
           __typename: 'Mutation',
           moveList: {
-            id: movedList.id,
-            boardId: board.id,
-            oldBoardId: board.id,
+            ...movedList,
             rank: newRank,
           },
         },
       });
     },
-    [board, moveList]
+    [currBoard, moveList]
   );
 
   const reorderCards = useCallback(
@@ -74,7 +76,7 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       oldParentId: string,
       newParentId: string
     ) => {
-      const { lists } = board;
+      const { lists } = currBoard;
       const oldParent = lists.find(({ id }) => id === oldParentId);
       if (!oldParent) return;
 
@@ -93,7 +95,7 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       moveCard({
         variables: {
           moveCardId: movedCard.id,
-          newBoardId: board.id,
+          newBoardId: currBoard.id,
           newListId: newParent.id,
           newRank: newRank,
         },
@@ -103,7 +105,7 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
             oldListId: oldParent.id,
             card: {
               ...movedCard,
-              boardId: board.id,
+              boardId: currBoard.id,
               listId: newParent.id,
               rank: newRank,
             },
@@ -111,7 +113,7 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
         },
       });
     },
-    [board, moveCard]
+    [currBoard, moveCard]
   );
 
   const onDragEnd: OnDragEnd = useCallback(
@@ -123,23 +125,25 @@ const BoardCanvas = ({ board }: BoardCanvasProps): JSX.Element => {
       }
 
       if (oldParentId === BOARD_CANVAS_ID) {
-        reorderLists(sourceIndex, destinationIndex);
+        reorderListsInCurrBoard(sourceIndex, destinationIndex);
       } else {
         reorderCards(sourceIndex, destinationIndex, oldParentId, newParentId);
       }
     },
-    [reorderLists, reorderCards]
+    [reorderListsInCurrBoard, reorderCards]
   );
 
   return (
-    <BoardCanvasContext.Provider value={{ lists: board.lists, reorderLists }}>
+    <BoardCanvasContext.Provider
+      value={{ currBoard, boards, reorderListsInCurrBoard }}
+    >
       <DragDrop onDragEnd={onDragEnd}>
         <Droppable
           className={styles.BoardCanvas}
           droppableId={BOARD_CANVAS_ID}
           type={DragDropTypes.List}
         >
-          {board.lists.map((list, index) => (
+          {currBoard.lists.map((list, index) => (
             <BoardList key={list.id} list={list} currListIndex={index} />
           ))}
         </Droppable>

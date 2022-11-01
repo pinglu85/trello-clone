@@ -19,7 +19,7 @@ const MoveList = (): JSX.Element | null => {
       submenuContent={
         <MoveListMenu
           currBoard={currBoard}
-          currListId={currList.id}
+          currList={currList}
           currListIndex={currListIndex}
           reorderListsInCurrBoard={reorderListsInCurrBoard}
           boards={boards}

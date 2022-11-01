@@ -88,29 +88,6 @@ const updateCacheAfterCardMoved: MutationUpdaterFunction<
       },
     },
   });
-  // if (oldListId === currListId) {
-  //   const insertPosition = findOrderableInsertPosition(
-  //     newCardsForOldList,
-  //     movedCard.rank
-  //   );
-  //   newCardsForOldList.splice(insertPosition, 0, movedCard);
-  //   writeListCardsToCache(cache, oldListCacheId, newCardsForOldList);
-  //   return;
-  // }
-
-  // const currListCacheId = getListCacheId(currListId);
-  // const cardsInCurrList = readListCardsFromCache(cache, currListCacheId);
-  // if (!cardsInCurrList) return;
-
-  // const newCardsForCurrList = [...cardsInCurrList];
-  // const insertPosition = findOrderableInsertPosition(
-  //   newCardsForCurrList,
-  //   movedCard.rank
-  // );
-  // newCardsForCurrList.splice(insertPosition, 0, movedCard);
-
-  // writeListCardsToCache(cache, oldListCacheId, newCardsForOldList);
-  // writeListCardsToCache(cache, currListCacheId, newCardsForCurrList);
 };
 
 export default updateCacheAfterCardMoved;

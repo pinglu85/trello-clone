@@ -1,45 +1,45 @@
 import { gql } from 'graphql.macro';
 import type { ApolloCache } from '@apollo/client';
 
-import { CARD_FRAGMENT } from '../BoardComponent';
+import { CARD_FRAGMENT } from '../shared/fragments';
 import type { Card, List } from '../generated/graphql';
 
-const LIST_FRAGMENT = gql`
-  ${CARD_FRAGMENT}
-
-  fragment List on List {
+const CARDS_PART_ON_LIST_FRAGMENT = gql`
+  fragment CardsPart on List {
     cards {
       ...Card
     }
   }
+
+  ${CARD_FRAGMENT}
 `;
 
-function readCardsFromCache(
+function readListCardsFromCache(
   cache: ApolloCache<unknown>,
   listCacheId: string
 ): Card[] | null {
   const list = cache.readFragment<List>({
     id: listCacheId,
-    fragment: LIST_FRAGMENT,
-    fragmentName: 'List',
+    fragment: CARDS_PART_ON_LIST_FRAGMENT,
+    fragmentName: 'CardsPart',
   });
 
   return list && list.cards;
 }
 
-function writeCardsToCache(
+function writeListCardsToCache(
   cache: ApolloCache<unknown>,
   listCacheId: string,
   cards: Card[]
 ): void {
   cache.writeFragment({
     id: listCacheId,
-    fragment: LIST_FRAGMENT,
-    fragmentName: 'List',
+    fragment: CARDS_PART_ON_LIST_FRAGMENT,
+    fragmentName: 'CardsPart',
     data: {
       cards,
     },
   });
 }
 
-export { readCardsFromCache, writeCardsToCache };
+export { readListCardsFromCache, writeListCardsToCache };

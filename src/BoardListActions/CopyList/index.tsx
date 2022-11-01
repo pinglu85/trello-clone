@@ -67,9 +67,11 @@ const CopyListMenu = ({
 
     e.preventDefault();
 
-    const { lists } = boardCanvasContext;
-    const currList = lists[currListIndex];
-    const newListRank = calcItemRank(currList, lists[currListIndex + 1]);
+    const { currBoard } = boardCanvasContext;
+    const newListRank = calcItemRank(
+      currList,
+      currBoard.lists[currListIndex + 1]
+    );
     const newListTempId = nanoid();
 
     createList({

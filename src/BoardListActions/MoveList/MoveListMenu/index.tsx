@@ -16,6 +16,7 @@ import type {
   Board,
   GetBoardListsQuery,
   GetBoardListsQueryVariables,
+  List,
   MoveListMutation,
   MoveListMutationVariables,
 } from '../../../generated/graphql';
@@ -23,7 +24,7 @@ import type { BoardWithoutLists } from '../../../shared/types';
 
 interface MoveListMenuProps {
   currBoard: Board;
-  currListId: string;
+  currList: List;
   currListIndex: number;
   reorderListsInCurrBoard: ReorderListsInCurrBoard;
   boards: BoardWithoutLists[];
@@ -33,7 +34,7 @@ type DestinationBoard = Pick<Board, 'id' | 'name'>;
 
 const MoveListMenu = ({
   currBoard,
-  currListId,
+  currList,
   currListIndex,
   reorderListsInCurrBoard,
   boards,
@@ -92,18 +93,26 @@ const MoveListMenu = ({
         reorderListsInCurrBoard(currListIndex, destinationIndex + 1);
       }
     } else if (data) {
-      const { lists } = data.board;
+      const { lists: listsInDestinationBoard } = data.board;
       const newRank = calcItemRank(
-        lists[destinationIndex - 1],
-        lists[destinationIndex]
+        listsInDestinationBoard[destinationIndex - 1],
+        listsInDestinationBoard[destinationIndex]
       );
 
       moveList({
         variables: {
-          moveListId: currListId,
+          moveListId: currList.id,
           sourceBoardId: currBoard.id,
           destinationBoardId: destinationBoard.id,
           newRank,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          moveList: {
+            ...currList,
+            boardId: destinationBoard.id,
+            rank: newRank,
+          },
         },
       });
     }
@@ -144,7 +153,7 @@ const MoveListMenu = ({
                   ? data.board.lists
                   : currBoard.lists
               }
-              currListId={currListId}
+              currListId={currList.id}
             />
           </Select>
         </FormGrid>

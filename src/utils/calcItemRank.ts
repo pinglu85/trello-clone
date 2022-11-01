@@ -1,5 +1,9 @@
 import { LexoRank } from 'lexorank';
 
+interface Orderable {
+  rank: string;
+}
+
 function calcItemRank(
   prevItem: Orderable | undefined,
   nextItem: Orderable | undefined

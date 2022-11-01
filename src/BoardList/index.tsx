@@ -12,6 +12,8 @@ interface BoardListProps {
   list: List;
 }
 
+type DivElementRef = React.MutableRefObject<HTMLDivElement | null>;
+
 const BoardList = ({ currListIndex, list }: BoardListProps): JSX.Element => {
   return (
     <BoardListContext.Provider value={{ currListIndex, currList: list }}>
@@ -30,22 +32,13 @@ const BoardList = ({ currListIndex, list }: BoardListProps): JSX.Element => {
           dragHandleProps: { dragHandleRef, ...dragHandleProps },
         }): JSX.Element => (
           <div
-            ref={
-              draggableContainerRef as React.MutableRefObject<HTMLDivElement | null>
-            }
+            ref={draggableContainerRef as DivElementRef}
             className={styles.listContainer}
             {...draggableProps}
           >
-            <div
-              ref={
-                draggableRef as React.MutableRefObject<HTMLDivElement | null>
-              }
-              className={styles.list}
-            >
+            <div ref={draggableRef as DivElementRef} className={styles.list}>
               <div
-                ref={
-                  dragHandleRef as React.MutableRefObject<HTMLDivElement | null>
-                }
+                ref={dragHandleRef as DivElementRef}
                 className={styles.header}
                 {...dragHandleProps}
               >

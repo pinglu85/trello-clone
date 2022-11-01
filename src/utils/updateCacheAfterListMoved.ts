@@ -22,7 +22,7 @@ const updateCacheAfterListMoved: MutationUpdaterFunction<
 > = (cache, { data }, { variables }) => {
   if (!data || !variables) return;
 
-  const { id: movedListId, rank } = data.moveList;
+  const { id, rank } = data.moveList;
   const { sourceBoardId, destinationBoardId } = variables;
   const sourceBoardCacheId = getBoardCacheId(sourceBoardId);
 
@@ -33,7 +33,7 @@ const updateCacheAfterListMoved: MutationUpdaterFunction<
         lists(existingListRefs: Reference[], { readField }) {
           const [newListRefs, removedListRef] = removeRef(
             existingListRefs,
-            movedListId,
+            id,
             readField
           );
 
@@ -62,7 +62,7 @@ const updateCacheAfterListMoved: MutationUpdaterFunction<
       lists(existingListRefs: Reference[], { readField }) {
         const [newListRefs, removedListRef] = removeRef(
           existingListRefs,
-          movedListId,
+          id,
           readField
         );
 

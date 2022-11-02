@@ -69,6 +69,8 @@ export type Mutation = {
   createCard: Card;
   createList: List;
   deleteBoard: Scalars['Boolean'];
+  deleteCard: Scalars['Boolean'];
+  deleteList: Scalars['Boolean'];
   moveAllCardsInList: Array<Card>;
   moveCard: Card;
   moveList: List;
@@ -101,6 +103,16 @@ export type MutationCreateListArgs = {
 
 
 export type MutationDeleteBoardArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteCardArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteListArgs = {
   id: Scalars['ID'];
 };
 
@@ -173,6 +185,7 @@ export type QueryCardArgs = {
 
 
 export type QueryCardsArgs = {
+  closed: Scalars['Boolean'];
   listId: Scalars['String'];
 };
 
@@ -184,6 +197,7 @@ export type QueryListArgs = {
 
 export type QueryListsArgs = {
   boardId: Scalars['String'];
+  closed: Scalars['Boolean'];
 };
 
 export type GetBoardsAndBoardQueryVariables = Exact<{
@@ -254,8 +268,17 @@ export type MoveListMutationVariables = Exact<{
 
 export type MoveListMutation = { __typename?: 'Mutation', moveList: { __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string } };
 
-export type CardsPartFragment = { __typename?: 'List', cards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
-
+export const CardFragmentDoc = gql`
+    fragment Card on Card {
+  id
+  boardId
+  closed
+  description
+  listId
+  name
+  rank
+}
+    `;
 export const ListFragmentDoc = gql`
     fragment List on List {
   id
@@ -274,24 +297,6 @@ export const BoardFragmentDoc = gql`
   name
 }
     `;
-export const CardFragmentDoc = gql`
-    fragment Card on Card {
-  id
-  boardId
-  closed
-  description
-  listId
-  name
-  rank
-}
-    `;
-export const CardsPartFragmentDoc = gql`
-    fragment CardsPart on List {
-  cards {
-    ...Card
-  }
-}
-    ${CardFragmentDoc}`;
 export const GetBoardsAndBoardDocument = gql`
     query GetBoardsAndBoard($closed: Boolean!, $boardId: ID!) {
   boards(closed: $closed) {

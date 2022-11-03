@@ -851,7 +851,7 @@
             "deprecationReason": null
           },
           {
-            "name": "moveAllCardsInList",
+            "name": "moveAllCards",
             "description": null,
             "args": [
               {

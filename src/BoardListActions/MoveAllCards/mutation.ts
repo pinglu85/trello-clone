@@ -2,13 +2,13 @@ import { gql } from 'graphql.macro';
 
 import { CARD_FRAGMENT } from '../../shared/fragments';
 
-export const MOVE_ALL_CARDS_IN_LIST = gql`
-  mutation MoveAllCardsInList(
+const MOVE_ALL_CARDS = gql`
+  mutation MoveAllCards(
     $sourceListId: String!
     $destinationBoardId: String!
     $destinationListId: String!
   ) {
-    moveAllCardsInList(
+    moveAllCards(
       sourceListId: $sourceListId
       destinationBoardId: $destinationBoardId
       destinationListId: $destinationListId
@@ -19,3 +19,5 @@ export const MOVE_ALL_CARDS_IN_LIST = gql`
 
   ${CARD_FRAGMENT}
 `;
+
+export default MOVE_ALL_CARDS;

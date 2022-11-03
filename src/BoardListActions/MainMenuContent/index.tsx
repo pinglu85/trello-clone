@@ -4,6 +4,7 @@ import ListActionsListItem from '../ListActionsListItem';
 import CopyList from '../CopyList';
 import MoveList from '../MoveList';
 import MoveAllCardsInList from '../MoveAllCardsInList';
+import ArchiveAllCards from '../ArchiveAllCards';
 
 const MainMenuContent = (): JSX.Element => {
   return (
@@ -37,8 +38,9 @@ const MainMenuContent = (): JSX.Element => {
           <ListActionsListItem>
             <MoveAllCardsInList />
           </ListActionsListItem>
+
           <ListActionsListItem>
-            Archive all cards in this list…
+            <ArchiveAllCards />
           </ListActionsListItem>
         </ul>
       </MenuContentSection>

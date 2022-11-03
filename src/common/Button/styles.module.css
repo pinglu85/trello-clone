@@ -1,10 +1,22 @@
-.ButtonPrimary {
+.ButtonPrimary,
+.ButtonDanger {
   padding: 6px 24px;
-  background: var(--background-brand-bold);
   color: #ffffff;
   border-radius: 4px;
 }
 
+.ButtonPrimary {
+  background: var(--background-brand-bold);
+}
+
 .ButtonPrimary:hover {
   background: var(--background-brand-bold-hovered);
+}
+
+.ButtonDanger {
+  background: var(--background-danger-bold);
+}
+
+.ButtonDanger:hover {
+  background: var(--background-danger-bold-hovered);
 }

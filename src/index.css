@@ -10,6 +10,8 @@
   --background-light-hovered: #091e420a;
   --background-brand-bold: #0079bf;
   --background-brand-bold-hovered: #026aa7;
+  --background-danger-bold: #b04632;
+  --background-danger-bold-hovered: #933b27;
   --font-color-default: #172b4d;
   --font-color-subtle: #5e6c84;
   --font-color-disabled: #a5adba;
@@ -30,6 +32,10 @@ body {
 
 body {
   background: rgb(0, 121, 191);
+}
+
+p {
+  margin: 0 0 8px;
 }
 
 button {

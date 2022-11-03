@@ -7,17 +7,17 @@ import type {
 
 import { getListCacheId } from '../../utils/getCacheId';
 import type {
-  MoveAllCardsInListMutation,
-  MoveAllCardsInListMutationVariables,
+  MoveAllCardsMutation,
+  MoveAllCardsMutationVariables,
 } from '../../generated/graphql';
 
 const updateCacheAfterCardsMoved: MutationUpdaterFunction<
-  MoveAllCardsInListMutation,
-  MoveAllCardsInListMutationVariables,
+  MoveAllCardsMutation,
+  MoveAllCardsMutationVariables,
   DefaultContext,
   ApolloCache<unknown>
 > = (cache, { data }, { variables }) => {
-  if (!data || !variables || data.moveAllCardsInList.length === 0) {
+  if (!data || !variables || data.moveAllCards.length === 0) {
     return;
   }
 

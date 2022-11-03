@@ -5,35 +5,35 @@ import { SubmenuTrigger } from '../../common/MultiLevelMenu';
 import BoardCanvasContext from '../../contexts/BoardCanvasContext';
 import BoardListContext from '../../contexts/BoardListContext';
 import { DropdownContext } from '../../common/Dropdown';
-import { MOVE_ALL_CARDS_IN_LIST } from './mutation';
+import MOVE_ALL_CARDS from './mutation';
 import updateCacheAfterCardsMoved from './updateCacheAfterCardsMoved';
 import { MenuContent } from '../../common/Menu';
 import ListActionsListItem from '../ListActionsListItem';
 import styles from './styles.module.css';
 import type {
-  MoveAllCardsInListMutation,
-  MoveAllCardsInListMutationVariables,
+  MoveAllCardsMutation,
+  MoveAllCardsMutationVariables,
 } from '../../generated/graphql';
 
-const MoveAllCardsInList = (): JSX.Element | null => {
+const MoveAllCards = (): JSX.Element | null => {
   return (
     <SubmenuTrigger
       submenuTitle="Move all cards in list"
-      submenuContent={<MoveAllCardsInListMenu />}
+      submenuContent={<MoveAllCardsMenu />}
     >
       Move all cards in this list…
     </SubmenuTrigger>
   );
 };
 
-const MoveAllCardsInListMenu = (): JSX.Element | null => {
+const MoveAllCardsMenu = (): JSX.Element | null => {
   const boardCanvasContext = useContext(BoardCanvasContext);
   const boardListContext = useContext(BoardListContext);
   const dropdownContext = useContext(DropdownContext);
-  const [moveAllCardsInList] = useMutation<
-    MoveAllCardsInListMutation,
-    MoveAllCardsInListMutationVariables
-  >(MOVE_ALL_CARDS_IN_LIST, {
+  const [moveAllCards] = useMutation<
+    MoveAllCardsMutation,
+    MoveAllCardsMutationVariables
+  >(MOVE_ALL_CARDS, {
     update: updateCacheAfterCardsMoved,
   });
 
@@ -52,7 +52,7 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
       return;
     }
 
-    moveAllCardsInList({
+    moveAllCards({
       variables: {
         sourceListId: currList.id,
         destinationBoardId: currList.boardId,
@@ -83,4 +83,4 @@ const MoveAllCardsInListMenu = (): JSX.Element | null => {
   );
 };
 
-export default MoveAllCardsInList;
+export default MoveAllCards;

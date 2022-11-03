@@ -34,9 +34,9 @@ const updateCacheAfterCardsArchived: MutationUpdaterFunction<
     fields: {
       cards(existingCardsRef: Reference[], { readField }) {
         return existingCardsRef.filter((cardRef) => {
-          const id = readField('id', cardRef);
+          const id = readField<string>('id', cardRef);
 
-          return !archivedCardIds.has(id as string);
+          return id && !archivedCardIds.has(id);
         });
       },
     },

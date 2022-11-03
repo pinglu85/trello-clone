@@ -17,19 +17,36 @@ const updateCacheAfterCardsMoved: MutationUpdaterFunction<
   DefaultContext,
   ApolloCache<unknown>
 > = (cache, { data }, { variables }) => {
-  if (!data || !variables || data.moveAllCards.length === 0) {
-    return;
+  if (!data || !variables) return;
+
+  const { moveAllCards: movedCards } = data;
+  if (movedCards.length === 0) return;
+
+  const movedCardIds = new Set<string>();
+  for (const { id } of movedCards) {
+    movedCardIds.add(id);
   }
 
   const { sourceListId, destinationListId } = variables;
-  let movedCardRefs: Reference[] | null = null;
+  const movedCardRefs: Reference[] = [];
 
   cache.modify({
     id: getListCacheId(sourceListId),
     fields: {
-      cards(existingCardRefs: Reference[]) {
-        movedCardRefs = existingCardRefs;
-        return [];
+      cards(existingCardRefs: Reference[], { readField }) {
+        const newCardRefs: Reference[] = [];
+
+        for (const cardRef of existingCardRefs) {
+          const id = readField<string>('id', cardRef);
+
+          if (id && movedCardIds.has(id)) {
+            movedCardRefs.push(cardRef);
+          } else {
+            newCardRefs.push(cardRef);
+          }
+        }
+
+        return newCardRefs;
       },
     },
   });
@@ -38,8 +55,6 @@ const updateCacheAfterCardsMoved: MutationUpdaterFunction<
     id: getListCacheId(destinationListId),
     fields: {
       cards(existingCardRefs: Reference[]) {
-        if (!movedCardRefs) return existingCardRefs;
-
         return [...existingCardRefs, ...movedCardRefs];
       },
     },

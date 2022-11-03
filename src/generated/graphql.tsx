@@ -65,6 +65,7 @@ export type ListUpdates = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  archiveAllCards: Array<Card>;
   createBoard: Board;
   createCard: Card;
   createList: List;
@@ -77,6 +78,11 @@ export type Mutation = {
   updateBoard: Board;
   updateCard: Card;
   updateList: List;
+};
+
+
+export type MutationArchiveAllCardsArgs = {
+  listId: Scalars['String'];
 };
 
 
@@ -218,6 +224,13 @@ export type MoveCardMutationVariables = Exact<{
 
 
 export type MoveCardMutation = { __typename?: 'Mutation', moveCard: { __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string } };
+
+export type ArchiveAllCardsMutationVariables = Exact<{
+  listId: Scalars['String'];
+}>;
+
+
+export type ArchiveAllCardsMutation = { __typename?: 'Mutation', archiveAllCards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
 
 export type CreateListMutationVariables = Exact<{
   boardId: Scalars['String'];
@@ -387,6 +400,39 @@ export function useMoveCardMutation(baseOptions?: Apollo.MutationHookOptions<Mov
 export type MoveCardMutationHookResult = ReturnType<typeof useMoveCardMutation>;
 export type MoveCardMutationResult = Apollo.MutationResult<MoveCardMutation>;
 export type MoveCardMutationOptions = Apollo.BaseMutationOptions<MoveCardMutation, MoveCardMutationVariables>;
+export const ArchiveAllCardsDocument = gql`
+    mutation ArchiveAllCards($listId: String!) {
+  archiveAllCards(listId: $listId) {
+    ...Card
+  }
+}
+    ${CardFragmentDoc}`;
+export type ArchiveAllCardsMutationFn = Apollo.MutationFunction<ArchiveAllCardsMutation, ArchiveAllCardsMutationVariables>;
+
+/**
+ * __useArchiveAllCardsMutation__
+ *
+ * To run a mutation, you first call `useArchiveAllCardsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useArchiveAllCardsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [archiveAllCardsMutation, { data, loading, error }] = useArchiveAllCardsMutation({
+ *   variables: {
+ *      listId: // value for 'listId'
+ *   },
+ * });
+ */
+export function useArchiveAllCardsMutation(baseOptions?: Apollo.MutationHookOptions<ArchiveAllCardsMutation, ArchiveAllCardsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ArchiveAllCardsMutation, ArchiveAllCardsMutationVariables>(ArchiveAllCardsDocument, options);
+      }
+export type ArchiveAllCardsMutationHookResult = ReturnType<typeof useArchiveAllCardsMutation>;
+export type ArchiveAllCardsMutationResult = Apollo.MutationResult<ArchiveAllCardsMutation>;
+export type ArchiveAllCardsMutationOptions = Apollo.BaseMutationOptions<ArchiveAllCardsMutation, ArchiveAllCardsMutationVariables>;
 export const CreateListDocument = gql`
     mutation CreateList($boardId: String!, $name: String!, $rank: String!, $sourceListId: ID) {
   createList(

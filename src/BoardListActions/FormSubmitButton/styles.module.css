@@ -1,3 +1,8 @@
-.FormSubmitButton {
+.FormSubmitButton,
+.FormSubmitButtonDanger {
   margin-top: 8px;
+}
+
+.FormSubmitButtonDanger {
+  width: 100%;
 }

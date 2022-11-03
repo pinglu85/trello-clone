@@ -47,18 +47,15 @@ const MoveAllCardsMenu = (): JSX.Element | null => {
   const moveAllCardsToList = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
-    if (currList.cards.length === 0 || !(e.target instanceof Element)) {
-      dropdownContext.closeDropdownMenu();
-      return;
+    if (currList.cards.length > 0 && e.target instanceof Element) {
+      moveAllCards({
+        variables: {
+          sourceListId: currList.id,
+          destinationBoardId: currList.boardId,
+          destinationListId: e.target.id,
+        },
+      });
     }
-
-    moveAllCards({
-      variables: {
-        sourceListId: currList.id,
-        destinationBoardId: currList.boardId,
-        destinationListId: e.target.id,
-      },
-    });
 
     dropdownContext.closeDropdownMenu();
   };

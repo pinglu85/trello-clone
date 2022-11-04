@@ -232,6 +232,14 @@ export type ArchiveAllCardsMutationVariables = Exact<{
 
 export type ArchiveAllCardsMutation = { __typename?: 'Mutation', archiveAllCards: Array<{ __typename?: 'Card', id: string, boardId: string, closed: boolean, description?: string | null, listId: string, name: string, rank: string }> };
 
+export type UpdateListMutationVariables = Exact<{
+  updateListId: Scalars['ID'];
+  updates: ListUpdates;
+}>;
+
+
+export type UpdateListMutation = { __typename?: 'Mutation', updateList: { __typename?: 'List', id: string, boardId: string, closed: boolean, name: string, rank: string } };
+
 export type CreateListMutationVariables = Exact<{
   boardId: Scalars['String'];
   name: Scalars['String'];
@@ -433,6 +441,40 @@ export function useArchiveAllCardsMutation(baseOptions?: Apollo.MutationHookOpti
 export type ArchiveAllCardsMutationHookResult = ReturnType<typeof useArchiveAllCardsMutation>;
 export type ArchiveAllCardsMutationResult = Apollo.MutationResult<ArchiveAllCardsMutation>;
 export type ArchiveAllCardsMutationOptions = Apollo.BaseMutationOptions<ArchiveAllCardsMutation, ArchiveAllCardsMutationVariables>;
+export const UpdateListDocument = gql`
+    mutation UpdateList($updateListId: ID!, $updates: ListUpdates!) {
+  updateList(id: $updateListId, updates: $updates) {
+    ...List
+  }
+}
+    ${ListFragmentDoc}`;
+export type UpdateListMutationFn = Apollo.MutationFunction<UpdateListMutation, UpdateListMutationVariables>;
+
+/**
+ * __useUpdateListMutation__
+ *
+ * To run a mutation, you first call `useUpdateListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateListMutation, { data, loading, error }] = useUpdateListMutation({
+ *   variables: {
+ *      updateListId: // value for 'updateListId'
+ *      updates: // value for 'updates'
+ *   },
+ * });
+ */
+export function useUpdateListMutation(baseOptions?: Apollo.MutationHookOptions<UpdateListMutation, UpdateListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateListMutation, UpdateListMutationVariables>(UpdateListDocument, options);
+      }
+export type UpdateListMutationHookResult = ReturnType<typeof useUpdateListMutation>;
+export type UpdateListMutationResult = Apollo.MutationResult<UpdateListMutation>;
+export type UpdateListMutationOptions = Apollo.BaseMutationOptions<UpdateListMutation, UpdateListMutationVariables>;
 export const CreateListDocument = gql`
     mutation CreateList($boardId: String!, $name: String!, $rank: String!, $sourceListId: ID) {
   createList(

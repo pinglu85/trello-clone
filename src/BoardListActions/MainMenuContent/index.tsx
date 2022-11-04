@@ -5,6 +5,7 @@ import CopyList from '../CopyList';
 import MoveList from '../MoveList';
 import MoveAllCards from '../MoveAllCards';
 import ArchiveAllCards from '../ArchiveAllCards';
+import ArchiveList from '../ArchiveList';
 
 const MainMenuContent = (): JSX.Element => {
   return (
@@ -49,7 +50,7 @@ const MainMenuContent = (): JSX.Element => {
 
       <MenuContentSection>
         <ul>
-          <ListActionsListItem>Archive this list</ListActionsListItem>
+          <ArchiveList />
         </ul>
       </MenuContentSection>
     </MenuContent>

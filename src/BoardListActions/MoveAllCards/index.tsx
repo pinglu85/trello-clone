@@ -9,7 +9,7 @@ import MOVE_ALL_CARDS from './mutation';
 import updateCacheAfterCardsMoved from './updateCacheAfterCardsMoved';
 import { MenuContent } from '../../common/Menu';
 import ListActionsListItem from '../ListActionsListItem';
-import styles from './styles.module.css';
+import UnobtrusiveButton from '../UnobtrusiveButton';
 import type {
   MoveAllCardsMutation,
   MoveAllCardsMutationVariables,
@@ -65,14 +65,13 @@ const MoveAllCardsMenu = (): JSX.Element | null => {
       <ul>
         {currBoard.lists.map(({ id, name }) => (
           <ListActionsListItem key={id} disabled={id === currList.id}>
-            <button
+            <UnobtrusiveButton
               id={id}
-              className={styles.moveAllCardsButton}
               onClick={moveAllCardsToList}
               disabled={id === currList.id}
             >
               {`${name}${id === currList.id ? ' (current)' : ''}`}
-            </button>
+            </UnobtrusiveButton>
           </ListActionsListItem>
         ))}
       </ul>

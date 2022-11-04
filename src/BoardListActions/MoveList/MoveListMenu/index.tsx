@@ -38,7 +38,7 @@ const MoveListMenu = ({
   currListIndex,
   reorderListsInCurrBoard,
   boards,
-}: MoveListMenuProps): JSX.Element | null => {
+}: MoveListMenuProps): JSX.Element => {
   const dropdownContext = useContext(DropdownContext);
   const [destinationBoard, setDestinationBoard] =
     useState<DestinationBoard>(currBoard);
@@ -53,8 +53,6 @@ const MoveListMenu = ({
       update: updateCacheAfterListMoved,
     }
   );
-
-  if (!dropdownContext) return null;
 
   const onBoardChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const { options, selectedIndex } = e.target;
@@ -85,6 +83,8 @@ const MoveListMenu = ({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    if (!dropdownContext) return;
 
     if (destinationBoard.id === currBoard.id) {
       if (destinationIndex < currListIndex) {

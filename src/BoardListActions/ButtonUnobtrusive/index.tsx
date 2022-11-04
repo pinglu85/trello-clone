@@ -1,9 +1,9 @@
 import styles from './styles.module.css';
 
-const UnobtrusiveButton = (
+const ButtonUnobtrusive = (
   props: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>
 ): JSX.Element => {
-  return <button className={styles.UnobtrusiveButton} {...props}></button>;
+  return <button className={styles.ButtonUnobtrusive} {...props}></button>;
 };
 
-export default UnobtrusiveButton;
+export default ButtonUnobtrusive;

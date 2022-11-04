@@ -6,7 +6,7 @@ import { DropdownContext } from '../../common/Dropdown';
 import UPDATE_LIST from './mutation';
 import updateCacheAfterListArchived from './updateCacheAfterListArchived';
 import ListActionsListItem from '../ListActionsListItem';
-import UnobtrusiveButton from '../UnobtrusiveButton';
+import ButtonUnobtrusive from '../ButtonUnobtrusive';
 import type {
   UpdateListMutation,
   UpdateListMutationVariables,
@@ -45,9 +45,9 @@ const ArchiveList = (): JSX.Element => {
 
   return (
     <ListActionsListItem>
-      <UnobtrusiveButton onClick={archiveList}>
+      <ButtonUnobtrusive onClick={archiveList}>
         Archive this list
-      </UnobtrusiveButton>
+      </ButtonUnobtrusive>
     </ListActionsListItem>
   );
 };

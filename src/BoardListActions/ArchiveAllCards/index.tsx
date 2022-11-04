@@ -24,7 +24,7 @@ const ArchiveAllCards = (): JSX.Element => {
   );
 };
 
-const ArchiveAllCardsMenu = (): JSX.Element | null => {
+const ArchiveAllCardsMenu = (): JSX.Element => {
   const dropdownContext = useContext(DropdownContext);
   const boardListContext = useContext(BoardListContext);
   const [archiveAllCards] = useMutation<
@@ -34,10 +34,10 @@ const ArchiveAllCardsMenu = (): JSX.Element | null => {
     update: updateCacheAfterCardsArchived,
   });
 
-  if (!dropdownContext || !boardListContext) return null;
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    if (!dropdownContext || !boardListContext) return;
 
     const { currList } = boardListContext;
 
